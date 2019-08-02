@@ -1,0 +1,11 @@
+<UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd"
+      xsi:schemaLocation="UnityEngine.UIElements ../UIElementsSchema/UnityEngine.UIElements.xsd"
+      xmlns:ui="UnityEngine.UIElements"
+      xmlns:gg="GameGraph.Editor">
+
+    <ui:VisualElement name="container">
+        <gg:StateEditorView/>
+        <gg:GraphEditorView/>
+    </ui:VisualElement>
+</UXML>

@@ -1,0 +1,9 @@
+GraphEditorView {
+    flex-direction: column;
+    background-color: #202020;
+    flex: 1;
+}
+
+Label {
+    color: #000;
+}
