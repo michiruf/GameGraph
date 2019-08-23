@@ -3,15 +3,15 @@ using UnityEditor;
 using UnityEngine.Assertions;
 using UnityEngine.UIElements;
 
-namespace GameGraph.Editor.Util
+namespace GameGraph.Editor
 {
     public static class DrawingUtilsExtension
     {
-        public static void AddLayout(this VisualElement root, String path)
+        public static void AddLayout(this VisualElement element, String path)
         {
             var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(path);
             Assert.IsNotNull(visualTree, "Asset at " + path + " non existent!");
-            visualTree.CloneTree(root);
+            visualTree.CloneTree(element);
         }
 
         public static void AddStylesheet(this VisualElement element, String path)

@@ -6,12 +6,7 @@ namespace GameGraph
     [Serializable]
     public class GameGraph : UnityEngine.Object
     {
-        private List<Node> nodes;
-        private List<Link> links;
-
-        public GameGraph GetGameGraph()
-        {
-            return null;
-        }
+        public List<Node> nodes;
+        public List<Link> links;
     }
 }

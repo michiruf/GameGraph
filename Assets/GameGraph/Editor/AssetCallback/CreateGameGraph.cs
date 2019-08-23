@@ -2,7 +2,7 @@ using System.IO;
 using UnityEditor;
 using UnityEditor.ProjectWindowCallback;
 
-namespace GameGraph.Editor.AssetCallback
+namespace GameGraph.Editor
 {
     public class CreateGameGraph : EndNameEditAction
     {

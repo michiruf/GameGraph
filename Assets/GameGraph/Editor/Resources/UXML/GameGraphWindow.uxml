@@ -5,7 +5,7 @@
       xmlns:gg="GameGraph.Editor">
 
     <ui:VisualElement name="container">
-        <gg:StateEditorView/>
+        <gg:ToolboxEditorView/>
         <gg:GraphEditorView/>
     </ui:VisualElement>
 </UXML>

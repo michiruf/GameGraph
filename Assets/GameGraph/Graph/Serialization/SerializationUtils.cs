@@ -1,4 +1,4 @@
-namespace GameGraph.Editor.Util
+namespace GameGraph
 {
     public class SerializationUtils
     {

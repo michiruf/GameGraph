@@ -1,0 +1,5 @@
+<UXML xmlns:ui="UnityEngine.UIElements"
+      xmlns:gg="GameGraph.Editor">
+    <ui:Label name="title" class="blue-label" text="Objects"/>
+    <ui:Box name="container"/>
+</UXML>

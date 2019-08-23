@@ -3,7 +3,7 @@
     flex-direction: row;
 }
 
-StateEditorView {
+ToolboxEditorView {
     width: 200;
     padding: 10;
     background-color: #303030;

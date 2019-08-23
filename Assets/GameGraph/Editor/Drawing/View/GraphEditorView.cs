@@ -1,10 +1,9 @@
-using GameGraph.Editor.Util;
+using JetBrains.Annotations;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
 {
-    // ReSharper disable once UnusedMember.Global
     public class GraphEditorView : GraphView, IGameGraphVisualElement
     {
         public GameGraph graph { get; set; }
@@ -22,8 +21,7 @@ namespace GameGraph.Editor
             this.AddLayout(layoutPath);
         }
 
-        // Used by Unity magically
-        // ReSharper disable once UnusedMember.Global
+        [UsedImplicitly]
         public new class UxmlFactory : UxmlFactory<GraphEditorView>
         {
         }

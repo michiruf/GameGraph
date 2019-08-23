@@ -1,11 +1,7 @@
-using System;
 using System.Linq;
-using GameGraph.Editor.Util;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.UIElements;
-using Object = UnityEngine.Object;
 
 namespace GameGraph.Editor
 {
@@ -17,6 +13,9 @@ namespace GameGraph.Editor
 
         public void Initialize(string assetGuid)
         {
+            CodeAnalysis.GetGameGraphComponents();
+            
+            
             var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
             var asset = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
             if (asset == null)
@@ -44,7 +43,7 @@ namespace GameGraph.Editor
             //graphObject.graph.OnEnable();
             //graphObject.graph.ValidateGraph();
 
-            graph = asset.GetGameGraph();
+//            graph = asset.GetGameGraph();
         }
 
         private void InitializeUi(string title)
@@ -53,7 +52,6 @@ namespace GameGraph.Editor
 
             const string stylePath = GameGraphEditorConstants.ResourcesUxmlPath + "/GameGraphWindow.uss";
             rootVisualElement.AddStylesheet(stylePath);
-
             const string layoutPath = GameGraphEditorConstants.ResourcesUxmlPath + "/GameGraphWindow.uxml";
             rootVisualElement.AddLayout(layoutPath);
 
