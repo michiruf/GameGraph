@@ -2,11 +2,11 @@ using System;
 using GameGraph;
 using UnityEngine;
 
-[GameGraphComponent]
+[GameGraph]
 public class GameGraphTestScript
 {
     [Trigger] //
-    public Action a = () => Debug.LogError("TEST CALLED YEAH!");
+    public Action a = () => Debug.LogError("A CALLED YEAH!");
 
     [GameGraph.Property] //
     public float p = 1.337f;

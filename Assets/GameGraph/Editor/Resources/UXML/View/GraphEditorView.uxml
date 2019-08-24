@@ -1,7 +1,0 @@
-<UXML xmlns:ui="UnityEngine.UIElements"
-      xmlns:gg="GameGraph.Editor">
-    <ui:ScrollView>
-        <ui:Label class="blue-label" text="Halooooooo"/>
-        <ui:SliderInt low-value="0" high-value="100"/>
-    </ui:ScrollView>
-</UXML>

@@ -7,10 +7,9 @@
          xmlns:ui="UnityEngine.UIElements"
          xmlns:ue="UnityEditor.UIElements"
          xmlns:gg="GameGraph.Editor">
-    
-    <ui:Label name="title" class="bold" text="Add objects"/>
-    <ui:VisualElement class="slicer"/>
-    <ui:VisualElement name="container">
+
+    <ui:Label name="name" class="bold"/>
+    <ui:VisualElement class="flex horizontal">
 
     </ui:VisualElement>
 </ui:UXML>

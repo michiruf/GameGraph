@@ -5,7 +5,6 @@ using UnityEditor.Callbacks;
 using UnityEditor.Experimental.AssetImporters;
 using UnityEngine;
 using UnityEngine.Assertions;
-using GameGraphC = GameGraph.GameGraph;
 
 namespace GameGraph.Editor
 {
@@ -15,7 +14,7 @@ namespace GameGraph.Editor
         public override void OnImportAsset(AssetImportContext ctx)
         {
             Debug.Log(ctx.assetPath);
-            var view = AssetDatabase.LoadAssetAtPath<GameGraphC>(ctx.assetPath);
+            var view = AssetDatabase.LoadAssetAtPath<GameGraph>(ctx.assetPath);
             if (view == null)
                 throw new ArgumentException();
 
@@ -61,6 +60,13 @@ namespace GameGraph.Editor
                 foundWindow = true;
                 w.Focus();
             }
+
+            // TODO While dev, always kill the window and recreate it
+            if (true)
+                foreach (var w in Resources.FindObjectsOfTypeAll<GameGraphWindow>())
+                {
+                    w.Close();
+                }
 
             if (!foundWindow)
             {

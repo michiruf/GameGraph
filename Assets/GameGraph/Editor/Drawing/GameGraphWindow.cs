@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -7,17 +8,21 @@ namespace GameGraph.Editor
 {
     public class GameGraphWindow : EditorWindow
     {
-        private GameGraph graph;
+        // TODO Get this game graph from asset (for now, do not handle serialization)
+        private GameGraph graph = new GameGraph();
 
         [SerializeField] public string assetGuid;
 
+        // TODO Test this
+//        public GameGraphWindow()
+//        {
+//            
+//        }
+
         public void Initialize(string assetGuid)
         {
-            CodeAnalysis.GetGameGraphComponents();
-            
-            
             var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
-            var asset = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
+            var asset = AssetDatabase.LoadAssetAtPath<Object>(assetPath); // TODO
             if (asset == null)
                 return;
 
@@ -29,8 +34,12 @@ namespace GameGraph.Editor
 
             this.assetGuid = assetGuid;
 
-//            LoadGraph(asset);
-            InitializeUi(asset.name);
+            //LoadGraph(asset);
+            InitializeWindow(asset.name);
+            RegisterReopenButton();
+            DistributeGraphAndInitializeChildren();
+
+            Repaint();
         }
 
         private void LoadGraph(GameGraph asset)
@@ -46,29 +55,35 @@ namespace GameGraph.Editor
 //            graph = asset.GetGameGraph();
         }
 
-        private void InitializeUi(string title)
+        private void InitializeWindow(string title)
         {
             titleContent = new GUIContent(title);
-
-            const string stylePath = GameGraphEditorConstants.ResourcesUxmlPath + "/GameGraphWindow.uss";
-            rootVisualElement.AddStylesheet(stylePath);
-            const string layoutPath = GameGraphEditorConstants.ResourcesUxmlPath + "/GameGraphWindow.uxml";
-            rootVisualElement.AddLayout(layoutPath);
-
-            rootVisualElement.RegisterCallback<GeometryChangedEvent>(e =>
-            {
-                Debug.LogError("GeometryChangedEvent");
-                InitializeChildren(rootVisualElement);
-            });
-
-            Repaint();
+            rootVisualElement.AddStylesheet(GameGraphEditorConstants.ResourcesUxmlPath + "/Style.uss");
+            rootVisualElement.AddLayout(GameGraphEditorConstants.ResourcesUxmlPath + "/GameGraphWindow.uxml");
         }
 
-        private void InitializeChildren(VisualElement element)
+        private void RegisterReopenButton()
         {
+            var button = rootVisualElement.FindElementByName<ToolbarButton>("reopen");
+            button.clickable.clicked += () =>
+            {
+                Close();
+                var window = CreateInstance<GameGraphWindow>();
+                window.Show();
+                window.Initialize(assetGuid);
+            };
+        }
+
+        private void DistributeGraphAndInitializeChildren(VisualElement element = null)
+        {
+            if (element == null)
+                element = rootVisualElement;
             if (element is IGameGraphVisualElement c)
+            {
                 c.graph = graph;
-            element.Children().ToList().ForEach(InitializeChildren);
+                c.Initialize();
+            }
+            element.hierarchy.Children().ToList().ForEach(DistributeGraphAndInitializeChildren);
         }
     }
 }

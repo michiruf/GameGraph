@@ -1,11 +1,21 @@
-<UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd"
-      xsi:schemaLocation="UnityEngine.UIElements ../UIElementsSchema/UnityEngine.UIElements.xsd"
-      xmlns:ui="UnityEngine.UIElements"
-      xmlns:gg="GameGraph.Editor">
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="
+         UnityEngine.UIElements ../../../../../UIElementsSchema/UnityEngine.UIElements.xsd
+         UnityEditor.UIElements ../../../../../UIElementsSchema/UnityEditor.UIElements.xsd
+         GameGraph.Editor ../../../../../UIElementsSchema/GameGraph.Editor.xsd"
+         xsi:noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd"
+         xmlns:ui="UnityEngine.UIElements"
+         xmlns:ue="UnityEditor.UIElements"
+         xmlns:gg="GameGraph.Editor">
 
-    <ui:VisualElement name="container">
-        <gg:ToolboxEditorView/>
-        <gg:GraphEditorView/>
+    <!-- NOTE This root element is unnecessary, but to have the name root for debug purposes, just leave it for now -->
+    <ui:VisualElement name="root" class="flex">
+        <ue:Toolbar>
+            <ue:ToolbarButton name="reopen" text="Reopen"/>
+        </ue:Toolbar>
+        <ui:VisualElement class="flex horizontal flex-stretch">
+            <gg:ToolboxEditorView show-vertical-scroller="true"/>
+            <gg:GraphEditorView/>
+        </ui:VisualElement>
     </ui:VisualElement>
-</UXML>
+</ui:UXML>

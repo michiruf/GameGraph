@@ -1,18 +1,17 @@
-using System;
 using System.Collections.Generic;
 
 namespace GameGraph
 {
-    public class ComponentData
+    public struct ComponentData
     {
-        private readonly List<Tuple<string, FieldType>> properties;
-        private readonly List<Tuple<string, FieldType>> triggers;
-        private readonly List<Tuple<string, FieldType>> methods;
+        public readonly List<FieldData> properties;
+        public readonly List<FieldData> triggers;
+        public readonly List<MethodData> methods;
 
         public ComponentData(
-            List<Tuple<string, FieldType>> properties,
-            List<Tuple<string, FieldType>> triggers,
-            List<Tuple<string, FieldType>> methods)
+            List<FieldData> properties,
+            List<FieldData> triggers,
+            List<MethodData> methods)
         {
             this.properties = properties;
             this.triggers = triggers;

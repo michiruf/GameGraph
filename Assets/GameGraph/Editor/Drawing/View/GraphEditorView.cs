@@ -1,24 +1,46 @@
 using JetBrains.Annotations;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
 {
+    [UsedImplicitly]
     public class GraphEditorView : GraphView, IGameGraphVisualElement
     {
         public GameGraph graph { get; set; }
 
-        public GraphEditorView()
+        public void Initialize()
         {
-            InitializeUi();
+            RegisterViewNavigation();
+            DrawGraph();
+            graph.graphChangedEvent += DrawGraph;
         }
-        
-        private void InitializeUi()
+
+        private void RegisterViewNavigation()
         {
-            const string stylePath = GameGraphEditorConstants.ResourcesUxmlViewPath + "/GraphEditorView.uss";
-            this.AddStylesheet(stylePath);
-            const string layoutPath = GameGraphEditorConstants.ResourcesUxmlViewPath + "/GraphEditorView.uxml";
-            this.AddLayout(layoutPath);
+            var d = new ContentDragger();
+            d.target = this;
+            var z = new ContentZoomer();
+            z.target = this;
+        }
+
+        private void DrawGraph()
+        {
+            // TODO Nothing is visible when activated
+            //Debug.Log("Clearing drawn graph");
+            //Clear();
+            //Debug.Log("Clearing drawn graph done");
+            
+            Debug.Log("Drawing graph");
+            graph.nodes.ForEach(node =>
+            {
+                var view = new NodeView();
+                view.graph = graph;
+                view.Initialize(node);
+                AddElement(view);
+            });
+            Debug.Log("Drawing graph done");
         }
 
         [UsedImplicitly]

@@ -3,7 +3,7 @@ using System;
 namespace GameGraph
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public sealed class GameGraphComponentAttribute : Attribute
+    public sealed class GameGraphAttribute : Attribute
     {
     }
 }

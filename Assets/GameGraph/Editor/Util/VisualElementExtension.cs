@@ -7,6 +7,7 @@ namespace GameGraph.Editor
 {
     public static class VisualElementExtension
     {
+        [Obsolete("Use Queries for VisualElements")]
         public static T FindElementByName<T>(this VisualElement element, string name) where T : VisualElement
         {
             var result = FindElementByNameInternal<T>(element, name);
@@ -20,7 +21,7 @@ namespace GameGraph.Editor
             if (name.Equals(element.name))
                 return element as T;
 
-            foreach (var child in element.Children())
+            foreach (var child in element.hierarchy.Children())
             {
                 var result = FindElementByNameInternal<T>(child, name);
                 if (result != null)

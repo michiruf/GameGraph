@@ -1,1 +1,0 @@
-Instad of having fields, just have a split method or something like this (to extract data from a object)

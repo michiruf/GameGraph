@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
@@ -8,6 +9,8 @@ namespace GameGraph
 {
     public static class CodeAnalysis
     {
+        // TODO Add cache
+
         public static string[] GetGameGraphComponents()
         {
             // NOTE Eliminate the string tuple value
@@ -17,7 +20,7 @@ namespace GameGraph
                 .Select(tuple => Tuple.Create(tuple.Item1, tuple.Item2.name))
                 .Select(tuple => Tuple.Create(tuple.Item1, GetTypeFromAllAssemblies(tuple.Item2)))
                 .Where(tuple => tuple.Item2 != null)
-                .Where(o => o.Item2.GetCustomAttribute<GameGraphComponentAttribute>() != null)
+                .Where(o => o.Item2.GetCustomAttribute<GameGraphAttribute>() != null)
                 .ToList();
 
             Debug.Log("Found " + classes.Count + " GameGraphComponents");
@@ -32,18 +35,18 @@ namespace GameGraph
             var typeFields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
             var properties = typeFields
                 .Where(info => info.GetCustomAttribute<PropertyAttribute>() != null)
-                .Select(info => Tuple.Create(info.Name, FieldType.Property))
+                .Select(info => new FieldData(info.Name, info.FieldType))
                 .ToList();
             var triggers = typeFields
                 .Where(info => info.GetCustomAttribute<TriggerAttribute>() != null)
-                .Select(info => Tuple.Create(info.Name, FieldType.Trigger))
+                .Select(info => new FieldData(info.Name, info.FieldType))
                 .ToList();
 
             // Get method depending data
             var typeMethods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance);
             var methods = typeMethods
                 .Where(info => info.GetCustomAttribute<TriggerAttribute>() != null)
-                .Select(info => Tuple.Create(info.Name, FieldType.Method))
+                .Select(info => new MethodData(info.Name, info.ReturnType, info.GetParameters()))
                 .ToList();
 
             return new ComponentData(properties, triggers, methods);

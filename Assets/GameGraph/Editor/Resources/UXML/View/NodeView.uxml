@@ -1,4 +1,0 @@
-<UXML xmlns:ui="UnityEngine.UIElements"
-      xmlns:gg="GameGraph.Editor">
-    <ui:Label class="blue-label" text="AAA"/>
-</UXML>

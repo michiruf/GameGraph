@@ -1,0 +1,79 @@
+/*#root * {*/
+/*    border-width: 1;*/
+/*    border-color: #f00;*/
+/*}*/
+#root .debug {
+    background-color: #f0f;
+}
+
+/***********************************************************/
+/* General layout definitions                              */
+/***********************************************************/
+.flex {
+    flex: 1;
+}
+
+.vertical {
+    flex-direction: column;
+}
+
+.horizontal {
+    flex-direction: row;
+}
+
+.items-stretch {
+    align-items: stretch;
+}
+
+.items-start {
+    align-items: flex-start;
+}
+
+.self-start {
+    align-self: flex-start;
+}
+
+/***********************************************************/
+/* General style definitions                               */
+/***********************************************************/
+.slicer {
+    margin: 5 0;
+    border-top-width: 1;
+    border-color: #2a2a2a;
+}
+
+.bold {
+    -unity-font-style: bold;
+}
+
+/***********************************************************/
+/* Toolbar                                                 */
+/***********************************************************/
+Toolbar {
+    /* TODO Not working yet */
+    color: #f00;
+    background-color: #303030;
+}
+
+/***********************************************************/
+/* Toolbox Editor View                                     */
+/***********************************************************/
+ToolboxEditorView {
+    width: 200;
+    padding: 10;
+    background-color: #303030;
+}
+
+/***********************************************************/
+/* Graph Editor View                                       */
+/***********************************************************/
+GraphEditorView {
+    min-width: 200;
+    padding: 10;
+    flex: 1 0;
+    background-color: #202020;
+}
+
+/***********************************************************/
+/* Node TODO                                               */
+/***********************************************************/
