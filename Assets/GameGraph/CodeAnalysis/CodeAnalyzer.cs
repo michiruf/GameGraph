@@ -1,11 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using GameGraph.Annotation;
 using UnityEditor;
 using UnityEngine;
-using PropertyAttribute = UnityEngine.PropertyAttribute;
+using PropertyAttribute = GameGraph.Annotation.PropertyAttribute;
 
 namespace GameGraph.CodeAnalysis
 {
