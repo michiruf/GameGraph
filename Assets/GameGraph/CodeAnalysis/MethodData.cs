@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace GameGraph
+namespace GameGraph.CodeAnalysis
 {
     public struct MethodData
     {

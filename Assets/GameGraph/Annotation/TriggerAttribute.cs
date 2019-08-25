@@ -1,6 +1,6 @@
 using System;
 
-namespace GameGraph
+namespace GameGraph.Annotation
 {
     [AttributeUsage(AttributeTargets.Field)]
     public sealed class TriggerAttribute : Attribute

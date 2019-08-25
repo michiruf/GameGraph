@@ -1,5 +1,5 @@
+using GameGraph.CodeAnalysis;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
@@ -11,7 +11,7 @@ namespace GameGraph.Editor
             this.AddLayout(GameGraphEditorConstants.ResourcesUxmlViewPath + "/FieldView.uxml");
 
             // Set simple data
-            this.FindElementByName<Label>("name").text = data.name;
+            this.FindElementByName<Label>("name").text = data.name.PrettifyName();
             this.FindElementByName<Label>("value").text = value.value?.ToString() ?? "VALUE NOT IMPLEMENTED";
 
             // Add ports

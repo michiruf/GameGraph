@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
@@ -35,11 +33,10 @@ namespace GameGraph.Editor
         private void DrawGraph()
         {
             // TODO Nothing is visible when activated
-            //Debug.Log("Clearing drawn graph");
-            //Clear();
-            //Debug.Log("Clearing drawn graph done");
+            // Clear already drawn graph
+//            Clear();
 
-            Debug.Log("Drawing graph");
+            // Draw nodes
             graph.nodes.ForEach(node =>
             {
                 var view = new NodeView();
@@ -47,7 +44,10 @@ namespace GameGraph.Editor
                 view.Initialize(node);
                 AddElement(view);
             });
-            Debug.Log("Drawing graph done");
+            
+            // Bring edges to front
+            // TODO Might not working
+            edges.ForEach(edge => edge.BringToFront());
         }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)

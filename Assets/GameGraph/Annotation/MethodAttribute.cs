@@ -1,6 +1,6 @@
 using System;
 
-namespace GameGraph
+namespace GameGraph.Annotation
 {
     [AttributeUsage(AttributeTargets.Method)]
     public sealed class MethodAttribute : Attribute

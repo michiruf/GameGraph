@@ -1,4 +1,6 @@
+using System.IO;
 using System.Linq;
+using System.Text;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -8,58 +10,43 @@ namespace GameGraph.Editor
 {
     public class GameGraphWindow : EditorWindow
     {
-        // TODO Get this game graph from asset (for now, do not handle serialization)
-        private GameGraph graph = new GameGraph();
-
         [SerializeField] public string assetGuid;
+        private GameGraph graph;
 
-        // TODO Test this
-//        public GameGraphWindow()
-//        {
-//            
-//        }
-
-        public void Initialize(string assetGuid)
+        public GameGraphWindow()
         {
-            var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
-            var asset = AssetDatabase.LoadAssetAtPath<Object>(assetPath); // TODO
+        }
+
+        public void Initialize(string newAssetGuid)
+        {
+            var assetPath = AssetDatabase.GUIDToAssetPath(newAssetGuid);
+            var asset = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
             if (asset == null)
                 return;
 
             if (!EditorUtility.IsPersistent(asset))
                 return;
 
-            if (this.assetGuid == assetGuid)
+            if (assetGuid == newAssetGuid)
                 return;
+            assetGuid = newAssetGuid;
 
-            this.assetGuid = assetGuid;
+            // Load loayut and style
+            rootVisualElement.AddStylesheet(GameGraphEditorConstants.ResourcesUxmlPath + "/Style.uss");
+            rootVisualElement.AddLayout(GameGraphEditorConstants.ResourcesUxmlPath + "/GameGraphWindow.uxml");
 
-            //LoadGraph(asset);
-            InitializeWindow(asset.name);
+            titleContent = new GUIContent(asset.name);
+            graph = LoadGraph(asset);
             RegisterReopenButton();
             DistributeGraphAndInitializeChildren();
-
             Repaint();
         }
 
-        private void LoadGraph(GameGraph asset)
+        private GameGraph LoadGraph(Object asset)
         {
             var path = AssetDatabase.GetAssetPath(asset);
-            //var textGraph = File.ReadAllText(path, Encoding.UTF8);
-            //graphObject = CreateInstance<GraphObject>();
-            //graphObject.hideFlags = HideFlags.HideAndDontSave;
-            //graphObject.graph = JsonUtility.FromJson(textGraph, graphType) as IGraph;
-            //graphObject.graph.OnEnable();
-            //graphObject.graph.ValidateGraph();
-
-//            graph = asset.GetGameGraph();
-        }
-
-        private void InitializeWindow(string title)
-        {
-            titleContent = new GUIContent(title);
-            rootVisualElement.AddStylesheet(GameGraphEditorConstants.ResourcesUxmlPath + "/Style.uss");
-            rootVisualElement.AddLayout(GameGraphEditorConstants.ResourcesUxmlPath + "/GameGraphWindow.uxml");
+            var textGraph = File.ReadAllText(path, Encoding.UTF8);
+            return JsonUtility.FromJson(textGraph, typeof(GameGraph)) as GameGraph ?? new GameGraph();
         }
 
         private void RegisterReopenButton()

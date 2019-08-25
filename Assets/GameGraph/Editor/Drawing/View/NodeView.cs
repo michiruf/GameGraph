@@ -1,3 +1,4 @@
+using GameGraph.CodeAnalysis;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -12,15 +13,12 @@ namespace GameGraph.Editor
 
         public void Initialize(Node node)
         {
-            title = node.name;
+            title = node.name.PrettifyName();
             expanded = true;
-            // TODO Remove dev position setting
-            if (node.position == default)
-                node.position = Random.insideUnitCircle * 300f + Vector2.one * 300f;
-            SetPosition(new Rect(node.position, Vector2.one * 400));
+            SetPosition(new Rect(node.position, Vector2.zero));
             RegisterDragAndDrop();
 
-            var analysisData = CodeAnalysis.GetComponentData(node.name);
+            var analysisData = CodeAnalyzer.GetComponentData(node.name);
             CreateFields(node, analysisData);
             // NOTE May fix this
             // For any reason if there is just one element, the layout is misbehaving
@@ -38,21 +36,6 @@ namespace GameGraph.Editor
             });
 
             // Slicer
-            if (analysisData.triggers.Count > 0)
-            {
-                var slicer = new VisualElement();
-                slicer.AddToClassList("node-slicer");
-                extensionContainer.Add(slicer);
-            }
-
-            // Triggers
-            analysisData.triggers.ForEach(data =>
-            {
-                node.data.TryGetValue(data.name, out var value);
-                extensionContainer.Add(new FieldView(data, false, true, value));
-            });
-
-            // Slicer
             if (analysisData.methods.Count > 0)
             {
                 var slicer = new VisualElement();
@@ -65,6 +48,21 @@ namespace GameGraph.Editor
             {
                 node.data.TryGetValue(data.name, out var value);
                 extensionContainer.Add(new MethodView(data, value));
+            });
+
+            // Slicer
+            if (analysisData.triggers.Count > 0)
+            {
+                var slicer = new VisualElement();
+                slicer.AddToClassList("node-slicer");
+                extensionContainer.Add(slicer);
+            }
+
+            // Triggers
+            analysisData.triggers.ForEach(data =>
+            {
+                node.data.TryGetValue(data.name, out var value);
+                extensionContainer.Add(new FieldView(data, false, true, value));
             });
         }
 

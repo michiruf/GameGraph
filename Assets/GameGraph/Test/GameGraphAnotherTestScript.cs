@@ -1,6 +1,7 @@
 using System;
-using GameGraph;
+using GameGraph.Annotation;
 using UnityEngine;
+using Property = GameGraph.Annotation.PropertyAttribute;
 
 [GameGraph]
 public class GameGraphAnotherTestScript
@@ -8,7 +9,7 @@ public class GameGraphAnotherTestScript
     [Trigger] //
     public Action a2 = () => Debug.LogError("A2 CALLED YEAH!");
 
-    [GameGraph.Property] //
+    [Property] //
     public float p2 = 1.338f;
 
     [Method] //

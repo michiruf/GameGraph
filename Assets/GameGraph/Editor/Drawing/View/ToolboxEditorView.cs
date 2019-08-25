@@ -1,3 +1,4 @@
+using GameGraph.CodeAnalysis;
 using JetBrains.Annotations;
 using UnityEngine.UIElements;
 
@@ -18,10 +19,10 @@ namespace GameGraph.Editor
         {
             var container = this.FindElementByName<VisualElement>("container");
 
-            foreach (var gameGraphComponent in CodeAnalysis.GetGameGraphComponents())
+            foreach (var gameGraphComponent in CodeAnalyzer.GetGameGraphComponents())
             {
                 var button = new Button();
-                button.text = gameGraphComponent;
+                button.text = gameGraphComponent.PrettifyName();
                 button.clickable.clicked += () => { graph.AddNodeByName(gameGraphComponent); };
                 container.Add(button);
             }

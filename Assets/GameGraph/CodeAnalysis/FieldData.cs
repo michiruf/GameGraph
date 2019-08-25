@@ -1,6 +1,6 @@
 using System;
 
-namespace GameGraph
+namespace GameGraph.CodeAnalysis
 {
     public struct FieldData
     {

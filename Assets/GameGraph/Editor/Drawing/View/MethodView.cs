@@ -1,4 +1,5 @@
 using System;
+using GameGraph.CodeAnalysis;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
@@ -11,7 +12,7 @@ namespace GameGraph.Editor
             this.AddLayout(GameGraphEditorConstants.ResourcesUxmlViewPath + "/MethodView.uxml");
 
             // Set simple data
-            this.FindElementByName<Label>("name").text = data.name;
+            this.FindElementByName<Label>("name").text = data.name.PrettifyName();
 
             // Add port
             var container = this.FindElementByName<VisualElement>("ingoingPortContainer");

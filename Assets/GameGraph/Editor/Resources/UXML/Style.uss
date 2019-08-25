@@ -48,7 +48,7 @@ Toolbar {
 /* Toolbox Editor View                                     */
 /***********************************************************/
 ToolboxEditorView {
-    width: 200;
+    width: 250;
     padding: 10;
     background-color: #303030;
 }
@@ -73,11 +73,12 @@ MiniMap {
 /* Node                                                    */
 /***********************************************************/
 NodeView #extension {
-    background-color: #272727;
+    background-color: rgba(39, 39, 39, 0.9);
 }
+
 NodeView .node-slicer {
     border-top-width: 1;
-    border-color: #2a2a2a;
+    border-color: rgba(42, 42, 42, 0.9);
 }
 
 FieldView,
@@ -97,9 +98,9 @@ FieldView #ingoingPortContainer,
 MethodView #ingoingPortContainer,
 FieldView #outgoingPortContainer,
 MethodView #outgoingPortContainer {
-    min-width: 80;
-    margin: 1;
-    padding: 4;
+    min-width: 100;
+    margin: 1 0;
+    padding: 4 0;
     justify-content: center;
 }
 
@@ -107,5 +108,5 @@ FieldView #ingoingPortContainer.exists,
 MethodView #ingoingPortContainer.exists,
 FieldView #outgoingPortContainer.exists,
 MethodView #outgoingPortContainer.exists {
-    background-color: #2a2a2a;
+    background-color: rgba(42, 42, 42, 0.9);
 }

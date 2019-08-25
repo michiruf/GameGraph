@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace GameGraph
+namespace GameGraph.CodeAnalysis
 {
     public struct ComponentData
     {
