@@ -1,9 +1,6 @@
-using System;
-using System.Runtime.CompilerServices;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Random = UnityEngine.Random;
 
 namespace GameGraph.Editor
 {
@@ -20,45 +17,54 @@ namespace GameGraph.Editor
             // TODO Remove dev position setting
             if (node.position == default)
                 node.position = Random.insideUnitCircle * 300f + Vector2.one * 300f;
-            SetPosition(new Rect(node.position, Vector2.one * 200));
-
-            CreateFields(node);
-            RefreshExpandedState();
-
+            SetPosition(new Rect(node.position, Vector2.one * 400));
             RegisterDragAndDrop();
 
-            return;
-            var port = InstantiatePort(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(Vector3));
+            var analysisData = CodeAnalysis.GetComponentData(node.name);
+            CreateFields(node, analysisData);
+            // NOTE May fix this
+            // For any reason if there is just one element, the layout is misbehaving
+            extensionContainer.Add(new VisualElement());
+            RefreshExpandedState();
         }
 
-        public void CreateFields(Node node)
+        public void CreateFields(Node node, ComponentData analysisData)
         {
-            var analysisData = CodeAnalysis.GetComponentData(node.name);
-
+            // Properties
             analysisData.properties.ForEach(data =>
             {
                 node.data.TryGetValue(data.name, out var value);
-                extensionContainer.Add(new FieldField(data, value));
+                extensionContainer.Add(new FieldView(data, true, true, value));
             });
 
-            var slicer1 = new VisualElement();
-            slicer1.AddToClassList("slicer");
-            extensionContainer.Add(slicer1);
+            // Slicer
+            if (analysisData.triggers.Count > 0)
+            {
+                var slicer = new VisualElement();
+                slicer.AddToClassList("node-slicer");
+                extensionContainer.Add(slicer);
+            }
 
+            // Triggers
             analysisData.triggers.ForEach(data =>
             {
                 node.data.TryGetValue(data.name, out var value);
-                extensionContainer.Add(new FieldField(data, value));
+                extensionContainer.Add(new FieldView(data, false, true, value));
             });
 
-            var slicer2 = new VisualElement();
-            slicer2.AddToClassList("slicer");
-            extensionContainer.Add(slicer2);
+            // Slicer
+            if (analysisData.methods.Count > 0)
+            {
+                var slicer = new VisualElement();
+                slicer.AddToClassList("node-slicer");
+                extensionContainer.Add(slicer);
+            }
 
-            analysisData.properties.ForEach(data =>
+            // Methods
+            analysisData.methods.ForEach(data =>
             {
                 node.data.TryGetValue(data.name, out var value);
-                extensionContainer.Add(new MethodField(data, value));
+                extensionContainer.Add(new MethodView(data, value));
             });
         }
 

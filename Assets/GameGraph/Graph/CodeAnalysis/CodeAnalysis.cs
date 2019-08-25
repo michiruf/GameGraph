@@ -45,7 +45,7 @@ namespace GameGraph
             // Get method depending data
             var typeMethods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance);
             var methods = typeMethods
-                .Where(info => info.GetCustomAttribute<TriggerAttribute>() != null)
+                .Where(info => info.GetCustomAttribute<MethodAttribute>() != null)
                 .Select(info => new MethodData(info.Name, info.ReturnType, info.GetParameters()))
                 .ToList();
 

@@ -8,8 +8,8 @@
          xmlns:ue="UnityEditor.UIElements"
          xmlns:gg="GameGraph.Editor">
 
-    <ui:Label name="name" class="bold"/>
-    <ui:VisualElement class="flex horizontal">
-
+    <ui:VisualElement name="ingoingPortContainer"/>
+    <ui:VisualElement name="contentContainer">
+        <ui:Label name="name" class="bold"/>
     </ui:VisualElement>
 </ui:UXML>

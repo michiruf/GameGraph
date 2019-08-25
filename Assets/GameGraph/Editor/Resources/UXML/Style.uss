@@ -21,16 +21,8 @@
     flex-direction: row;
 }
 
-.items-stretch {
-    align-items: stretch;
-}
-
-.items-start {
-    align-items: flex-start;
-}
-
-.self-start {
-    align-self: flex-start;
+.self-end {
+    align-self: flex-end;
 }
 
 /***********************************************************/
@@ -75,5 +67,42 @@ GraphEditorView {
 }
 
 /***********************************************************/
-/* Node TODO                                               */
+/* Node                                                    */
 /***********************************************************/
+NodeView #extension {
+    background-color: #272727;
+}
+NodeView .node-slicer {
+    border-top-width: 1;
+    border-color: #2a2a2a;
+}
+
+FieldView,
+MethodView {
+    flex: 1;
+    flex-direction: row;
+}
+
+FieldView #contentContainer,
+MethodView #contentContainer {
+    min-width: 150;
+    padding: 5;
+}
+
+
+FieldView #ingoingPortContainer,
+MethodView #ingoingPortContainer,
+FieldView #outgoingPortContainer,
+MethodView #outgoingPortContainer {
+    min-width: 80;
+    margin: 1;
+    padding: 4;
+    justify-content: center;
+}
+
+FieldView #ingoingPortContainer.exists,
+MethodView #ingoingPortContainer.exists,
+FieldView #outgoingPortContainer.exists,
+MethodView #outgoingPortContainer.exists {
+    background-color: #2a2a2a;
+}

@@ -10,12 +10,15 @@
 
     <!-- NOTE This root element is unnecessary, but to have the name root for debug purposes, just leave it for now -->
     <ui:VisualElement name="root" class="flex">
-        <ue:Toolbar>
-            <ue:ToolbarButton name="reopen" text="Reopen"/>
+        <ue:Toolbar class="flex">
+            <ue:ToolbarButton name="save" text="Save"/>
+            <ue:ToolbarButton name="reopen" class="self-end" text="Reopen"/>
         </ue:Toolbar>
-        <ui:VisualElement class="flex horizontal flex-stretch">
+        <ui:VisualElement class="flex horizontal">
             <gg:ToolboxEditorView show-vertical-scroller="true"/>
-            <gg:GraphEditorView/>
+            <gg:GraphEditorView>
+                <!--<gg:MiniMap/>-->
+            </gg:GraphEditorView>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
