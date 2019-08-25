@@ -21,27 +21,24 @@
     flex-direction: row;
 }
 
-.self-end {
-    align-self: flex-end;
-}
-
 /***********************************************************/
 /* General style definitions                               */
 /***********************************************************/
+.bold {
+    -unity-font-style: bold;
+}
+
 .slicer {
     margin: 5 0;
     border-top-width: 1;
     border-color: #2a2a2a;
 }
 
-.bold {
-    -unity-font-style: bold;
-}
-
 /***********************************************************/
 /* Toolbar                                                 */
 /***********************************************************/
 Toolbar {
+    justify-content: space-between;
     /* TODO Not working yet */
     color: #f00;
     background-color: #303030;
@@ -64,6 +61,12 @@ GraphEditorView {
     padding: 10;
     flex: 1 0;
     background-color: #202020;
+}
+
+/* TODO May re-add the mini map or remove this */
+MiniMap {
+    width: 100;
+    height: 100;
 }
 
 /***********************************************************/

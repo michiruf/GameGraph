@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -8,6 +11,8 @@ namespace GameGraph.Editor
     [UsedImplicitly]
     public class GraphEditorView : GraphView, IGameGraphVisualElement
     {
+        // TODO Maybe decouple the representative data from the view
+        // TODO ... to avoid persistance problems
         public GameGraph graph { get; set; }
 
         public void Initialize()
@@ -15,6 +20,8 @@ namespace GameGraph.Editor
             RegisterViewNavigation();
             DrawGraph();
             graph.graphChangedEvent += DrawGraph;
+
+            // TODO Use this.graphViewChanged event
         }
 
         private void RegisterViewNavigation()
@@ -31,7 +38,7 @@ namespace GameGraph.Editor
             //Debug.Log("Clearing drawn graph");
             //Clear();
             //Debug.Log("Clearing drawn graph done");
-            
+
             Debug.Log("Drawing graph");
             graph.nodes.ForEach(node =>
             {
@@ -41,6 +48,19 @@ namespace GameGraph.Editor
                 AddElement(view);
             });
             Debug.Log("Drawing graph done");
+        }
+
+        public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
+        {
+            return ports.ToList()
+                .Where(port =>
+                        port.direction != startPort.direction
+                        && port.node != startPort.node
+                        && port.portType == startPort.portType
+                    // TODO Why was this in parent method?
+                    //&& nodeAdapter.GetAdapter(port.source, startPort.source) != null
+                )
+                .ToList();
         }
 
         [UsedImplicitly]

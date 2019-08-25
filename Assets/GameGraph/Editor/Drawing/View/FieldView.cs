@@ -1,4 +1,5 @@
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
@@ -16,15 +17,15 @@ namespace GameGraph.Editor
             // Add ports
             if (ingoingPort)
             {
-                var container = this.FindElementByName<VisualElement>("ingoingPortContainer");
                 var port = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, data.type);
+                var container = this.FindElementByName<VisualElement>("ingoingPortContainer");
                 container.Add(port);
                 container.AddToClassList("exists");
             }
             if (outgoingPort)
             {
-                var container = this.FindElementByName<VisualElement>("outgoingPortContainer");
                 var port = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, data.type);
+                var container = this.FindElementByName<VisualElement>("outgoingPortContainer");
                 container.Add(port);
                 container.AddToClassList("exists");
             }
