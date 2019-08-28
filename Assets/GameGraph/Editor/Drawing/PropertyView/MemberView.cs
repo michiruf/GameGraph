@@ -4,11 +4,11 @@ using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
 {
-    public class FieldView : VisualElement
+    public class MemberView : VisualElement
     {
-        public FieldView(FieldData data, bool ingoingPort, bool outgoingPort, ValueEntry value)
+        public MemberView(MemberData data, bool ingoingPort, bool outgoingPort, ValueEntry value)
         {
-            this.AddLayout(GameGraphEditorConstants.ResourcesUxmlViewPath + "/FieldView.uxml");
+            this.AddLayout(GameGraphEditorConstants.ResourcesUxmlFieldTypePath + "/MemberView.uxml");
 
             // Set simple data
             this.FindElementByName<Label>("name").text = data.name.PrettifyName();

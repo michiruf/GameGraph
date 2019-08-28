@@ -9,7 +9,7 @@ namespace GameGraph.Editor
     {
         public MethodView(MethodData data, ValueEntry value)
         {
-            this.AddLayout(GameGraphEditorConstants.ResourcesUxmlViewPath + "/MethodView.uxml");
+            this.AddLayout(GameGraphEditorConstants.ResourcesUxmlFieldTypePath + "/MethodView.uxml");
 
             // Set simple data
             this.FindElementByName<Label>("name").text = data.name.PrettifyName();

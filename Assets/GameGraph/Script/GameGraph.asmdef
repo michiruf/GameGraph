@@ -1,12 +1,8 @@
 {
-    "name": "GameGraph.Editor",
-    "references": [
-        "GameGraph"
-    ],
+    "name": "GameGraph",
+    "references": [],
     "optionalUnityReferences": [],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

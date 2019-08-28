@@ -1,6 +1,7 @@
 using System.IO;
 using UnityEditor;
 using UnityEditor.ProjectWindowCallback;
+using UnityEditor.SceneManagement;
 
 namespace GameGraph.Editor
 {

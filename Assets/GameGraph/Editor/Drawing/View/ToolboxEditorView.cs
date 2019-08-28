@@ -23,7 +23,7 @@ namespace GameGraph.Editor
             {
                 var button = new Button();
                 button.text = gameGraphComponent.PrettifyName();
-                button.clickable.clicked += () => { graph.AddNodeByName(gameGraphComponent); };
+                button.clickable.clicked += () => graph.AddNodeByName(gameGraphComponent);
                 container.Add(button);
             }
         }

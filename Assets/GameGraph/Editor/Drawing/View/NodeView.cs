@@ -8,31 +8,52 @@ namespace GameGraph.Editor
     public class NodeView : UnityEditor.Experimental.GraphView.Node
     {
         public GameGraph graph { get; set; }
-
-        private bool dragActive;
+        private Node node;
 
         public void Initialize(Node node)
         {
+            this.node = node;
+
             title = node.name.PrettifyName();
-            expanded = true;
             SetPosition(new Rect(node.position, Vector2.zero));
+            SetAlwaysExpanded();
             RegisterDragAndDrop();
+            RegisterPositionCallback();
 
             var analysisData = CodeAnalyzer.GetComponentData(node.name);
-            CreateFields(node, analysisData);
+            CreateFields(analysisData);
             // NOTE May fix this
             // For any reason if there is just one element, the layout is misbehaving
             extensionContainer.Add(new VisualElement());
             RefreshExpandedState();
         }
 
-        public void CreateFields(Node node, ComponentData analysisData)
+        private void SetAlwaysExpanded()
+        {
+            expanded = true;
+            var collapseButton = this.FindElementByName<VisualElement>("collapse-button");
+            collapseButton.GetFirstAncestorOfType<VisualElement>().Remove(collapseButton);
+        }
+
+        private void RegisterDragAndDrop()
+        {
+            var d = new Dragger();
+            d.target = this;
+        }
+
+        private void RegisterPositionCallback()
+        {
+            // NOTE This might not be the most performant variant to update every nodes position on mouse move
+            RegisterCallback<MouseMoveEvent>(evt => node.position = GetPosition().position);
+        }
+
+        public void CreateFields(ComponentData analysisData)
         {
             // Properties
             analysisData.properties.ForEach(data =>
             {
                 node.data.TryGetValue(data.name, out var value);
-                extensionContainer.Add(new FieldView(data, true, true, value));
+                extensionContainer.Add(new MemberView(data, true, true, value));
             });
 
             // Slicer
@@ -62,14 +83,8 @@ namespace GameGraph.Editor
             analysisData.triggers.ForEach(data =>
             {
                 node.data.TryGetValue(data.name, out var value);
-                extensionContainer.Add(new FieldView(data, false, true, value));
+                extensionContainer.Add(new MemberView(data, false, true, value));
             });
-        }
-
-        private void RegisterDragAndDrop()
-        {
-            var d = new Dragger();
-            d.target = this;
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
@@ -20,6 +21,12 @@ namespace GameGraph.Editor
             graph.graphChangedEvent += DrawGraph;
 
             // TODO Use this.graphViewChanged event
+            // TODO This gets not triggered when elements are added
+            //graphViewChanged += delegate(GraphViewChange change)
+            //{
+            //    DrawGraph();
+            //    return change;
+            //};
         }
 
         private void RegisterViewNavigation()
@@ -32,9 +39,11 @@ namespace GameGraph.Editor
 
         private void DrawGraph()
         {
-            // TODO Nothing is visible when activated
+            Debug.LogError("GraphViewChange");
+            
             // Clear already drawn graph
-//            Clear();
+            nodes.ForEach(RemoveElement);
+            edges.ForEach(RemoveElement);
 
             // Draw nodes
             graph.nodes.ForEach(node =>
@@ -44,9 +53,9 @@ namespace GameGraph.Editor
                 view.Initialize(node);
                 AddElement(view);
             });
-            
+            // TODO Draw edges
+
             // Bring edges to front
-            // TODO Might not working
             edges.ForEach(edge => edge.BringToFront());
         }
 

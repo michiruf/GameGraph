@@ -36,11 +36,11 @@ namespace GameGraph.CodeAnalysis
             var typeFields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
             var properties = typeFields
                 .Where(info => info.GetCustomAttribute<PropertyAttribute>() != null)
-                .Select(info => new FieldData(info.Name, info.FieldType))
+                .Select(info => new MemberData(info.Name, info.FieldType))
                 .ToList();
             var triggers = typeFields
                 .Where(info => info.GetCustomAttribute<TriggerAttribute>() != null)
-                .Select(info => new FieldData(info.Name, info.FieldType))
+                .Select(info => new MemberData(info.Name, info.FieldType))
                 .ToList();
 
             // Get method depending data

@@ -1,0 +1,18 @@
+{
+    "nodes": [
+        {
+            "name": "GameGraphTestScript",
+            "position": {
+                "x": 101.0,
+                "y": 32.0
+            }
+        },
+        {
+            "name": "GameGraphAnotherTestScript",
+            "position": {
+                "x": 327.0,
+                "y": 304.0
+            }
+        }
+    ]
+}

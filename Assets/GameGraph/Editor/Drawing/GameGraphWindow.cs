@@ -1,6 +1,5 @@
 using System.IO;
 using System.Linq;
-using System.Text;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -13,46 +12,56 @@ namespace GameGraph.Editor
         [SerializeField] public string assetGuid;
         private GameGraph graph;
 
-        public GameGraphWindow()
+        public void Initialize(string assetGuidP)
         {
-        }
+            var assetPath = AssetDatabase.GUIDToAssetPath(assetGuidP);
 
-        public void Initialize(string newAssetGuid)
-        {
-            var assetPath = AssetDatabase.GUIDToAssetPath(newAssetGuid);
-            var asset = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
-            if (asset == null)
+            // Check if asset exists
+            var assetExists = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
+            if (assetExists == null)
+                return;
+            if (!EditorUtility.IsPersistent(assetExists))
                 return;
 
-            if (!EditorUtility.IsPersistent(asset))
+            // Make window for one asset unique
+            if (assetGuid == assetGuidP)
                 return;
+            assetGuid = assetGuidP;
 
-            if (assetGuid == newAssetGuid)
-                return;
-            assetGuid = newAssetGuid;
-
-            // Load loayut and style
+            // Load layout and style
             rootVisualElement.AddStylesheet(GameGraphEditorConstants.ResourcesUxmlPath + "/Style.uss");
             rootVisualElement.AddLayout(GameGraphEditorConstants.ResourcesUxmlPath + "/GameGraphWindow.uxml");
 
-            titleContent = new GUIContent(asset.name);
-            graph = LoadGraph(asset);
+            titleContent = new GUIContent(assetExists.name);
+            LoadGraph();
+            RegisterSaveButton();
             RegisterReopenButton();
             DistributeGraphAndInitializeChildren();
             Repaint();
         }
 
-        private GameGraph LoadGraph(Object asset)
+        private void LoadGraph()
         {
-            var path = AssetDatabase.GetAssetPath(asset);
-            var textGraph = File.ReadAllText(path, Encoding.UTF8);
-            return JsonUtility.FromJson(textGraph, typeof(GameGraph)) as GameGraph ?? new GameGraph();
+            var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
+            var textGraph = File.ReadAllText(assetPath);
+            graph = JsonUtility.FromJson<GameGraph>(textGraph);
+        }
+
+        private void SaveGraph()
+        {
+            var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
+            var textGraph = JsonUtility.ToJson(graph, true);
+            File.WriteAllText(assetPath, textGraph);
+        }
+
+        private void RegisterSaveButton()
+        {
+            rootVisualElement.FindElementByName<ToolbarButton>("save").clickable.clicked += SaveGraph;
         }
 
         private void RegisterReopenButton()
         {
-            var button = rootVisualElement.FindElementByName<ToolbarButton>("reopen");
-            button.clickable.clicked += () =>
+            rootVisualElement.FindElementByName<ToolbarButton>("reopen").clickable.clicked += () =>
             {
                 Close();
                 var window = CreateInstance<GameGraphWindow>();

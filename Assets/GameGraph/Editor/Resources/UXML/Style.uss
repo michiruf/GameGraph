@@ -81,22 +81,22 @@ NodeView .node-slicer {
     border-color: rgba(42, 42, 42, 0.9);
 }
 
-FieldView,
+MemberView,
 MethodView {
     flex: 1;
     flex-direction: row;
 }
 
-FieldView #contentContainer,
+MemberView #contentContainer,
 MethodView #contentContainer {
     min-width: 150;
     padding: 5;
 }
 
 
-FieldView #ingoingPortContainer,
+MemberView #ingoingPortContainer,
 MethodView #ingoingPortContainer,
-FieldView #outgoingPortContainer,
+MemberView #outgoingPortContainer,
 MethodView #outgoingPortContainer {
     min-width: 100;
     margin: 1 0;
@@ -104,9 +104,9 @@ MethodView #outgoingPortContainer {
     justify-content: center;
 }
 
-FieldView #ingoingPortContainer.exists,
+MemberView #ingoingPortContainer.exists,
 MethodView #ingoingPortContainer.exists,
-FieldView #outgoingPortContainer.exists,
+MemberView #outgoingPortContainer.exists,
 MethodView #outgoingPortContainer.exists {
     background-color: rgba(42, 42, 42, 0.9);
 }

@@ -12,7 +12,7 @@
     <ui:VisualElement name="root" class="flex">
         <ue:Toolbar>
             <ue:ToolbarButton name="save" text="Save"/>
-            <ue:ToolbarButton name="reopen" text="Reopen"/>
+            <ue:ToolbarButton name="reopen" text="Reopen (without saving)"/>
         </ue:Toolbar>
         <ui:VisualElement class="flex horizontal">
             <!-- TODO This is currently not a scroll view -->

@@ -37,6 +37,8 @@ namespace GameGraph
     [Serializable]
     public struct ValueEntry
     {
+        // TODO Value does not belong in the serialized data, but accessed via reflection maybe?
+        [Obsolete]
         public object value;
         public Node ingoingLink;
         public Node outgoingLink;
