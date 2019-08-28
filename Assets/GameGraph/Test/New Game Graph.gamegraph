@@ -1,25 +1,6 @@
 {
     "nodes": [
-        {
-            "name": "GameGraphTestScript",
-            "position": {
-                "x": 101.0,
-                "y": 32.0
-            }
-        },
-        {
-            "name": "GameGraphAnotherTestScript",
-            "position": {
-                "x": 388.0,
-                "y": 325.0
-            }
-        },
-        {
-            "name": "GameGraphTestScript",
-            "position": {
-                "x": -3.0,
-                "y": 270.0
-            }
-        }
-    ]
+    ],
+    "edges": [],
+    "isDirty": false
 }

@@ -8,22 +8,21 @@ namespace GameGraph.Editor
     [UsedImplicitly]
     public class ToolboxEditorView : VisualElement, IGameGraphVisualElement
     {
-        public GameGraph graph { get; set; }
-
         public ToolboxEditorView()
         {
             this.AddLayout(GameGraphEditorConstants.ResourcesUxmlViewPath + "/ToolboxEditorView.uxml");
         }
 
-        public void Initialize()
+        public void Initialize(RawGameGraph graph)
         {
             var container = this.FindElementByName<VisualElement>("container");
+            var graphEventHandler = GraphEventHandler.Get(graph.id);
 
             foreach (var gameGraphComponent in CodeAnalyzer.GetGameGraphComponents())
             {
                 var button = new Button();
                 button.text = gameGraphComponent.PrettifyName();
-                button.clickable.clicked += () => graph.AddNodeByName(gameGraphComponent);
+                button.clickable.clicked += () => graphEventHandler.Publish(new NodeAddEvent(gameGraphComponent));
                 container.Add(button);
             }
         }

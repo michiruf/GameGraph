@@ -1,20 +1,25 @@
+using System;
 using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 namespace GameGraph.Editor
 {
     public class GameGraphWindow : EditorWindow
     {
-        [SerializeField] public string assetGuid;
-        private GameGraph graph;
+        [SerializeField] private string assetGuidInternal;
+        public string assetGuid => assetGuidInternal;
+        [SerializeField] private bool initialized;
 
-        public void Initialize(string assetGuidP)
+        private RawGameGraph graph;
+
+        public void Initialize(string assetGuid)
         {
-            var assetPath = AssetDatabase.GUIDToAssetPath(assetGuidP);
+            var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
 
             // Check if asset exists
             var assetExists = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
@@ -24,27 +29,52 @@ namespace GameGraph.Editor
                 return;
 
             // Make window for one asset unique
-            if (assetGuid == assetGuidP)
+            if (initialized && assetGuid.Equals(assetGuidInternal))
                 return;
-            assetGuid = assetGuidP;
+            assetGuidInternal = assetGuid;
 
-            // Load layout and style
+            // Initialize UI
+            titleContent = new GUIContent(assetExists.name);
             rootVisualElement.AddStylesheet(GameGraphEditorConstants.ResourcesUxmlPath + "/Style.uss");
             rootVisualElement.AddLayout(GameGraphEditorConstants.ResourcesUxmlPath + "/GameGraphWindow.uxml");
-
-            titleContent = new GUIContent(assetExists.name);
-            LoadGraph();
             RegisterSaveButton();
             RegisterReopenButton();
+
+            // Initialize graph
+            LoadGraph();
             DistributeGraphAndInitializeChildren();
+
             Repaint();
+        }
+
+        void OnEnable()
+        {
+            Initialize(assetGuidInternal);
+        }
+
+        void OnDisable()
+        {
+            rootVisualElement.Clear();
+            initialized = false;
+        }
+
+        void OnDestroy()
+        {
+            if (graph.isDirty && EditorUtility.DisplayDialog(
+                    "Shader Graph Has Been Modified",
+                    "Do you want to save the changes you made in the Graph?\n"
+                    + "Your changes will be lost if you don't save them.",
+                    "Save",
+                    "Don't Save"))
+                SaveGraph();
+//            DestroyImmediate(graph);
         }
 
         private void LoadGraph()
         {
             var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
             var textGraph = File.ReadAllText(assetPath);
-            graph = JsonUtility.FromJson<GameGraph>(textGraph);
+            graph = JsonUtility.FromJson<RawGameGraph>(textGraph);
         }
 
         private void SaveGraph()
@@ -65,8 +95,8 @@ namespace GameGraph.Editor
             {
                 Close();
                 var window = CreateInstance<GameGraphWindow>();
-                window.Show();
                 window.Initialize(assetGuid);
+                window.Show();
             };
         }
 
@@ -75,11 +105,9 @@ namespace GameGraph.Editor
             if (element == null)
                 element = rootVisualElement;
             if (element is IGameGraphVisualElement c)
-            {
-                c.graph = graph;
-                c.Initialize();
-            }
-            element.hierarchy.Children().ToList().ForEach(DistributeGraphAndInitializeChildren);
+                c.Initialize(graph);
+
+            element.Children().ToList().ForEach(DistributeGraphAndInitializeChildren);
         }
     }
 }

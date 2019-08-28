@@ -6,18 +6,27 @@ namespace GameGraph.Editor
     [Serializable]
     public class RawEdge
     {
-        public string id;
-        private string ingoingLinkNodeId;
-        private string outgoingLinkNodeId;
+        private string idInternal;
+        public string ingoingLinkNodeId;
+        public string outgoingLinkNodeId;
+        public bool isDirty;
+
+        public string id
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(idInternal))
+                    idInternal = GUID.Generate().ToString();
+                return idInternal;
+            }
+        }
 
         public RawEdge()
         {
-            id = GUID.Generate().ToString();
         }
 
-        public RawEdge(string id, string ingoingLinkNodeId, string outgoingLinkNodeId) : this()
+        public RawEdge(string ingoingLinkNodeId, string outgoingLinkNodeId) : this()
         {
-            this.id = id;
             this.ingoingLinkNodeId = ingoingLinkNodeId;
             this.outgoingLinkNodeId = outgoingLinkNodeId;
         }

@@ -7,10 +7,9 @@ namespace GameGraph.Editor
 {
     public class NodeView : UnityEditor.Experimental.GraphView.Node
     {
-        public GameGraph graph { get; set; }
-        private Node node;
+        private RawNode node;
 
-        public void Initialize(Node node)
+        public void Initialize(RawNode node)
         {
             this.node = node;
 
@@ -52,8 +51,7 @@ namespace GameGraph.Editor
             // Properties
             analysisData.properties.ForEach(data =>
             {
-                node.data.TryGetValue(data.name, out var value);
-                extensionContainer.Add(new MemberView(data, true, true, value));
+                extensionContainer.Add(new MemberView(data, true, true));
             });
 
             // Slicer
@@ -67,8 +65,7 @@ namespace GameGraph.Editor
             // Methods
             analysisData.methods.ForEach(data =>
             {
-                node.data.TryGetValue(data.name, out var value);
-                extensionContainer.Add(new MethodView(data, value));
+                extensionContainer.Add(new MethodView(data));
             });
 
             // Slicer
@@ -82,8 +79,7 @@ namespace GameGraph.Editor
             // Triggers
             analysisData.triggers.ForEach(data =>
             {
-                node.data.TryGetValue(data.name, out var value);
-                extensionContainer.Add(new MemberView(data, false, true, value));
+                extensionContainer.Add(new MemberView(data, false, true));
             });
         }
     }

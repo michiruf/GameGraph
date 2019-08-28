@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace GameGraph
 {
-    public class InstanceProviderBehaviour : MonoBehaviour
+    public class GameGraphInstanceProviderBehaviour : MonoBehaviour
     {
         public Component instance;
 

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
@@ -10,23 +9,39 @@ namespace GameGraph.Editor
     [UsedImplicitly]
     public class GraphEditorView : GraphView, IGameGraphVisualElement
     {
-        // TODO Maybe decouple the representative data from the view
-        // TODO ... to avoid persistance problems
-        public GameGraph graph { get; set; }
+        private RawGameGraph graph;
 
-        public void Initialize()
+        public void Initialize(RawGameGraph graph)
         {
-            RegisterViewNavigation();
-            DrawGraph();
-            graph.graphChangedEvent += DrawGraph;
+            this.graph = graph;
 
-            // TODO Use this.graphViewChanged event
-            // TODO This gets not triggered when elements are added
-            //graphViewChanged += delegate(GraphViewChange change)
-            //{
-            //    DrawGraph();
-            //    return change;
-            //};
+            RegisterViewNavigation();
+
+            // Detects:
+            // * Elements about to be removed
+            // * Edges about to be created
+            // * Elements already moved
+            // * The delta of the last move
+            // Does not detect that elements are added!
+            graphViewChanged += change =>
+            {
+                SaveGraphState();
+                // TODO Recursion?!?! -> clear and draw should trigger graphViewChanged
+                //DrawGraph();
+                return change;
+            };
+
+            var graphEventHandler = GraphEventHandler.Get(graph.id);
+            graphEventHandler.Subscribe<NodeAddEvent>(e =>
+            {
+                graph.nodes.Add(new RawNode(e.name));
+                SaveGraphState();
+                DrawGraph();
+            });
+
+            // Draw the graph initially
+            ClearGraph();
+            DrawGraph();
         }
 
         private void RegisterViewNavigation()
@@ -37,19 +52,20 @@ namespace GameGraph.Editor
             z.target = this;
         }
 
+        private void ClearGraph()
+        {
+        }
+
         private void DrawGraph()
         {
-            Debug.LogError("GraphViewChange");
-            
-            // Clear already drawn graph
+            // Clear previous stuff first
             nodes.ForEach(RemoveElement);
             edges.ForEach(RemoveElement);
-
+            
             // Draw nodes
             graph.nodes.ForEach(node =>
             {
                 var view = new NodeView();
-                view.graph = graph;
                 view.Initialize(node);
                 AddElement(view);
             });
@@ -61,9 +77,6 @@ namespace GameGraph.Editor
 //                AddElement(new Edge());
 //                var edge = 
 //            });
-
-            // Bring edges to front
-            edges.ForEach(edge => edge.BringToFront());
         }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)

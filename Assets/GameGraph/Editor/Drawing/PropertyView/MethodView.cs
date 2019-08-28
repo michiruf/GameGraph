@@ -7,7 +7,7 @@ namespace GameGraph.Editor
 {
     public class MethodView : VisualElement
     {
-        public MethodView(MethodData data, ValueEntry value)
+        public MethodView(MethodData data)
         {
             this.AddLayout(GameGraphEditorConstants.ResourcesUxmlFieldTypePath + "/MethodView.uxml");
 

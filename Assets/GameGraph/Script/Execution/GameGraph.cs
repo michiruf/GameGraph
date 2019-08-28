@@ -5,6 +5,10 @@ using Random = System.Random;
 
 namespace GameGraph
 {
+    // TODO Should extend ScriptableObject to be referencable by unity
+    
+    // TODO Merge this with GraphObject
+    
     [Serializable]
     public class GameGraph : ISerializationCallbackReceiver
     {

@@ -78,7 +78,7 @@ NodeView #extension {
 
 NodeView .node-slicer {
     border-top-width: 1;
-    border-color: rgba(42, 42, 42, 0.9);
+    border-color: rgba(255, 255, 255, 0.02); /* was rgba(42, 42, 42, 0.9) */
 }
 
 MemberView,
@@ -108,5 +108,5 @@ MemberView #ingoingPortContainer.exists,
 MethodView #ingoingPortContainer.exists,
 MemberView #outgoingPortContainer.exists,
 MethodView #outgoingPortContainer.exists {
-    background-color: rgba(42, 42, 42, 0.9);
+    background-color: rgba(255, 255, 255, 0.02); /* was rgba(42, 42, 42, 0.9) */
 }

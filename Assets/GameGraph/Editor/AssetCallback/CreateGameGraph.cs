@@ -20,7 +20,7 @@ namespace GameGraph.Editor
 
         public override void Action(int instanceId, string pathName, string resourceFile)
         {
-            var graph = new GameGraph();
+            var graph = new RawGameGraph();
             File.WriteAllText(pathName, EditorJsonUtility.ToJson(graph));
             AssetDatabase.Refresh();
         }

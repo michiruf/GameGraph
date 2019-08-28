@@ -8,16 +8,22 @@ namespace GameGraph.Editor
     [Serializable]
     public class RawNode
     {
-        public string id;
+        private string idInternal;
         public string name;
         public Vector2 position;
+        public bool isDirty;
 
-        public RawNode()
+        public string id
         {
-            id = GUID.Generate().ToString();
+            get
+            {
+                if (string.IsNullOrEmpty(idInternal))
+                    idInternal = GUID.Generate().ToString();
+                return idInternal;
+            }
         }
 
-        public RawNode(string name) : this()
+        public RawNode(string name)
         {
             this.name = name;
         }

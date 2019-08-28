@@ -6,13 +6,13 @@ namespace GameGraph.Editor
 {
     public class MemberView : VisualElement
     {
-        public MemberView(MemberData data, bool ingoingPort, bool outgoingPort, ValueEntry value)
+        public MemberView(MemberData data, bool ingoingPort, bool outgoingPort)
         {
             this.AddLayout(GameGraphEditorConstants.ResourcesUxmlFieldTypePath + "/MemberView.uxml");
 
             // Set simple data
             this.FindElementByName<Label>("name").text = data.name.PrettifyName();
-            this.FindElementByName<Label>("value").text = value.value?.ToString() ?? "VALUE NOT IMPLEMENTED";
+            this.FindElementByName<Label>("value").text = "VALUE NOT IMPLEMENTED";
 
             // Add ports
             if (ingoingPort)
