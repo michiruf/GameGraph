@@ -53,7 +53,14 @@ namespace GameGraph.Editor
                 view.Initialize(node);
                 AddElement(view);
             });
-            // TODO Draw edges
+
+//            // Draw edges
+//            // TODO HERE I AM
+//            graph.nodes.ForEach(node =>
+//            {
+//                AddElement(new Edge());
+//                var edge = 
+//            });
 
             // Bring edges to front
             edges.ForEach(edge => edge.BringToFront());
