@@ -10,8 +10,15 @@
         {
             "name": "GameGraphAnotherTestScript",
             "position": {
-                "x": 327.0,
-                "y": 304.0
+                "x": 388.0,
+                "y": 325.0
+            }
+        },
+        {
+            "name": "GameGraphTestScript",
+            "position": {
+                "x": -3.0,
+                "y": 270.0
             }
         }
     ]

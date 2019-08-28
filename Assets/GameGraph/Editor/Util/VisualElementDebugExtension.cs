@@ -8,9 +8,7 @@ namespace GameGraph.Editor
     {
         public static string GetRepresentativeName(this VisualElement element)
         {
-            return string.Format("{0} {1}",
-                element.GetType().Name,
-                element.name);
+            return $"{element.GetType().Name} - {element.name}";
         }
 
         public static void PrintHierarchy(this VisualElement element)
