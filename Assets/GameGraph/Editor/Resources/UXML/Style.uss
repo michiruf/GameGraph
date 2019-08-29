@@ -82,13 +82,15 @@ NodeView .node-slicer {
 }
 
 MemberView,
-MethodView {
+MethodView,
+PropertyView {
     flex: 1;
     flex-direction: row;
 }
 
 MemberView #contentContainer,
-MethodView #contentContainer {
+MethodView #contentContainer,
+PropertyView #contentContainer {
     min-width: 150;
     padding: 5;
 }
@@ -104,9 +106,18 @@ MethodView #outgoingPortContainer {
     justify-content: center;
 }
 
+PropertyView #ingoingPortContainer,
+PropertyView #outgoingPortContainer {
+    margin: 1 0;
+    padding: 4 0;
+    justify-content: center;
+}
+
 MemberView #ingoingPortContainer.exists,
-MethodView #ingoingPortContainer.exists,
 MemberView #outgoingPortContainer.exists,
-MethodView #outgoingPortContainer.exists {
+MethodView #ingoingPortContainer.exists,
+MethodView #outgoingPortContainer.exists,
+PropertyView #ingoingPortContainer.exists,
+PropertyView #outgoingPortContainer.exists {
     background-color: rgba(255, 255, 255, 0.02); /* was rgba(42, 42, 42, 0.9) */
 }

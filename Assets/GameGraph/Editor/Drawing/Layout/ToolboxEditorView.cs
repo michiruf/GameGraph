@@ -10,7 +10,7 @@ namespace GameGraph.Editor
     {
         public ToolboxEditorView()
         {
-            this.AddLayout(GameGraphEditorConstants.ResourcesUxmlViewPath + "/ToolboxEditorView.uxml");
+            this.AddLayout(GameGraphEditorConstants.ResourcesUxmlLayoutPath + "/ToolboxEditorView.uxml");
         }
 
         public void Initialize(RawGameGraph graph)

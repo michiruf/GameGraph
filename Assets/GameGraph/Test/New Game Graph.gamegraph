@@ -1,6 +1,21 @@
 {
     "nodes": [
+        {
+            "name": "Rotation",
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "isDirty": false
+        },
+        {
+            "name": "Update",
+            "position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "isDirty": false
+        }
     ],
-    "edges": [],
-    "isDirty": false
+    "edges": []
 }

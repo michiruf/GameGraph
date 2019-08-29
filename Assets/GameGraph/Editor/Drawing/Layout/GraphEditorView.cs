@@ -25,9 +25,8 @@ namespace GameGraph.Editor
             // Does not detect that elements are added!
             graphViewChanged += change =>
             {
-                SaveGraphState();
-                // TODO Recursion?!?! -> clear and draw should trigger graphViewChanged
-                //DrawGraph();
+                SaveGraphState(change);
+                DrawGraph();
                 return change;
             };
 
@@ -35,12 +34,10 @@ namespace GameGraph.Editor
             graphEventHandler.Subscribe<NodeAddEvent>(e =>
             {
                 graph.nodes.Add(new RawNode(e.name));
-                SaveGraphState();
                 DrawGraph();
             });
 
             // Draw the graph initially
-            ClearGraph();
             DrawGraph();
         }
 
@@ -52,8 +49,12 @@ namespace GameGraph.Editor
             z.target = this;
         }
 
-        private void ClearGraph()
+        private void SaveGraphState(GraphViewChange change)
         {
+            if (change.movedElements?.Count > 0)
+                nodes.ForEach(node => (node as INode)?.Save());
+            if (change.edgesToCreate?.Count > 0)
+                edges.ForEach(edge => (edge as IEdge)?.Save());
         }
 
         private void DrawGraph()
@@ -61,22 +62,24 @@ namespace GameGraph.Editor
             // Clear previous stuff first
             nodes.ForEach(RemoveElement);
             edges.ForEach(RemoveElement);
-            
+
             // Draw nodes
             graph.nodes.ForEach(node =>
             {
-                var view = new NodeView();
-                view.Initialize(node);
-                AddElement(view);
+                var nodeView = new NodeView();
+                nodeView.node = node;
+                nodeView.Initialize();
+                AddElement(nodeView);
             });
 
-//            // Draw edges
-//            // TODO HERE I AM
-//            graph.nodes.ForEach(node =>
-//            {
-//                AddElement(new Edge());
-//                var edge = 
-//            });
+            // Draw edges
+            graph.edges.ForEach(edge =>
+            {
+                var edgeView = new EdgeView();
+                edgeView.edge = edge;
+                // TODO Initialize port connections
+                AddElement(edgeView);
+            });
         }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)

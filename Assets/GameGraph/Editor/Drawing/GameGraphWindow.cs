@@ -61,13 +61,13 @@ namespace GameGraph.Editor
         void OnDestroy()
         {
             if (graph.isDirty && EditorUtility.DisplayDialog(
-                    "Shader Graph Has Been Modified",
+                    "Game Graph Has Been Modified",
                     "Do you want to save the changes you made in the Graph?\n"
                     + "Your changes will be lost if you don't save them.",
                     "Save",
                     "Don't Save"))
                 SaveGraph();
-//            DestroyImmediate(graph);
+            //DestroyImmediate(graph);
         }
 
         private void LoadGraph()

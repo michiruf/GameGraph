@@ -1,3 +1,4 @@
+using System;
 using GameGraph.CodeAnalysis;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -5,19 +6,17 @@ using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
 {
-    public class NodeView : UnityEditor.Experimental.GraphView.Node
+    public class NodeView : UnityEditor.Experimental.GraphView.Node, INode
     {
-        private RawNode node;
+        public RawGameGraph graph { get; set; }
+        public RawNode node { get; set; }
 
-        public void Initialize(RawNode node)
+        public void Initialize()
         {
-            this.node = node;
-
             title = node.name.PrettifyName();
             SetPosition(new Rect(node.position, Vector2.zero));
             SetAlwaysExpanded();
-            RegisterDragAndDrop();
-            RegisterPositionCallback();
+            RegisterDragging();
 
             var analysisData = CodeAnalyzer.GetComponentData(node.name);
             CreateFields(analysisData);
@@ -27,6 +26,14 @@ namespace GameGraph.Editor
             RefreshExpandedState();
         }
 
+        public void Save()
+        {
+            node.position = GetPosition().position;
+
+            if (!graph.nodes.Contains(node))
+                graph.nodes.Add(node);
+        }
+
         private void SetAlwaysExpanded()
         {
             expanded = true;
@@ -34,52 +41,33 @@ namespace GameGraph.Editor
             collapseButton.GetFirstAncestorOfType<VisualElement>().Remove(collapseButton);
         }
 
-        private void RegisterDragAndDrop()
+        private void RegisterDragging()
         {
             var d = new Dragger();
             d.target = this;
         }
 
-        private void RegisterPositionCallback()
-        {
-            // NOTE This might not be the most performant variant to update every nodes position on mouse move
-            RegisterCallback<MouseMoveEvent>(evt => node.position = GetPosition().position);
-        }
-
-        public void CreateFields(ComponentData analysisData)
+        private void CreateFields(ComponentData analysisData)
         {
             // Properties
-            analysisData.properties.ForEach(data =>
-            {
-                extensionContainer.Add(new MemberView(data, true, true));
-            });
-
-            // Slicer
-            if (analysisData.methods.Count > 0)
-            {
-                var slicer = new VisualElement();
-                slicer.AddToClassList("node-slicer");
-                extensionContainer.Add(slicer);
-            }
+            analysisData.properties.ForEach(data => extensionContainer.Add(new PropertyView(data)));
 
             // Methods
             analysisData.methods.ForEach(data =>
             {
-                extensionContainer.Add(new MethodView(data));
+                var port = Port.Create<EdgeView>(Orientation.Horizontal, Direction.Input, Port.Capacity.Single,
+                    typeof(Action));
+                port.portName = data.name.PrettifyName();
+                inputContainer.Add(port);
             });
-
-            // Slicer
-            if (analysisData.triggers.Count > 0)
-            {
-                var slicer = new VisualElement();
-                slicer.AddToClassList("node-slicer");
-                extensionContainer.Add(slicer);
-            }
 
             // Triggers
             analysisData.triggers.ForEach(data =>
             {
-                extensionContainer.Add(new MemberView(data, false, true));
+                var port = Port.Create<EdgeView>(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi,
+                    typeof(Action));
+                port.portName = data.name.PrettifyName();
+                outputContainer.Add(port);
             });
         }
     }
