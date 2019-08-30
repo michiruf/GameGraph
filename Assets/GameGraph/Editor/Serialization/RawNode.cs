@@ -8,7 +8,7 @@ namespace GameGraph.Editor
     [Serializable]
     public class RawNode
     {
-        private string idInternal;
+        [SerializeField] private string idInternal;
         public string name;
         public Vector2 position;
         public bool isDirty;

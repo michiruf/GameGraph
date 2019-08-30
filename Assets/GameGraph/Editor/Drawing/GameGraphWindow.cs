@@ -104,7 +104,7 @@ namespace GameGraph.Editor
         {
             if (element == null)
                 element = rootVisualElement;
-            if (element is IGameGraphVisualElement c)
+            if (element is IGraphVisualElement c)
                 c.Initialize(graph);
 
             element.Children().ToList().ForEach(DistributeGraphAndInitializeChildren);

@@ -6,7 +6,7 @@ namespace GameGraph.Editor
 {
     // TODO Should extend a ScrollView, but then the content goes down
     [UsedImplicitly]
-    public class ToolboxEditorView : VisualElement, IGameGraphVisualElement
+    public class ToolboxEditorView : VisualElement, IGraphVisualElement
     {
         public ToolboxEditorView()
         {
@@ -16,7 +16,7 @@ namespace GameGraph.Editor
         public void Initialize(RawGameGraph graph)
         {
             var container = this.FindElementByName<VisualElement>("container");
-            var graphEventHandler = GraphEventHandler.Get(graph.id);
+            var graphEventHandler = GraphEventHandler.Get(graph);
 
             foreach (var gameGraphComponent in CodeAnalyzer.GetGameGraphComponents())
             {

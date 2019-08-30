@@ -1,12 +1,13 @@
 using System;
 using UnityEditor;
+using UnityEngine;
 
 namespace GameGraph.Editor
 {
     [Serializable]
     public class RawEdge
     {
-        private string idInternal;
+        [SerializeField] private string idInternal;
         public string ingoingLinkNodeId;
         public string outgoingLinkNodeId;
         public bool isDirty;

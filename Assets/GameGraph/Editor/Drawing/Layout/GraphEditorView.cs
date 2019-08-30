@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 namespace GameGraph.Editor
 {
     [UsedImplicitly]
-    public class GraphEditorView : GraphView, IGameGraphVisualElement
+    public class GraphEditorView : GraphView, IGraphVisualElement
     {
         private RawGameGraph graph;
 
@@ -15,29 +15,43 @@ namespace GameGraph.Editor
         {
             this.graph = graph;
 
-            RegisterViewNavigation();
-
-            // Detects:
-            // * Elements about to be removed
-            // * Edges about to be created
-            // * Elements already moved
-            // * The delta of the last move
-            // Does not detect that elements are added!
+            // Register change events
             graphViewChanged += change =>
             {
-                SaveGraphState(change);
-                DrawGraph();
+                change.movedElements?.ForEach(element =>
+                {
+                    if (!(element is IGraphElement graphElement))
+                        return;
+                    graphElement.graph = graph;
+                    graphElement.PersistState();
+                });
+                change.edgesToCreate?.ForEach(element =>
+                {
+                    if (!(element is IGraphElement graphElement))
+                        return;
+                    graphElement.graph = graph;
+                    graphElement.PersistState();
+                });
+                change.elementsToRemove?.ForEach(element =>
+                {
+                    if (!(element is IGraphElement graphElement))
+                        return;
+                    graphElement.graph = graph;
+                    graphElement.RemoveState();
+                });
                 return change;
             };
 
-            var graphEventHandler = GraphEventHandler.Get(graph.id);
+            // Register add event
+            var graphEventHandler = GraphEventHandler.Get(graph);
             graphEventHandler.Subscribe<NodeAddEvent>(e =>
             {
-                graph.nodes.Add(new RawNode(e.name));
-                DrawGraph();
+                var nodeView = new NodeView();
+                nodeView.Initialize(e.name);
+                AddElement(nodeView);
             });
-
-            // Draw the graph initially
+            
+            RegisterViewNavigation();
             DrawGraph();
         }
 
@@ -49,17 +63,9 @@ namespace GameGraph.Editor
             z.target = this;
         }
 
-        private void SaveGraphState(GraphViewChange change)
-        {
-            if (change.movedElements?.Count > 0)
-                nodes.ForEach(node => (node as INode)?.Save());
-            if (change.edgesToCreate?.Count > 0)
-                edges.ForEach(edge => (edge as IEdge)?.Save());
-        }
-
         private void DrawGraph()
         {
-            // Clear previous stuff first
+            // Clear previous drawn stuff first
             nodes.ForEach(RemoveElement);
             edges.ForEach(RemoveElement);
 
@@ -67,18 +73,16 @@ namespace GameGraph.Editor
             graph.nodes.ForEach(node =>
             {
                 var nodeView = new NodeView();
-                nodeView.node = node;
-                nodeView.Initialize();
                 AddElement(nodeView);
+                nodeView.Initialize(node);
             });
 
             // Draw edges
             graph.edges.ForEach(edge =>
             {
                 var edgeView = new EdgeView();
-                edgeView.edge = edge;
-                // TODO Initialize port connections
                 AddElement(edgeView);
+                edgeView.Initialize(edge);
             });
         }
 

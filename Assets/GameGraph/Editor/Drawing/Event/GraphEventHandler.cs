@@ -3,16 +3,16 @@ using TinyMessenger;
 
 namespace GameGraph.Editor
 {
-    public class GraphEventHandler
+    public static class GraphEventHandler
     {
-        private static readonly Dictionary<string, TinyMessengerHub> Handlers =
-            new Dictionary<string, TinyMessengerHub>();
+        private static readonly Dictionary<RawGameGraph, TinyMessengerHub> Handlers =
+            new Dictionary<RawGameGraph, TinyMessengerHub>();
 
-        public static TinyMessengerHub Get(string id)
+        public static TinyMessengerHub Get(RawGameGraph graph)
         {
-            if (!Handlers.ContainsKey(id))
-                Handlers.Add(id, new TinyMessengerHub());
-            return Handlers[id];
+            if (!Handlers.ContainsKey(graph))
+                Handlers.Add(graph, new TinyMessengerHub());
+            return Handlers[graph];
         }
     }
 }

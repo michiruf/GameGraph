@@ -1,6 +1,6 @@
 namespace GameGraph.Editor
 {
-    public interface IGameGraphVisualElement
+    public interface IGraphVisualElement
     {
         void Initialize(RawGameGraph graph);
     }

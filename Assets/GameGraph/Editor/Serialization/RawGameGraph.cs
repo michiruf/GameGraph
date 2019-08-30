@@ -9,9 +9,9 @@ namespace GameGraph.Editor
     [Serializable]
     public class RawGameGraph
     {
-        private string idInternal;
-        private int serializedVersion;
-        private bool isDirtyInternal;
+        [SerializeField]  private string idInternal;
+        [SerializeField] private int serializedVersion;
+        [SerializeField] private bool isDirtyInternal;
         public List<RawNode> nodes = new List<RawNode>();
         public List<RawEdge> edges = new List<RawEdge>();
 

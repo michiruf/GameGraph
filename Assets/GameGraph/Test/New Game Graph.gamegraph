@@ -1,21 +1,33 @@
 {
+    "idInternal": "",
+    "serializedVersion": 0,
+    "isDirtyInternal": false,
     "nodes": [
         {
+            "idInternal": "1482275f83728c1428fc0a537ada0863",
             "name": "Rotation",
             "position": {
-                "x": 0.0,
-                "y": 0.0
+                "x": 371.0,
+                "y": 213.0
             },
             "isDirty": false
         },
         {
+            "idInternal": "3011a20d776fb604ab1569332894951c",
             "name": "Update",
             "position": {
-                "x": 0.0,
-                "y": 0.0
+                "x": 139.0,
+                "y": 151.0
             },
             "isDirty": false
         }
     ],
-    "edges": []
+    "edges": [
+        {
+            "idInternal": "",
+            "ingoingLinkNodeId": "1482275f83728c1428fc0a537ada0863",
+            "outgoingLinkNodeId": "3011a20d776fb604ab1569332894951c",
+            "isDirty": false
+        }
+    ]
 }
