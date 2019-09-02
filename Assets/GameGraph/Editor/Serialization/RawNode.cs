@@ -9,9 +9,9 @@ namespace GameGraph.Editor
     public class RawNode
     {
         [SerializeField] private string idInternal;
-        public string name;
-        public Vector2 position;
-        public bool isDirty;
+        [SerializeField] private string nameInternal;
+        [SerializeField] private Vector2 positionInternal;
+        [NonSerialized] public bool isDirty;
 
         public string id
         {
@@ -23,14 +23,26 @@ namespace GameGraph.Editor
             }
         }
 
-        public RawNode(string name)
+        public string name => nameInternal;
+
+        public Vector2 position
         {
-            this.name = name;
+            get => positionInternal;
+            set
+            {
+                if (!value.Equals(positionInternal)) MarkDirty();
+                positionInternal = value;
+            }
         }
 
-        public RawNode(string name, Vector2 position) : this(name)
+        public RawNode(string name)
         {
-            this.position = position;
+            nameInternal = name;
+        }
+
+        private void MarkDirty()
+        {
+            isDirty = true;
         }
     }
 }

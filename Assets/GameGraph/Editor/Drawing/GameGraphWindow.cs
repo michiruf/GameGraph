@@ -73,15 +73,18 @@ namespace GameGraph.Editor
         private void LoadGraph()
         {
             var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
-            var textGraph = File.ReadAllText(assetPath);
-            graph = JsonUtility.FromJson<RawGameGraph>(textGraph);
+            var graphText = File.ReadAllText(assetPath);
+            graph = JsonUtility.FromJson<RawGameGraph>(graphText);
         }
 
         private void SaveGraph()
         {
             var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
-            var textGraph = JsonUtility.ToJson(graph, true);
-            File.WriteAllText(assetPath, textGraph);
+            var graphText = JsonUtility.ToJson(graph, true);
+            File.WriteAllText(assetPath, graphText);
+
+            // Force import of the asset to trigger the importer
+            AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
         }
 
         private void RegisterSaveButton()

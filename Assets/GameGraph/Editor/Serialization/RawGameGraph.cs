@@ -1,29 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
 namespace GameGraph.Editor
 {
     [Serializable]
-    public class RawGameGraph
+    public class RawGameGraph : ISerializationCallbackReceiver
     {
-        [SerializeField]  private string idInternal;
         [SerializeField] private int serializedVersion;
-        [SerializeField] private bool isDirtyInternal;
         public List<RawNode> nodes = new List<RawNode>();
         public List<RawEdge> edges = new List<RawEdge>();
-
-        public string id
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(idInternal))
-                    idInternal = GUID.Generate().ToString();
-                return idInternal;
-            }
-        }
+        private bool isDirtyInternal;
 
         public bool isDirty
         {
@@ -33,9 +21,24 @@ namespace GameGraph.Editor
                        nodes.Aggregate(false, (b, node) => b || node.isDirty) ||
                        edges.Aggregate(false, (b, edge) => b || edge.isDirty);
             }
-            set { isDirtyInternal = value; }
+            set
+            {
+                isDirtyInternal = value;
+                nodes.ForEach(node => node.isDirty = value);
+                edges.ForEach(edge => edge.isDirty = value);
+            }
+        }
+        
+        public void OnBeforeSerialize()
+        {
+            serializedVersion++;
+            isDirty = false;
         }
 
+        public void OnAfterDeserialize()
+        {
+            isDirty = false;
+        }
 
         // TODO
         //public void RegisterCompleteObjectUndo(string actionName)

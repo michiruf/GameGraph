@@ -1,33 +1,43 @@
 {
-    "idInternal": "",
-    "serializedVersion": 0,
-    "isDirtyInternal": false,
+    "serializedVersion": 10,
     "nodes": [
         {
-            "idInternal": "1482275f83728c1428fc0a537ada0863",
-            "name": "Rotation",
-            "position": {
-                "x": 371.0,
-                "y": 213.0
-            },
-            "isDirty": false
+            "idInternal": "66f270123d159924395f19a53750180a",
+            "nameInternal": "Rotation",
+            "positionInternal": {
+                "x": 603.0,
+                "y": 234.0
+            }
         },
         {
-            "idInternal": "3011a20d776fb604ab1569332894951c",
-            "name": "Update",
-            "position": {
-                "x": 139.0,
-                "y": 151.0
-            },
-            "isDirty": false
+            "idInternal": "e4b83891fa5560d45806e6987c8858d6",
+            "nameInternal": "Update",
+            "positionInternal": {
+                "x": 432.0,
+                "y": 234.0
+            }
+        },
+        {
+            "idInternal": "b29a0f5c271309f488144e032f841882",
+            "nameInternal": "GameGraphTestScript",
+            "positionInternal": {
+                "x": 204.0,
+                "y": 330.0
+            }
         }
     ],
     "edges": [
         {
-            "idInternal": "",
-            "ingoingLinkNodeId": "1482275f83728c1428fc0a537ada0863",
-            "outgoingLinkNodeId": "3011a20d776fb604ab1569332894951c",
-            "isDirty": false
+            "inputNodeIdInternal": "66f270123d159924395f19a53750180a",
+            "inputPortIdInternal": "Rotate",
+            "outputNodeIdInternal": "e4b83891fa5560d45806e6987c8858d6",
+            "outputPortIdInternal": "update"
+        },
+        {
+            "inputNodeIdInternal": "66f270123d159924395f19a53750180a",
+            "inputPortIdInternal": "rotationSpeed",
+            "outputNodeIdInternal": "b29a0f5c271309f488144e032f841882",
+            "outputPortIdInternal": "property"
         }
     ]
 }

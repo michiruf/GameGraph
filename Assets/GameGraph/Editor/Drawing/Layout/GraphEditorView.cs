@@ -14,8 +14,11 @@ namespace GameGraph.Editor
         public void Initialize(RawGameGraph graph)
         {
             this.graph = graph;
+            
+            RegisterViewNavigation();
+            DrawGraph();
 
-            // Register change events
+            // Register change events (after draw!)
             graphViewChanged += change =>
             {
                 change.movedElements?.ForEach(element =>
@@ -47,12 +50,9 @@ namespace GameGraph.Editor
             graphEventHandler.Subscribe<NodeAddEvent>(e =>
             {
                 var nodeView = new NodeView();
+                AddGraphElement(nodeView);
                 nodeView.Initialize(e.name);
-                AddElement(nodeView);
             });
-            
-            RegisterViewNavigation();
-            DrawGraph();
         }
 
         private void RegisterViewNavigation()
@@ -69,21 +69,28 @@ namespace GameGraph.Editor
             nodes.ForEach(RemoveElement);
             edges.ForEach(RemoveElement);
 
-            // Draw nodes
-            graph.nodes.ForEach(node =>
+            // Draw nodes (by a clone of the list to be able to modify)
+            graph.nodes.ToList().ForEach(node =>
             {
                 var nodeView = new NodeView();
-                AddElement(nodeView);
+                AddGraphElement(nodeView);
                 nodeView.Initialize(node);
             });
 
-            // Draw edges
-            graph.edges.ForEach(edge =>
+            // Draw edges (by a clone of the list to be able to modify)
+            graph.edges.ToList().ForEach(edge =>
             {
                 var edgeView = new EdgeView();
-                AddElement(edgeView);
+                AddGraphElement(edgeView);
                 edgeView.Initialize(edge);
             });
+        }
+
+        public void AddGraphElement(GraphElement element)
+        {
+            if (element is IGraphElement graphElement)
+                graphElement.graph = graph;
+            AddElement(element);
         }
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
@@ -98,7 +105,7 @@ namespace GameGraph.Editor
                 )
                 .ToList();
         }
-
+        
         [UsedImplicitly]
         public new class UxmlFactory : UxmlFactory<GraphEditorView>
         {

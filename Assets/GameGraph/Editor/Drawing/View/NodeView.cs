@@ -25,6 +25,7 @@ namespace GameGraph.Editor
 
         private void Initialize()
         {
+            name = node.id;
             title = node.name.PrettifyName();
             SetPosition(new Rect(node.position, Vector2.zero));
             SetAlwaysExpanded();
@@ -81,19 +82,23 @@ namespace GameGraph.Editor
             // Methods
             analysisData.methods.ForEach(data =>
             {
-                var port = Port.Create<EdgeView>(Orientation.Horizontal, Direction.Input, Port.Capacity.Single,
-                    typeof(Action));
-                port.portName = data.name.PrettifyName();
-                inputContainer.Add(port);
+                inputContainer.Add(PortFactory.Create(
+                    Orientation.Horizontal,
+                    Direction.Input,
+                    Port.Capacity.Single,
+                    typeof(Action),
+                    data.name));
             });
 
             // Triggers
             analysisData.triggers.ForEach(data =>
             {
-                var port = Port.Create<EdgeView>(Orientation.Horizontal, Direction.Output, Port.Capacity.Multi,
-                    typeof(Action));
-                port.portName = data.name.PrettifyName();
-                outputContainer.Add(port);
+                outputContainer.Add(PortFactory.Create(
+                    Orientation.Horizontal,
+                    Direction.Output,
+                    Port.Capacity.Multi,
+                    typeof(Action),
+                    data.name));
             });
         }
     }

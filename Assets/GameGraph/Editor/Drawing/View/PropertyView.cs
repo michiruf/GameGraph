@@ -16,15 +16,25 @@ namespace GameGraph.Editor
 
             // Add ports
             {
-                var port = Port.Create<EdgeView>(Orientation.Horizontal, Direction.Input, Port.Capacity.Single, data.type);
-                port.portName = "";
+                var port = PortFactory.Create(
+                    Orientation.Horizontal,
+                    Direction.Input,
+                    Port.Capacity.Single,
+                    data.type,
+                    data.name,
+                    false);
                 var container = this.FindElementByName<VisualElement>("ingoingPortContainer");
                 container.Add(port);
                 container.AddToClassList("exists");
             }
             {
-                var port = Port.Create<EdgeView>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, data.type);
-                port.portName = "";
+                var port = PortFactory.Create(
+                    Orientation.Horizontal,
+                    Direction.Output,
+                    Port.Capacity.Single,
+                    data.type,
+                    data.name,
+                    false);
                 var container = this.FindElementByName<VisualElement>("outgoingPortContainer");
                 container.Add(port);
                 container.AddToClassList("exists");

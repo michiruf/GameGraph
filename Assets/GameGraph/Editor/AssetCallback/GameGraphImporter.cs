@@ -1,4 +1,7 @@
+using System;
+using System.IO;
 using UnityEditor.Experimental.AssetImporters;
+using UnityEngine;
 
 namespace GameGraph.Editor
 {
@@ -7,6 +10,7 @@ namespace GameGraph.Editor
     {
         public override void OnImportAsset(AssetImportContext ctx)
         {
+            // TODO Remove this comment
             // This method is currently useless because we do not need
             // to do anything on import and the graph can still get
             // deserialized
@@ -16,20 +20,16 @@ namespace GameGraph.Editor
             // On the other hand this could be necessary as the
             // database for the assets may only exist in editor context
 
-            // Variant like in the shader graph, but highly stripped:
-            //Debug.Log(ctx.assetPath);
-            //var graph = JsonUtility.FromJson<GameGraph>(ctx.assetPath);
-            //if (graph == null)
-            //    throw new ArgumentException();
-            //ctx.AddObjectToAsset("MainAsset", graph);
-            //ctx.SetMainObject(graph);
+            Debug.Log(ctx.assetPath);
 
-            // Variant from the samples:
-            // https://docs.unity3d.com/2019.2/Documentation/ScriptReference/Experimental.AssetImporters.AssetImporterEditor.html
-            //var root = ObjectFactory.CreateInstance<GameGraphWrapper>();
-            //root.graph = JsonUtility.FromJson<GameGraph>(ctx.assetPath);
-            //ctx.AddObjectToAsset("MainAsset", root);
-            //ctx.SetMainObject(root);
+            var rawTextGraph = File.ReadAllText(ctx.assetPath);
+            var rawGraph = JsonUtility.FromJson<RawGameGraph>(rawTextGraph);
+            if (rawGraph == null)
+                throw new ArgumentException();
+
+            var executableGraph = rawGraph.ToExecutableGraph();
+            ctx.AddObjectToAsset("MainAsset", executableGraph);
+            ctx.SetMainObject(executableGraph);
         }
     }
 }

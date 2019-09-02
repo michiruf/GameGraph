@@ -1,6 +1,5 @@
 using System.Linq;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
 {
@@ -9,28 +8,39 @@ namespace GameGraph.Editor
         public RawGameGraph graph { private get; set; }
         private RawEdge edge;
 
-        private string ingoingLinkId => (input?.node as NodeView)?.node.id;
-        private string outgoingLinkId => (output?.node as NodeView)?.node.id;
-
         public void Initialize(RawEdge edge)
         {
             this.edge = edge;
+            LinkPorts();
+        }
 
+        private void LinkPorts()
+        {
             var container = GetFirstAncestorOfType<GraphEditorView>();
-            var nodes = container.nodes.ToList();
-            var ingoingNode = nodes
-                .FirstOrDefault(node => (node as NodeView)?.node.id.Equals(edge.ingoingLinkNodeId) ?? false);
-            var outgoingNode = nodes
-                .FirstOrDefault(node => (node as NodeView)?.node.id.Equals(edge.outgoingLinkNodeId) ?? false);
+            var ports = container.ports.ToList();
 
-            // TODO First is completely wrong
-            if (ingoingNode != default)
-                input = ingoingNode.Query<Port>().First();
-            if (outgoingNode != default)
-                output = ingoingNode.Query<Port>().First();
-            
-            // TODO The edge does not get drawn, why?!
-            MarkDirtyRepaint();
+            // NOTE This lookup may be inefficient, lookup node and then port
+            input = ports.FirstOrDefault(port =>
+                edge.inputNodeId.Equals(port.node.name) &&
+                edge.inputPortId.Equals(port.name) &&
+                port.direction == Direction.Input);
+            input?.Connect(this);
+
+            output = ports.FirstOrDefault(port =>
+                edge.outputNodeId.Equals(port.node.name) &&
+                edge.outputPortId.Equals(port.name) &&
+                port.direction == Direction.Output);
+            output?.Connect(this);
+
+            // If a edge is still not connected to two ports, we have to remove it to
+            // avoid data inconsistency
+            if (input == null || output == null)
+            {
+                RemoveState();
+                // NOTE Instead of removing this, maybe introduce an index for the port, so that
+                // ... an invalid edge could be drawn?
+                parent.Remove(this);
+            }
         }
 
         public void PersistState()
@@ -38,8 +48,10 @@ namespace GameGraph.Editor
             if (edge == null)
                 edge = new RawEdge();
 
-            edge.ingoingLinkNodeId = ingoingLinkId;
-            edge.outgoingLinkNodeId = outgoingLinkId;
+            edge.inputNodeId = input?.node?.name;
+            edge.inputPortId = input?.name;
+            edge.outputNodeId = output?.node?.name;
+            edge.outputPortId = output?.name;
 
             if (!graph.edges.Contains(edge))
                 graph.edges.Add(edge);
@@ -47,7 +59,8 @@ namespace GameGraph.Editor
 
         public void RemoveState()
         {
-            graph.edges.Remove(edge);
+            if (edge != null)
+                graph.edges.Remove(edge);
         }
     }
 }

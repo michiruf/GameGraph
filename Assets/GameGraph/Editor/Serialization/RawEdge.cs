@@ -1,5 +1,4 @@
 using System;
-using UnityEditor;
 using UnityEngine;
 
 namespace GameGraph.Editor
@@ -7,29 +6,55 @@ namespace GameGraph.Editor
     [Serializable]
     public class RawEdge
     {
-        [SerializeField] private string idInternal;
-        public string ingoingLinkNodeId;
-        public string outgoingLinkNodeId;
-        public bool isDirty;
+        [SerializeField] private string inputNodeIdInternal;
+        [SerializeField] private string inputPortIdInternal;
+        [SerializeField] private string outputNodeIdInternal;
+        [SerializeField] private string outputPortIdInternal;
+        [NonSerialized] public bool isDirty;
 
-        public string id
+        public string inputNodeId
         {
-            get
+            get => inputNodeIdInternal;
+            set
             {
-                if (string.IsNullOrEmpty(idInternal))
-                    idInternal = GUID.Generate().ToString();
-                return idInternal;
+                if (!string.Equals(value, inputNodeIdInternal)) MarkDirty();
+                inputNodeIdInternal = value;
             }
         }
 
-        public RawEdge()
+        public string inputPortId
         {
+            get => inputPortIdInternal;
+            set
+            {
+                if (!string.Equals(value, inputPortIdInternal)) MarkDirty();
+                inputPortIdInternal = value;
+            }
         }
 
-        public RawEdge(string ingoingLinkNodeId, string outgoingLinkNodeId) : this()
+        public string outputNodeId
         {
-            this.ingoingLinkNodeId = ingoingLinkNodeId;
-            this.outgoingLinkNodeId = outgoingLinkNodeId;
+            get => outputNodeIdInternal;
+            set
+            {
+                if (!string.Equals(value, outputNodeIdInternal)) MarkDirty();
+                outputNodeIdInternal = value;
+            }
+        }
+
+        public string outputPortId
+        {
+            get => outputPortIdInternal;
+            set
+            {
+                if (!string.Equals(value, outputPortIdInternal)) MarkDirty();
+                outputPortIdInternal = value;
+            }
+        }
+
+        private void MarkDirty()
+        {
+            isDirty = true;
         }
     }
 }

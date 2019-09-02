@@ -1,6 +1,6 @@
 namespace GameGraph
 {
-    public class GraphData
+    public class Node
     {
         
     }

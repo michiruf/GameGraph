@@ -7,13 +7,13 @@ using Property = GameGraph.Annotation.PropertyAttribute;
 public class GameGraphTestScript
 {
     [Trigger] //
-    public Action a = () => Debug.LogError("A CALLED YEAH!");
+    public Action action = () => Debug.LogError("A CALLED YEAH!");
 
     [Property] //
-    public float p = 1.337f;
+    public float property = 1.337f;
 
     [Method] //
-    public void M()
+    public void Method()
     {
         Debug.LogError("M CALLED YEAH!");
     }
