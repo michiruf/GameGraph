@@ -1,10 +1,9 @@
-using GameGraph.CodeAnalysis;
 using JetBrains.Annotations;
 using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
 {
-    // TODO Should extend a ScrollView, but then the content goes down
+    // NOTE Should extend a ScrollView, but then the content goes down
     [UsedImplicitly]
     public class ToolboxEditorView : VisualElement, IGraphVisualElement
     {

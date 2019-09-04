@@ -1,19 +1,21 @@
 using System;
 using System.Reflection;
 
-namespace GameGraph.CodeAnalysis
+namespace GameGraph.Editor
 {
     public struct MethodData
     {
-        public string name;
-        public Type returnType;
-        public ParameterInfo[] parameters;
+        public readonly string name;
+        public Type returnType; // TODO Use this anyhow?
+        public ParameterInfo[] parameters; // TODO Use this anyhow?
+        public readonly MethodInfo info;
 
-        public MethodData(string name, Type returnType, ParameterInfo[] parameters)
+        public MethodData(MethodInfo info)
         {
-            this.name = name;
-            this.returnType = returnType;
-            this.parameters = parameters;
+            name = info.Name;
+            returnType = info.ReturnType;
+            parameters = info.GetParameters();
+            this.info = info;
         }
     }
 }

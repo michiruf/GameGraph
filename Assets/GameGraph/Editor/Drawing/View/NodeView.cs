@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using GameGraph.CodeAnalysis;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -91,7 +90,7 @@ namespace GameGraph.Editor
             });
 
             // Triggers
-            analysisData.triggers.ForEach(data =>
+            analysisData.events.ForEach(data =>
             {
                 outputContainer.Add(PortFactory.Create(
                     Orientation.Horizontal,

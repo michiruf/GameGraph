@@ -1,4 +1,3 @@
-using GameGraph.CodeAnalysis;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
@@ -6,13 +5,13 @@ namespace GameGraph.Editor
 {
     public class PropertyView : VisualElement
     {
-        public PropertyView(MemberData data)
+        public PropertyView(PropertyData data)
         {
             this.AddLayout(GameGraphEditorConstants.ResourcesUxmlViewPath + "/PropertyView.uxml");
 
             // Set simple data
             this.FindElementByName<Label>("name").text = data.name.PrettifyName();
-            this.FindElementByName<Label>("value").text = "VALUE NOT IMPLEMENTED";
+            this.FindElementByName<Label>("value").text = "TODO"; // TODO
 
             // Add ports
             {

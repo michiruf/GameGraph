@@ -40,7 +40,7 @@ namespace GameGraph.Editor
             isDirty = false;
         }
 
-        // TODO
+        // TODO Undo:
         //public void RegisterCompleteObjectUndo(string actionName)
         //{
         //    Undo.RegisterCompleteObjectUndo(this, actionName);

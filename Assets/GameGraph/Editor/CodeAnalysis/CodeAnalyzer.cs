@@ -1,16 +1,24 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using GameGraph.Annotation;
 using UnityEditor;
 using UnityEngine;
-using PropertyAttribute = GameGraph.Annotation.PropertyAttribute;
 
-namespace GameGraph.CodeAnalysis
+namespace GameGraph.Editor
 {
+    // TODO Add cache
+    // TODO Maybe enhance with nested exclude and includes
+    // ... @see https://stackoverflow.com/questions/540749/can-a-c-sharp-class-inherit-attributes-from-its-interface
     public static class CodeAnalyzer
     {
-        // TODO Add cache
+        public static Type GetTypeFromAllAssemblies(string name)
+        {
+            // TODO Not every class is found here. E.g. "If"-Block
+            // TODO Maybe us the assembly name to lookup the type via Type.GetType()?
+            return AppDomain.CurrentDomain.GetAssemblies()
+                .Select(assembly => assembly.GetType(name, false))
+                .FirstOrDefault(type => type != null);
+        }
 
         public static string[] GetGameGraphComponents()
         {
@@ -30,34 +38,42 @@ namespace GameGraph.CodeAnalysis
 
         public static ComponentData GetComponentData(string name)
         {
-            var type = GetTypeFromAllAssemblies(name);
-
-            // Get field depending data
-            var typeFields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
-            var properties = typeFields
-                .Where(info => info.GetCustomAttribute<PropertyAttribute>() != null)
-                .Select(info => new MemberData(info.Name, info.FieldType))
-                .ToList();
-            var triggers = typeFields
-                .Where(info => info.GetCustomAttribute<TriggerAttribute>() != null)
-                .Select(info => new MemberData(info.Name, info.FieldType))
-                .ToList();
-
-            // Get method depending data
-            var typeMethods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance);
-            var methods = typeMethods
-                .Where(info => info.GetCustomAttribute<MethodAttribute>() != null)
-                .Select(info => new MethodData(info.Name, info.ReturnType, info.GetParameters()))
-                .ToList();
-
-            return new ComponentData(properties, triggers, methods);
+            return GetComponentData(GetTypeFromAllAssemblies(name));
         }
 
-        private static Type GetTypeFromAllAssemblies(string name)
+        public static ComponentData GetComponentData(Type type)
         {
-            return AppDomain.CurrentDomain.GetAssemblies()
-                .Select(assembly => assembly.GetType(name, false))
-                .FirstOrDefault(type => type != null);
+            // Get field and property data
+            var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+                .Where(info => info.GetCustomAttribute<ExcludeFromGraphAttribute>() == null)
+                .Select(info => new PropertyData(info))
+                .ToList();
+            //var realProperties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+            //    .Where(info => info.GetCustomAttribute<ExcludeFromGraphAttribute>() == null)
+            //    .Select(info => new MemberData(info.Name, info.PropertyType, info))
+            //    .ToList();
+            // TODO Enhance with properties: .Concat(type.GetProperties(BindingFlags.Public | BindingFlags.Instance));
+
+            // Get event data
+            var events = type.GetEvents(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+                .Where(info => info.GetCustomAttribute<ExcludeFromGraphAttribute>() == null)
+                .Select(info => new EventData(info))
+                .ToList();
+            var eventMethods = events.SelectMany(data => new[]
+            {
+                data.info.AddMethod,
+                data.info.RemoveMethod
+            });
+
+            // Get method data
+            var typeMethods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            var methods = typeMethods
+                .Where(info => info.GetCustomAttribute<ExcludeFromGraphAttribute>() == null)
+                .Where(info => !eventMethods.Contains(info))
+                .Select(info => new MethodData(info))
+                .ToList();
+
+            return new ComponentData(fields, events, methods);
         }
     }
 }

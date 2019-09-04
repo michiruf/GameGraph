@@ -1,20 +1,20 @@
 using System.Collections.Generic;
 
-namespace GameGraph.CodeAnalysis
+namespace GameGraph.Editor
 {
     public struct ComponentData
     {
-        public readonly List<MemberData> properties;
-        public readonly List<MemberData> triggers;
+        public readonly List<PropertyData> properties;
+        public readonly List<EventData> events;
         public readonly List<MethodData> methods;
 
         public ComponentData(
-            List<MemberData> properties,
-            List<MemberData> triggers,
+            List<PropertyData> properties,
+            List<EventData> events,
             List<MethodData> methods)
         {
             this.properties = properties;
-            this.triggers = triggers;
+            this.events = events;
             this.methods = methods;
         }
     }

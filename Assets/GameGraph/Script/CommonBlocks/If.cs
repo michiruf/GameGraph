@@ -1,8 +1,6 @@
-using GameGraph.Annotation;
 using JetBrains.Annotations;
-using Property = GameGraph.Annotation.PropertyAttribute;
 
-namespace GameGraph.CommonBlocks
+namespace GameGraph
 {
     [GameGraph]
     [UsedImplicitly]

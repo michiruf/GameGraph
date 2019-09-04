@@ -1,0 +1,63 @@
+{
+    "serializedVersion": 98,
+    "nodes": [
+        {
+            "idInternal": "da5f7d90c683bac4baef2c5dbfb7c6ab",
+            "nameInternal": "Updater",
+            "positionInternal": {
+                "x": 189.0,
+                "y": 240.0
+            }
+        },
+        {
+            "idInternal": "bc61c895c3aba404c853caaa42d74ec1",
+            "nameInternal": "Rotator",
+            "positionInternal": {
+                "x": 458.0,
+                "y": 240.0
+            }
+        },
+        {
+            "idInternal": "4bc06337d2f05fa4b9f57e8857b61b37",
+            "nameInternal": "TestValue",
+            "positionInternal": {
+                "x": 230.0,
+                "y": 496.0
+            }
+        },
+        {
+            "idInternal": "c74f474f8753fb749b0dc6b67437b462",
+            "nameInternal": "TestMethod",
+            "positionInternal": {
+                "x": 391.0,
+                "y": 103.0
+            }
+        }
+    ],
+    "edges": [
+        {
+            "inputNodeIdInternal": "bc61c895c3aba404c853caaa42d74ec1",
+            "inputPortIdInternal": "Rotate",
+            "outputNodeIdInternal": "da5f7d90c683bac4baef2c5dbfb7c6ab",
+            "outputPortIdInternal": "update"
+        },
+        {
+            "inputNodeIdInternal": "c74f474f8753fb749b0dc6b67437b462",
+            "inputPortIdInternal": "Foo",
+            "outputNodeIdInternal": "da5f7d90c683bac4baef2c5dbfb7c6ab",
+            "outputPortIdInternal": "update"
+        },
+        {
+            "inputNodeIdInternal": "bc61c895c3aba404c853caaa42d74ec1",
+            "inputPortIdInternal": "deltaTime",
+            "outputNodeIdInternal": "da5f7d90c683bac4baef2c5dbfb7c6ab",
+            "outputPortIdInternal": "deltaTime"
+        },
+        {
+            "inputNodeIdInternal": "bc61c895c3aba404c853caaa42d74ec1",
+            "inputPortIdInternal": "rotationSpeed",
+            "outputNodeIdInternal": "4bc06337d2f05fa4b9f57e8857b61b37",
+            "outputPortIdInternal": "value"
+        }
+    ]
+}

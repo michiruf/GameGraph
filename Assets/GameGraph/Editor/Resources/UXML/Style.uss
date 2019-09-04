@@ -1,3 +1,4 @@
+/* DEBUGGING */
 /*#root * {*/
 /*    border-width: 1;*/
 /*    border-color: #f00;*/
@@ -91,8 +92,10 @@ PropertyView {
 MemberView #contentContainer,
 MethodView #contentContainer,
 PropertyView #contentContainer {
-    min-width: 150;
-    padding: 5;
+    /* Was before: */
+    /*min-width: 150;*/
+    /*padding: 5*/
+    padding: 5 15 5 10;
 }
 
 
