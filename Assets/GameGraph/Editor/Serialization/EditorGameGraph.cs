@@ -5,12 +5,14 @@ using UnityEngine;
 
 namespace GameGraph.Editor
 {
+    // TODO Maybe add the viewport dimensions
+    
     [Serializable]
-    public class RawGameGraph : ISerializationCallbackReceiver
+    public class EditorGameGraph : ISerializationCallbackReceiver
     {
         [SerializeField] private int serializedVersion;
-        public List<RawNode> nodes = new List<RawNode>();
-        public List<RawEdge> edges = new List<RawEdge>();
+        public List<EditorNode> nodes = new List<EditorNode>();
+        public List<EditorEdge> edges = new List<EditorEdge>();
         private bool isDirtyInternal;
 
         public bool isDirty

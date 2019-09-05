@@ -5,11 +5,11 @@ namespace GameGraph.Editor
     public class NodeAddEvent : ITinyMessage
     {
         public object Sender { get; }
-        public readonly string name;
+        public readonly TypeData typeData;
 
-        public NodeAddEvent(string name)
+        public NodeAddEvent(TypeData typeData)
         {
-            this.name = name;
+            this.typeData = typeData;
         }
     }
 }

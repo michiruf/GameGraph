@@ -6,16 +6,15 @@ namespace GameGraph.Editor
 {
     public static class GraphTransformExtension
     {
-        public static GraphObject ToExecutableGraph(this RawGameGraph rawGraph)
+        public static GraphObject ToExecutableGraph(this EditorGameGraph editorGraph)
         {
             var graphObject = ScriptableObject.CreateInstance<GraphObject>();
 
-            var preprocess = rawGraph.nodes
-                .ToDictionary(rawNode => rawNode.id, rawNode =>
+            var preprocess = editorGraph.nodes
+                .ToDictionary(editorNode => editorNode.id, editorNode =>
                 {
-                    var analysisType = CodeAnalyzer.GetTypeFromAllAssemblies(rawNode.name);
-                    var analysisData = CodeAnalyzer.GetComponentData(analysisType);
-                    var node = new Node {classType = analysisType};
+                    var analysisData = CodeAnalyzer.GetBlockData(editorNode.typeAssemblyQualifiedName);
+                    var node = new Node {classType = analysisData.typeData.type};
                     return Tuple.Create(analysisData, node);
                 });
 
@@ -23,27 +22,27 @@ namespace GameGraph.Editor
             {
                 var (inputAnalysisData, node) = pair.Value;
 
-                var edgesToNode = rawGraph.edges
-                    .Where(rawEdge => rawEdge.inputNodeId.Equals(pair.Key))
+                var edgesToNode = editorGraph.edges
+                    .Where(editorEdge => editorEdge.inputNodeId.Equals(pair.Key))
                     .ToList();
 
                 node.propertyAdapters = edgesToNode
-                    .Select(rawEdge => Tuple.Create(
-                        rawEdge.outputNodeId,
-                        preprocess[rawEdge.outputNodeId]?.Item1.properties?
-                            .FirstOrDefault(data => data.name.Equals(rawEdge.outputPortId)),
-                        inputAnalysisData.properties?.FirstOrDefault(data => data.name.Equals(rawEdge.inputPortId))
+                    .Select(editorEdge => Tuple.Create(
+                        editorEdge.outputNodeId,
+                        preprocess[editorEdge.outputNodeId]?.Item1.fields?
+                            .FirstOrDefault(data => data.name.Equals(editorEdge.outputPortId)),
+                        inputAnalysisData.fields?.FirstOrDefault(data => data.name.Equals(editorEdge.inputPortId))
                     ))
                     .Where(tuple => tuple.Item2?.info != null && tuple.Item3?.info != null)
                     .Select(tuple => new PropertyAdapter(tuple.Item1, tuple.Item2?.info, tuple.Item3?.info))
                     .ToList();
 
                 node.executionAdapters = edgesToNode
-                    .Select(rawEdge => Tuple.Create(
-                        rawEdge.outputNodeId,
-                        preprocess[rawEdge.outputNodeId]?.Item1.events?
-                            .FirstOrDefault(data => data.name.Equals(rawEdge.outputPortId)),
-                        inputAnalysisData.methods?.FirstOrDefault(data => data.name.Equals(rawEdge.inputPortId))
+                    .Select(editorEdge => Tuple.Create(
+                        editorEdge.outputNodeId,
+                        preprocess[editorEdge.outputNodeId]?.Item1.events?
+                            .FirstOrDefault(data => data.name.Equals(editorEdge.outputPortId)),
+                        inputAnalysisData.methods?.FirstOrDefault(data => data.name.Equals(editorEdge.inputPortId))
                     ))
                     .Where(tuple => tuple.Item2?.info != null && tuple.Item3?.info != null)
                     .Select(tuple => new ExecutionAdapter(tuple.Item1, tuple.Item2?.info, tuple.Item3?.info))

@@ -6,10 +6,13 @@ using UnityEngine;
 namespace GameGraph.Editor
 {
     [Serializable]
-    public class RawNode
+    public class EditorNode
     {
         [SerializeField] private string idInternal;
         [SerializeField] private string nameInternal;
+        [SerializeField] private string typeAssemblyQualifiedNameInternal;
+        public bool instanceNameActive;
+        [SerializeField] private string instanceNameInternal;
         [SerializeField] private Vector2 positionInternal;
         [NonSerialized] public bool isDirty;
 
@@ -23,7 +26,19 @@ namespace GameGraph.Editor
             }
         }
 
-        public string name => nameInternal;
+        public string name => nameInternal.PrettifyName();
+
+        public string typeAssemblyQualifiedName => typeAssemblyQualifiedNameInternal;
+
+        public string instanceName
+        {
+            get => instanceNameInternal;
+            set
+            {
+                if (!string.Equals(value, instanceNameInternal)) MarkDirty();
+                instanceNameInternal = value;
+            }
+        }
 
         public Vector2 position
         {
@@ -35,9 +50,11 @@ namespace GameGraph.Editor
             }
         }
 
-        public RawNode(string name)
+        public EditorNode(TypeData data)
         {
-            nameInternal = name;
+            nameInternal = data.name;
+            typeAssemblyQualifiedNameInternal = data.assemblyQualifiedName;
+            isDirty = true;
         }
 
         private void MarkDirty()

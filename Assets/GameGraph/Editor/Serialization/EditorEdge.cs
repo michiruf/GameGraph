@@ -4,7 +4,7 @@ using UnityEngine;
 namespace GameGraph.Editor
 {
     [Serializable]
-    public class RawEdge
+    public class EditorEdge
     {
         [SerializeField] private string inputNodeIdInternal;
         [SerializeField] private string inputPortIdInternal;

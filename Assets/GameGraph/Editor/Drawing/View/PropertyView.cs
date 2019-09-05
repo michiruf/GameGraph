@@ -1,3 +1,4 @@
+using System.Reflection;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
@@ -5,7 +6,7 @@ namespace GameGraph.Editor
 {
     public class PropertyView : VisualElement
     {
-        public PropertyView(PropertyData data)
+        public PropertyView(MemberData<FieldInfo> data)
         {
             this.AddLayout(GameGraphEditorConstants.ResourcesUxmlViewPath + "/PropertyView.uxml");
 
@@ -19,7 +20,7 @@ namespace GameGraph.Editor
                     Orientation.Horizontal,
                     Direction.Input,
                     Port.Capacity.Single,
-                    data.type,
+                    data.info.FieldType,
                     data.name,
                     false);
                 var container = this.FindElementByName<VisualElement>("ingoingPortContainer");
@@ -31,7 +32,7 @@ namespace GameGraph.Editor
                     Orientation.Horizontal,
                     Direction.Output,
                     Port.Capacity.Single,
-                    data.type,
+                    data.info.FieldType,
                     data.name,
                     false);
                 var container = this.FindElementByName<VisualElement>("outgoingPortContainer");

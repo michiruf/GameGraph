@@ -12,15 +12,15 @@ namespace GameGraph.Editor
             this.AddLayout(GameGraphEditorConstants.ResourcesUxmlLayoutPath + "/ToolboxEditorView.uxml");
         }
 
-        public void Initialize(RawGameGraph graph)
+        public void Initialize(EditorGameGraph graph)
         {
             var container = this.FindElementByName<VisualElement>("container");
             var graphEventHandler = GraphEventHandler.Get(graph);
 
-            foreach (var gameGraphComponent in CodeAnalyzer.GetGameGraphComponents())
+            foreach (var gameGraphComponent in CodeAnalyzer.GetBlockTypes())
             {
                 var button = new Button();
-                button.text = gameGraphComponent.PrettifyName();
+                button.text = gameGraphComponent.name.PrettifyName();
                 button.clickable.clicked += () => graphEventHandler.Publish(new NodeAddEvent(gameGraphComponent));
                 container.Add(button);
             }

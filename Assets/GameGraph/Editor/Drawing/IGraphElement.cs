@@ -2,7 +2,7 @@ namespace GameGraph.Editor
 {
     public interface IGraphElement
     {
-        RawGameGraph graph { set; }
+        EditorGameGraph graph { set; }
         void PersistState();
         void RemoveState();
     }

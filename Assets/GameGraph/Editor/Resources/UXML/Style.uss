@@ -1,11 +1,11 @@
 /* DEBUGGING */
-/*#root * {*/
-/*    border-width: 1;*/
-/*    border-color: #f00;*/
-/*}*/
+/*#root * {
+    border-width: 1;
+    border-color: #f00;
+}
 #root .debug {
     background-color: #f0f;
-}
+}*/
 
 /***********************************************************/
 /* General layout definitions                              */
@@ -33,6 +33,10 @@
     margin: 5 0;
     border-top-width: 1;
     border-color: #2a2a2a;
+}
+
+.hidden {
+    display: none;
 }
 
 /***********************************************************/
@@ -73,13 +77,34 @@ MiniMap {
 /***********************************************************/
 /* Node                                                    */
 /***********************************************************/
+NodeView #title {
+    height: auto;
+    flex-direction: column;
+}
+
+NodeView #instanceNameToggle {
+    position: absolute;
+    top: 6;
+    right: 5;
+}
+
+NodeView #instanceNameContainer {
+    flex-direction: row;
+    margin: 0 7 5;
+}
+
+NodeView #instanceName {
+    flex: 1;
+    margin-left: 8;
+}
+
 NodeView #extension {
     background-color: rgba(39, 39, 39, 0.9);
 }
 
 NodeView .node-slicer {
     border-top-width: 1;
-    border-color: rgba(255, 255, 255, 0.02); /* was rgba(42, 42, 42, 0.9) */
+    border-color: rgba(255, 255, 255, 0.02);
 }
 
 MemberView,
@@ -89,24 +114,8 @@ PropertyView {
     flex-direction: row;
 }
 
-MemberView #contentContainer,
-MethodView #contentContainer,
 PropertyView #contentContainer {
-    /* Was before: */
-    /*min-width: 150;*/
-    /*padding: 5*/
     padding: 5 15 5 10;
-}
-
-
-MemberView #ingoingPortContainer,
-MethodView #ingoingPortContainer,
-MemberView #outgoingPortContainer,
-MethodView #outgoingPortContainer {
-    min-width: 100;
-    margin: 1 0;
-    padding: 4 0;
-    justify-content: center;
 }
 
 PropertyView #ingoingPortContainer,
@@ -116,11 +125,7 @@ PropertyView #outgoingPortContainer {
     justify-content: center;
 }
 
-MemberView #ingoingPortContainer.exists,
-MemberView #outgoingPortContainer.exists,
-MethodView #ingoingPortContainer.exists,
-MethodView #outgoingPortContainer.exists,
 PropertyView #ingoingPortContainer.exists,
 PropertyView #outgoingPortContainer.exists {
-    background-color: rgba(255, 255, 255, 0.02); /* was rgba(42, 42, 42, 0.9) */
+    background-color: rgba(255, 255, 255, 0.02);
 }

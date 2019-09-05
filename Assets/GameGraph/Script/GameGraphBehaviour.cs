@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace GameGraph
 {
+    // TODO Add Inspector button to open the graph from here
     public class GameGraphBehaviour : MonoBehaviour
     {
         public GraphObject graph;

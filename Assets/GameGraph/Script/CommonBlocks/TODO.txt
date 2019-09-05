@@ -1,1 +1,0 @@
-All these classes are not respected by the CodeAnalysis.. fix this

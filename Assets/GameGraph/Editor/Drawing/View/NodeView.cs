@@ -8,37 +8,38 @@ namespace GameGraph.Editor
 {
     public class NodeView : UnityEditor.Experimental.GraphView.Node, IGraphElement
     {
-        public RawGameGraph graph { private get; set; }
-        public RawNode node { get; private set; }
+        public EditorGameGraph graph { private get; set; }
+        public EditorNode node { get; private set; }
 
-        public void Initialize(RawNode node)
+        public void Initialize(EditorNode node)
         {
             this.node = node;
             Initialize();
         }
 
-        public void Initialize(string name)
+        public void Initialize(TypeData typeData)
         {
-            Initialize(new RawNode(name));
+            Initialize(new EditorNode(typeData));
         }
 
         private void Initialize()
         {
+            // Use the name as if it would be an id, because this only makes sense
             name = node.id;
-            title = node.name.PrettifyName();
+            title = node.name;
             SetPosition(new Rect(node.position, Vector2.zero));
-            SetAlwaysExpanded();
             RegisterDragging();
+            SetAlwaysExpanded();
 
-            var analysisData = CodeAnalyzer.GetComponentData(node.name);
-            CreateFields(analysisData);
+            CreateInstanceNameField();
+            CreateFields(CodeAnalyzer.GetBlockData(node.typeAssemblyQualifiedName));
             // NOTE May fix this: For any reason if there is just one element the layout is misbehaving
             extensionContainer.Add(new VisualElement());
             RefreshExpandedState();
 
             // NOTE Handle the move event manually, because it does not get triggered in
             // GraphEditorView.graphViewChanged event listeners
-            // The current solution is pretty slow and should cause with much nodes lags
+            // The current solution is pretty slow and should cause lags when there exist more nodes
             RegisterCallback<MouseMoveEvent>(evt =>
             {
                 GetFirstAncestorOfType<GraphEditorView>()
@@ -60,23 +61,30 @@ namespace GameGraph.Editor
             graph.nodes.Remove(node);
         }
 
-        private void SetAlwaysExpanded()
-        {
-            expanded = true;
-            var collapseButton = this.FindElementByName<VisualElement>("collapse-button");
-            collapseButton.GetFirstAncestorOfType<VisualElement>().Remove(collapseButton);
-        }
-
         private void RegisterDragging()
         {
             var d = new Dragger();
             d.target = this;
         }
 
-        private void CreateFields(ComponentData analysisData)
+        private void SetAlwaysExpanded()
+        {
+            expanded = true;
+            m_CollapseButton.parent.Remove(m_CollapseButton);
+        }
+
+        private void CreateInstanceNameField()
+        {
+            var instanceNameContainer = new NodeViewInstanceNameContainer();
+            instanceNameContainer.Initialize(node);
+            titleContainer.Add(instanceNameContainer);
+            mainContainer.Add(instanceNameContainer.CreatToggle());
+        }
+
+        private void CreateFields(BlockData analysisData)
         {
             // Properties
-            analysisData.properties.ForEach(data => extensionContainer.Add(new PropertyView(data)));
+            analysisData.fields.ForEach(data => extensionContainer.Add(new PropertyView(data)));
 
             // Methods
             analysisData.methods.ForEach(data =>

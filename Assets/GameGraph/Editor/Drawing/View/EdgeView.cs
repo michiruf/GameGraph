@@ -5,10 +5,10 @@ namespace GameGraph.Editor
 {
     public class EdgeView : Edge, IGraphElement
     {
-        public RawGameGraph graph { private get; set; }
-        private RawEdge edge;
+        public EditorGameGraph graph { private get; set; }
+        private EditorEdge edge;
 
-        public void Initialize(RawEdge edge)
+        public void Initialize(EditorEdge edge)
         {
             this.edge = edge;
             LinkPorts();
@@ -46,7 +46,7 @@ namespace GameGraph.Editor
         public void PersistState()
         {
             if (edge == null)
-                edge = new RawEdge();
+                edge = new EditorEdge();
 
             edge.inputNodeId = input?.node?.name;
             edge.inputPortId = input?.name;

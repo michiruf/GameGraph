@@ -9,9 +9,9 @@ namespace GameGraph.Editor
     [UsedImplicitly]
     public class GraphEditorView : GraphView, IGraphVisualElement
     {
-        private RawGameGraph graph;
+        private EditorGameGraph graph;
 
-        public void Initialize(RawGameGraph graph)
+        public void Initialize(EditorGameGraph graph)
         {
             this.graph = graph;
             
@@ -51,7 +51,7 @@ namespace GameGraph.Editor
             {
                 var nodeView = new NodeView();
                 AddGraphElement(nodeView);
-                nodeView.Initialize(e.name);
+                nodeView.Initialize(e.typeData);
             });
         }
 

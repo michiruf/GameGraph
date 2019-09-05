@@ -15,7 +15,7 @@ namespace GameGraph.Editor
         public string assetGuid => assetGuidInternal;
         [SerializeField] private bool initialized;
 
-        private RawGameGraph graph;
+        private EditorGameGraph graph;
 
         public void Initialize(string assetGuid)
         {
@@ -74,7 +74,7 @@ namespace GameGraph.Editor
         {
             var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
             var graphText = File.ReadAllText(assetPath);
-            graph = JsonUtility.FromJson<RawGameGraph>(graphText);
+            graph = JsonUtility.FromJson<EditorGameGraph>(graphText);
         }
 
         private void SaveGraph()
