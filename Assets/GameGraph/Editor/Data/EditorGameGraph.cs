@@ -6,11 +6,12 @@ using UnityEngine;
 namespace GameGraph.Editor
 {
     // TODO Maybe add the viewport dimensions
-    
+
     [Serializable]
     public class EditorGameGraph : ISerializationCallbackReceiver
     {
         [SerializeField] private int serializedVersion;
+        public List<EditorParameter> parameters = new List<EditorParameter>();
         public List<EditorNode> nodes = new List<EditorNode>();
         public List<EditorEdge> edges = new List<EditorEdge>();
         private bool isDirtyInternal;
@@ -20,17 +21,19 @@ namespace GameGraph.Editor
             get
             {
                 return isDirtyInternal ||
+                       parameters.Aggregate(false, (b, parameter) => b || parameter.isDirty) ||
                        nodes.Aggregate(false, (b, node) => b || node.isDirty) ||
                        edges.Aggregate(false, (b, edge) => b || edge.isDirty);
             }
             set
             {
                 isDirtyInternal = value;
+                parameters.ForEach(parameter => parameter.isDirty = value);
                 nodes.ForEach(node => node.isDirty = value);
                 edges.ForEach(edge => edge.isDirty = value);
             }
         }
-        
+
         public void OnBeforeSerialize()
         {
             serializedVersion++;
@@ -42,6 +45,8 @@ namespace GameGraph.Editor
             isDirty = false;
         }
 
+        // TODO For undo use a simple chained list (non-serialized)?!
+        // TODO ... Since this is all serializable that should work pretty well!
         // TODO Undo:
         //public void RegisterCompleteObjectUndo(string actionName)
         //{

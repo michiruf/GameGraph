@@ -1,28 +1,6 @@
 {
-    "serializedVersion": 10,
-    "nodes": [
-        {
-            "idInternal": "a902e4943136deb4a9853da88e726d41",
-            "nameInternal": "Updater",
-            "typeAssemblyQualifiedNameInternal": "Updater, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
-            "instanceNameActive": true,
-            "instanceNameInternal": "",
-            "positionInternal": {
-                "x": 134.0,
-                "y": 159.0
-            }
-        },
-        {
-            "idInternal": "3acc4364b81a68a40b279d1cd691fab3",
-            "nameInternal": "Updater",
-            "typeAssemblyQualifiedNameInternal": "Updater, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
-            "instanceNameActive": false,
-            "instanceNameInternal": "",
-            "positionInternal": {
-                "x": 369.0,
-                "y": 203.0
-            }
-        }
-    ],
+    "serializedVersion": 8,
+    "parameters": [],
+    "nodes": [],
     "edges": []
 }

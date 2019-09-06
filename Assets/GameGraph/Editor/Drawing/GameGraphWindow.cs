@@ -1,11 +1,9 @@
-using System;
 using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Object = UnityEngine.Object;
 
 namespace GameGraph.Editor
 {
@@ -89,12 +87,12 @@ namespace GameGraph.Editor
 
         private void RegisterSaveButton()
         {
-            rootVisualElement.FindElementByName<ToolbarButton>("save").clickable.clicked += SaveGraph;
+            rootVisualElement.Q<ToolbarButton>("save").clickable.clicked += SaveGraph;
         }
 
         private void RegisterReopenButton()
         {
-            rootVisualElement.FindElementByName<ToolbarButton>("reopen").clickable.clicked += () =>
+            rootVisualElement.Q<ToolbarButton>("reopen").clickable.clicked += () =>
             {
                 Close();
                 var window = CreateInstance<GameGraphWindow>();
@@ -105,10 +103,12 @@ namespace GameGraph.Editor
 
         private void DistributeGraphAndInitializeChildren(VisualElement element = null)
         {
+            // TODO May use a query here as well?
+
             if (element == null)
                 element = rootVisualElement;
             if (element is IGraphVisualElement c)
-                c.Initialize(graph);
+                c.Initialize(titleContent.text, graph, this);
 
             element.Children().ToList().ForEach(DistributeGraphAndInitializeChildren);
         }

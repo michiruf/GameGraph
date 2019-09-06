@@ -2,6 +2,6 @@ namespace GameGraph.Editor
 {
     public interface IGraphVisualElement
     {
-        void Initialize(EditorGameGraph graph);
+        void Initialize(string graphName, EditorGameGraph graph, GameGraphWindow window);
     }
 }

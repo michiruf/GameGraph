@@ -13,7 +13,7 @@ namespace GameGraph.Editor
             ProjectWindowUtil.StartNameEditingIfProjectWindowExists(
                 0,
                 CreateInstance<CreateGameGraph>(),
-                "New Game Graph." + GameGraphEditorConstants.Extension,
+                "New Game Graph." + GameGraphEditorConstants.FileExtension,
                 null,
                 null);
         }

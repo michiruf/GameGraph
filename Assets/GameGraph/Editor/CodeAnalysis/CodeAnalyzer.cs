@@ -6,11 +6,9 @@ using UnityEditor;
 
 namespace GameGraph.Editor
 {
-    // TODO Maybe enhance with nested exclude and includes
-    // TODO ... @see https://stackoverflow.com/questions/540749/can-a-c-sharp-class-inherit-attributes-from-its-interface
     public static class CodeAnalyzer
     {
-        public static IEnumerable<TypeData> GetBlockTypes()
+        public static IEnumerable<TypeData> GetNodeTypes()
         {
             // NOTE Query via AssetDatabase.FindAssets() to have more performance? 
             // E.g. AssetDatabase.FindAssets("t:MonoScript", new []{"Assets"});
@@ -23,13 +21,26 @@ namespace GameGraph.Editor
                 .Select(type => new TypeData(type));
         }
 
-        public static BlockData GetBlockData(string assemblyQualifiedName)
+        public static IEnumerable<TypeData> GetNonNodeTypes()
         {
-            return GetBlockData(Type.GetType(assemblyQualifiedName));
+            return AssetDatabase.GetAllAssetPaths()
+                .Select(s => AssetDatabase.LoadMainAssetAtPath(s) as MonoScript)
+                .Where(script => script != null)
+                .Select(script => script.GetClass())
+                .Where(type => type?.GetCustomAttribute<GameGraphAttribute>() != null)
+                .Select(type => new TypeData(type));
         }
 
-        public static BlockData GetBlockData(Type type)
+        public static BlockData GetNodeData(string assemblyQualifiedName)
         {
+            return GetNodeData(Type.GetType(assemblyQualifiedName));
+        }
+
+        public static BlockData GetNodeData(Type type)
+        {
+            // NOTE Maybe enhance with nested exclude and includes
+            // NOTE ... @see https://stackoverflow.com/questions/540749/can-a-c-sharp-class-inherit-attributes-from-its-interface
+
             // Get field and property data
             var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
                 .Where(info => info.GetCustomAttribute<ExcludeFromGraphAttribute>() == null)
@@ -60,13 +71,6 @@ namespace GameGraph.Editor
                 .ToList();
 
             return new BlockData(new TypeData(type), fields, properties, events, methods);
-        }
-
-        private static Type GetTypeFromAllAssemblies(string name)
-        {
-            return AppDomain.CurrentDomain.GetAssemblies()
-                .Select(assembly => assembly.GetType(name, false))
-                .FirstOrDefault(type => type != null);
         }
     }
 }

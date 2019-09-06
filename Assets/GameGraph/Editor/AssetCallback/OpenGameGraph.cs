@@ -10,16 +10,9 @@ namespace GameGraph.Editor
     [CustomEditor(typeof(GameGraphImporter))]
     public class OpenGameGraphEditor : ScriptedImporterEditor
     {
-        [OnOpenAsset(0)]
-        public static bool OnOpenAsset(int instanceId, int line)
-        {
-            var path = AssetDatabase.GetAssetPath(instanceId);
-            return ShowGraphEditWindow(path);
-        }
-
         public override void OnInspectorGUI()
         {
-            if (!GUILayout.Button("Open Editor"))
+            if (!GUILayout.Button(GameGraphEditorConstants.OpenEditorText))
                 return;
 
             var importer = target as AssetImporter;
@@ -27,10 +20,17 @@ namespace GameGraph.Editor
             ShowGraphEditWindow(importer.assetPath);
         }
 
-        private static bool ShowGraphEditWindow(string path)
+        [OnOpenAsset(0)]
+        public static bool OnOpenAsset(int instanceId, int line)
+        {
+            var path = AssetDatabase.GetAssetPath(instanceId);
+            return ShowGraphEditWindow(path);
+        }
+
+        public static bool ShowGraphEditWindow(string path)
         {
             var extension = Path.GetExtension(path);
-            if (extension != "." + GameGraphEditorConstants.Extension)
+            if (extension != "." + GameGraphEditorConstants.FileExtension)
                 return false;
 
             var guid = AssetDatabase.AssetPathToGUID(path);

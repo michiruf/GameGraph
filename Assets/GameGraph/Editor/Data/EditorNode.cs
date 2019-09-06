@@ -9,10 +9,9 @@ namespace GameGraph.Editor
     public class EditorNode
     {
         [SerializeField] private string idInternal;
-        [SerializeField] private string nameInternal;
+        [SerializeField] private string typeNameInternal;
         [SerializeField] private string typeAssemblyQualifiedNameInternal;
-        public bool instanceNameActive;
-        [SerializeField] private string instanceNameInternal;
+        public bool isInstanced; // TODO Handle this anyhow (-> by id!)
         [SerializeField] private Vector2 positionInternal;
         [NonSerialized] public bool isDirty;
 
@@ -26,19 +25,9 @@ namespace GameGraph.Editor
             }
         }
 
-        public string name => nameInternal.PrettifyName();
+        public string typeName => typeNameInternal.PrettifyName();
 
         public string typeAssemblyQualifiedName => typeAssemblyQualifiedNameInternal;
-
-        public string instanceName
-        {
-            get => instanceNameInternal;
-            set
-            {
-                if (!string.Equals(value, instanceNameInternal)) MarkDirty();
-                instanceNameInternal = value;
-            }
-        }
 
         public Vector2 position
         {
@@ -52,7 +41,7 @@ namespace GameGraph.Editor
 
         public EditorNode(TypeData data)
         {
-            nameInternal = data.name;
+            typeNameInternal = data.name;
             typeAssemblyQualifiedNameInternal = data.assemblyQualifiedName;
             isDirty = true;
         }

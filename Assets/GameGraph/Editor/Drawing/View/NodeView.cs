@@ -6,10 +6,11 @@ using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
 {
+    // TODO Color instanced/provided nodes differently
     public class NodeView : UnityEditor.Experimental.GraphView.Node, IGraphElement
     {
         public EditorGameGraph graph { private get; set; }
-        public EditorNode node { get; private set; }
+        private EditorNode node;
 
         public void Initialize(EditorNode node)
         {
@@ -17,22 +18,22 @@ namespace GameGraph.Editor
             Initialize();
         }
 
-        public void Initialize(TypeData typeData)
+        public void Initialize(TypeData typeData, Vector2 position)
         {
             Initialize(new EditorNode(typeData));
+            SetPosition(new Rect(position, Vector2.zero));
         }
 
         private void Initialize()
         {
             // Use the name as if it would be an id, because this only makes sense
             name = node.id;
-            title = node.name;
+            title = node.typeName;
             SetPosition(new Rect(node.position, Vector2.zero));
             RegisterDragging();
             SetAlwaysExpanded();
 
-            CreateInstanceNameField();
-            CreateFields(CodeAnalyzer.GetBlockData(node.typeAssemblyQualifiedName));
+            CreateFields(CodeAnalyzer.GetNodeData(node.typeAssemblyQualifiedName));
             // NOTE May fix this: For any reason if there is just one element the layout is misbehaving
             extensionContainer.Add(new VisualElement());
             RefreshExpandedState();
@@ -71,14 +72,6 @@ namespace GameGraph.Editor
         {
             expanded = true;
             m_CollapseButton.parent.Remove(m_CollapseButton);
-        }
-
-        private void CreateInstanceNameField()
-        {
-            var instanceNameContainer = new NodeViewInstanceNameContainer();
-            instanceNameContainer.Initialize(node);
-            titleContainer.Add(instanceNameContainer);
-            mainContainer.Add(instanceNameContainer.CreatToggle());
         }
 
         private void CreateFields(BlockData analysisData)

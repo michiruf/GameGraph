@@ -1,11 +1,14 @@
-/* DEBUGGING */
-/*#root * {
+/* DEBUGGING; NOTE: Remove on release */
+.debug {
+    border-width: 1;
+    border-color: #f0f;
+}
+
+.debug * {
     border-width: 1;
     border-color: #f00;
 }
-#root .debug {
-    background-color: #f0f;
-}*/
+
 
 /***********************************************************/
 /* General layout definitions                              */
@@ -44,60 +47,42 @@
 /***********************************************************/
 Toolbar {
     justify-content: space-between;
-    /* TODO Not working yet */
-    color: #f00;
-    background-color: #303030;
-}
-
-/***********************************************************/
-/* Toolbox Editor View                                     */
-/***********************************************************/
-ToolboxEditorView {
-    width: 250;
-    padding: 10;
-    background-color: #303030;
 }
 
 /***********************************************************/
 /* Graph Editor View                                       */
 /***********************************************************/
 GraphEditorView {
-    min-width: 200;
-    padding: 10;
-    flex: 1 0;
+    flex: 1;
     background-color: #202020;
 }
 
-/* TODO May re-add the mini map or remove this */
-MiniMap {
+/***********************************************************/
+/* Graph Blackboard                                        */
+/***********************************************************/
+ParameterEditorView {
+    width: 250;
+    background-color: #303030;
+}
+
+ParameterEditorView #contentContainer {
+    margin: 5;
+}
+
+/***********************************************************/
+/* Graph MiniMap                                           */
+/***********************************************************/
+MiniMapEditorView {
     width: 100;
     height: 100;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 /***********************************************************/
 /* Node                                                    */
 /***********************************************************/
-NodeView #title {
-    height: auto;
-    flex-direction: column;
-}
-
-NodeView #instanceNameToggle {
-    position: absolute;
-    top: 6;
-    right: 5;
-}
-
-NodeView #instanceNameContainer {
-    flex-direction: row;
-    margin: 0 7 5;
-}
-
-NodeView #instanceName {
-    flex: 1;
-    margin-left: 8;
-}
-
 NodeView #extension {
     background-color: rgba(39, 39, 39, 0.9);
 }
@@ -107,8 +92,6 @@ NodeView .node-slicer {
     border-color: rgba(255, 255, 255, 0.02);
 }
 
-MemberView,
-MethodView,
 PropertyView {
     flex: 1;
     flex-direction: row;

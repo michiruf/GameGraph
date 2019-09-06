@@ -8,16 +8,12 @@
          xmlns:ue="UnityEditor.UIElements"
          xmlns:gg="GameGraph.Editor">
 
-    <!-- NOTE This root element is unnecessary, but to have the name root for debug purposes, just leave it for now -->
-    <!--<ui:VisualElement name="root" class="flex">-->
-        <ue:Toolbar>
-            <ue:ToolbarButton name="save" text="Save"/>
-            <ue:ToolbarButton name="reopen" text="Reopen"/>
-        </ue:Toolbar>
-        <ui:VisualElement class="flex horizontal">
-            <!-- TODO This is currently not a scroll view -->
-            <gg:ToolboxEditorView show-vertical-scroller="true"/>
-            <gg:GraphEditorView/>
-        </ui:VisualElement>
-    <!--</ui:VisualElement>-->
+    <ue:Toolbar>
+        <ue:ToolbarButton name="save" text="Save"/>
+        <ue:ToolbarButton name="reopen" text="Reopen"/>
+    </ue:Toolbar>
+    <gg:GraphEditorView>
+        <gg:ParameterEditorView/>
+        <gg:MiniMapEditorView/>
+    </gg:GraphEditorView>
 </ui:UXML>

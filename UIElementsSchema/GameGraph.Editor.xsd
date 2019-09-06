@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:editor="UnityEditor.UIElements" xmlns:engine="UnityEngine.UIElements" xmlns="UnityEditor.PackageManager.UI" elementFormDefault="qualified" targetNamespace="GameGraph.Editor" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:editor="UnityEditor.UIElements" xmlns:engine="UnityEngine.UIElements" xmlns="UnityEditor.Experimental.GraphView" elementFormDefault="qualified" targetNamespace="GameGraph.Editor" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="UnityEngine.UIElements.xsd" namespace="UnityEngine.UIElements" />
   <xs:complexType name="GraphEditorViewType">
     <xs:complexContent mixed="false">
@@ -18,14 +18,7 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="GraphEditorView" substitutionGroup="engine:VisualElement" xmlns:q1="GameGraph.Editor" type="q1:GraphEditorViewType" />
-  <xs:simpleType name="ToolboxEditorView_mode_Type">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Vertical" />
-      <xs:enumeration value="Horizontal" />
-      <xs:enumeration value="VerticalAndHorizontal" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:complexType name="ToolboxEditorViewType">
+  <xs:complexType name="MiniMapEditorViewType">
     <xs:complexContent mixed="false">
       <xs:restriction base="engine:VisualElementType">
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
@@ -37,14 +30,26 @@
         <xs:attribute default="" name="tooltip" type="xs:string" use="optional" />
         <xs:attribute default="0" name="tabindex" type="xs:int" use="optional" />
         <xs:attribute default="false" name="focusable" type="xs:boolean" use="optional" />
-        <xs:attribute default="Vertical" name="mode" xmlns:q2="GameGraph.Editor" type="q2:ToolboxEditorView_mode_Type" use="optional" />
-        <xs:attribute default="false" name="show-horizontal-scroller" type="xs:boolean" use="optional" />
-        <xs:attribute default="false" name="show-vertical-scroller" type="xs:boolean" use="optional" />
-        <xs:attribute default="20" name="horizontal-page-size" type="xs:float" use="optional" />
-        <xs:attribute default="20" name="vertical-page-size" type="xs:float" use="optional" />
         <xs:anyAttribute processContents="lax" />
       </xs:restriction>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="ToolboxEditorView" substitutionGroup="engine:VisualElement" xmlns:q3="GameGraph.Editor" type="q3:ToolboxEditorViewType" />
+  <xs:element name="MiniMapEditorView" substitutionGroup="engine:VisualElement" xmlns:q2="GameGraph.Editor" type="q2:MiniMapEditorViewType" />
+  <xs:complexType name="ParameterEditorViewType">
+    <xs:complexContent mixed="false">
+      <xs:restriction base="engine:VisualElementType">
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="engine:VisualElement" />
+        </xs:sequence>
+        <xs:attribute default="" name="name" type="xs:string" use="optional" />
+        <xs:attribute default="" name="view-data-key" type="xs:string" use="optional" />
+        <xs:attribute default="Position" name="picking-mode" type="engine:VisualElement_picking-mode_Type" use="optional" />
+        <xs:attribute default="" name="tooltip" type="xs:string" use="optional" />
+        <xs:attribute default="0" name="tabindex" type="xs:int" use="optional" />
+        <xs:attribute default="false" name="focusable" type="xs:boolean" use="optional" />
+        <xs:anyAttribute processContents="lax" />
+      </xs:restriction>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ParameterEditorView" substitutionGroup="engine:VisualElement" xmlns:q3="GameGraph.Editor" type="q3:ParameterEditorViewType" />
 </xs:schema>

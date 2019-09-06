@@ -1,0 +1,1 @@
+Merge the Type from the Editor's Data representation into here to have it more easy to serialize stuff (instead of having fields for each thing in the Editor's Data)

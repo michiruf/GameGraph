@@ -37,7 +37,7 @@ namespace GameGraph.Editor
             if (input == null || output == null)
             {
                 RemoveState();
-                // NOTE Instead of removing this, maybe introduce an index for the port, so that
+                // NOTE Instead of removing this edge, maybe introduce an index for the port, so that
                 // ... an invalid edge could be drawn?
                 parent.Remove(this);
             }

@@ -11,8 +11,8 @@ namespace GameGraph.Editor
             this.AddLayout(GameGraphEditorConstants.ResourcesUxmlViewPath + "/PropertyView.uxml");
 
             // Set simple data
-            this.FindElementByName<Label>("name").text = data.name.PrettifyName();
-            this.FindElementByName<Label>("value").text = "TODO"; // TODO
+            this.Q<Label>("name").text = data.name.PrettifyName();
+            this.Q<Label>("value").text = "TODO";
 
             // Add ports
             {
@@ -23,7 +23,7 @@ namespace GameGraph.Editor
                     data.info.FieldType,
                     data.name,
                     false);
-                var container = this.FindElementByName<VisualElement>("ingoingPortContainer");
+                var container = this.Q<VisualElement>("ingoingPortContainer");
                 container.Add(port);
                 container.AddToClassList("exists");
             }
@@ -35,7 +35,7 @@ namespace GameGraph.Editor
                     data.info.FieldType,
                     data.name,
                     false);
-                var container = this.FindElementByName<VisualElement>("outgoingPortContainer");
+                var container = this.Q<VisualElement>("outgoingPortContainer");
                 container.Add(port);
                 container.AddToClassList("exists");
             }

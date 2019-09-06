@@ -13,7 +13,7 @@ namespace GameGraph.Editor
             var preprocess = editorGraph.nodes
                 .ToDictionary(editorNode => editorNode.id, editorNode =>
                 {
-                    var analysisData = CodeAnalyzer.GetBlockData(editorNode.typeAssemblyQualifiedName);
+                    var analysisData = CodeAnalyzer.GetNodeData(editorNode.typeAssemblyQualifiedName);
                     var node = new Node {classType = analysisData.typeData.type};
                     return Tuple.Create(analysisData, node);
                 });
