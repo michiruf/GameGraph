@@ -6,16 +6,20 @@ namespace GameGraph
     [Serializable]
     public class SerializableType
     {
+        [SerializeField] private string name;
         [SerializeField] private string assemblyQualifiedName;
 
         public SerializableType(Type type)
         {
+            name = type.Name;
             assemblyQualifiedName = type.AssemblyQualifiedName;
         }
 
         public Type ToType()
         {
-            return Type.GetType(assemblyQualifiedName);
+            return string.IsNullOrEmpty(assemblyQualifiedName)
+                ? Type.GetType(assemblyQualifiedName)
+                : Type.GetType(name);
         }
     }
 
@@ -23,7 +27,7 @@ namespace GameGraph
     {
         public static SerializableType ToSerializable(this Type type)
         {
-            return new SerializableType(type);
+            return type != null ? new SerializableType(type) : null;
         }
     }
 }

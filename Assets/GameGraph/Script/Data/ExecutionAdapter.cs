@@ -7,12 +7,13 @@ namespace GameGraph
     [Serializable]
     public class ExecutionAdapter : ISerializationCallbackReceiver
     {
+        // Since we only need this id in this context we abuse the adapter as a data holder for easiness
         public string outputNodeId;
-        public EventInfo outputEventInfo;
-        public MethodInfo inputMethodInfo;
-
         [SerializeField] private SerializableMemberInfo serializableOutputInfo;
         [SerializeField] private SerializableMethodInfo serializableInputInfo;
+
+        private EventInfo outputEventInfo;
+        private MethodInfo inputMethodInfo;
 
         public ExecutionAdapter(string outputNodeId, EventInfo outputEventInfo, MethodInfo inputMethodInfo)
         {

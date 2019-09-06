@@ -22,13 +22,13 @@ namespace GameGraph.Editor
             // NOTE This lookup may be inefficient, lookup node and then port
             input = ports.FirstOrDefault(port =>
                 edge.inputNodeId.Equals(port.node.name) &&
-                edge.inputPortId.Equals(port.name) &&
+                edge.inputPortName.Equals(port.name) &&
                 port.direction == Direction.Input);
             input?.Connect(this);
 
             output = ports.FirstOrDefault(port =>
                 edge.outputNodeId.Equals(port.node.name) &&
-                edge.outputPortId.Equals(port.name) &&
+                edge.outputPortName.Equals(port.name) &&
                 port.direction == Direction.Output);
             output?.Connect(this);
 
@@ -49,9 +49,9 @@ namespace GameGraph.Editor
                 edge = new EditorEdge();
 
             edge.inputNodeId = input?.node?.name;
-            edge.inputPortId = input?.name;
+            edge.inputPortName = input?.name;
             edge.outputNodeId = output?.node?.name;
-            edge.outputPortId = output?.name;
+            edge.outputPortName = output?.name;
 
             if (!graph.edges.Contains(edge))
                 graph.edges.Add(edge);

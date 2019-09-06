@@ -19,20 +19,26 @@ namespace GameGraph
         public FieldInfo ToFieldInfo()
         {
             var type = serializableType.ToType();
-            return type.GetField(memberName);
+            return type.GetField(memberName, GameGraphConstants.ReflectionFlags);
         }
 
         // TODO Use properties as well
         public PropertyInfo ToPropertyInfo()
         {
             var type = serializableType.ToType();
-            return type.GetProperty(memberName);
+            return type.GetProperty(memberName, GameGraphConstants.ReflectionFlags);
         }
 
         public EventInfo ToEventInfo()
         {
             var type = serializableType.ToType();
-            return type.GetEvent(memberName);
+            return type.GetEvent(memberName, GameGraphConstants.ReflectionFlags);
+        }
+
+        public MemberInfo ToMemberInfo(int index = 0)
+        {
+            var type = serializableType.ToType();
+            return type.GetMember(memberName, GameGraphConstants.ReflectionFlags)[index];
         }
     }
 

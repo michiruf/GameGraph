@@ -33,12 +33,13 @@ namespace GameGraph.Editor
         private void RegisterAddElement(GameGraphWindow window)
         {
             var searchWindowProvider = ScriptableObject.CreateInstance<NodeSearchWindowProvider>();
-            searchWindowProvider.Initialize(this, window, (typeData, position) =>
+            searchWindowProvider.Initialize(this, window, (type, position) =>
             {
                 var nodeView = new NodeView();
                 nodeView.graph = graph;
                 AddElement(nodeView);
-                nodeView.Initialize(typeData, position ?? Vector2.zero);
+                nodeView.Initialize(type, position ?? Vector2.zero,
+                    null); // TODO Add parameter id if available (here never)
                 nodeView.PersistState();
             });
             nodeCreationRequest += context =>
@@ -54,7 +55,6 @@ namespace GameGraph.Editor
                 Enumerable.Empty<GraphElement>()
                     .Concat(change.movedElements ?? Enumerable.Empty<GraphElement>())
                     .Concat(change.edgesToCreate ?? Enumerable.Empty<GraphElement>())
-                    .Concat(change.elementsToRemove ?? Enumerable.Empty<GraphElement>())
                     .ToList()
                     .ForEach(element =>
                     {
@@ -62,6 +62,14 @@ namespace GameGraph.Editor
                             return;
                         graphElement.graph = graph;
                         graphElement.PersistState();
+                    });
+                change.elementsToRemove?
+                    .ForEach(element =>
+                    {
+                        if (!(element is IGraphElement graphElement))
+                            return;
+                        graphElement.graph = graph;
+                        graphElement.RemoveState();
                     });
                 return change;
             };

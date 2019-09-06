@@ -4,13 +4,14 @@ using UnityEngine;
 namespace GameGraph.Editor
 {
     [Serializable]
-    public class EditorParameter
+    public class EditorParameter : ISerializationCallbackReceiver
     {
         [SerializeField] private string idInternal = Guid.NewGuid().ToString();
         [SerializeField] private string nameInternal;
-        [SerializeField] private string typeNameInternal;
-        [SerializeField] private string typeAssemblyQualifiedNameInternal;
+        [SerializeField] private SerializableType typeInternal;
         [NonSerialized] public bool isDirty;
+
+        [NonSerialized] public ParameterView owner; // TODO Use these owners?!
 
         public string id => idInternal;
 
@@ -24,37 +25,37 @@ namespace GameGraph.Editor
             }
         }
 
-        public string typeName
+        private Type typeValue;
+        public Type type
         {
-            get => typeNameInternal.PrettifyName();
+            get => typeValue;
             set
             {
-                if (!string.Equals(value, typeNameInternal)) MarkDirty();
-                typeNameInternal = value;
+                if (value != typeValue) MarkDirty();
+                typeValue = value;
             }
         }
 
-        public string typeAssemblyQualifiedName
+        public EditorParameter(string name, Type type)
         {
-            get => typeAssemblyQualifiedNameInternal;
-            set
-            {
-                if (!string.Equals(value, typeAssemblyQualifiedNameInternal)) MarkDirty();
-                typeAssemblyQualifiedNameInternal = value;
-            }
-        }
-
-        public EditorParameter(TypeData data)
-        {
-            name = "Parameter";
-            typeNameInternal = data.name;
-            typeAssemblyQualifiedNameInternal = data.assemblyQualifiedName;
-            isDirty = true;
+            this.name = name;
+            typeValue = type;
+            MarkDirty();
         }
 
         private void MarkDirty()
         {
             isDirty = true;
+        }
+
+        public void OnBeforeSerialize()
+        {
+            typeInternal = typeValue.ToSerializable();
+        }
+
+        public void OnAfterDeserialize()
+        {
+            typeValue = typeInternal.ToType();
         }
     }
 }

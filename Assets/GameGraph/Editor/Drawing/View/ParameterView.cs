@@ -25,28 +25,28 @@ namespace GameGraph.Editor
             Initialize();
         }
 
-        public void Initialize(TypeData typeData)
+        public void Initialize(Type type)
         {
-            Initialize(new EditorParameter(typeData));
+            Initialize(new EditorParameter(type.Name, type));
         }
 
         private void Initialize()
         {
             nameView.text = parameter.name;
-            typeButton.text = parameter.typeName;
-            typeButton.clickable.clicked += () => CreateSearchWindow(typeData =>
+            typeButton.text = parameter.type.Name;
+            typeButton.clickable.clicked += () => CreateSearchWindow(type =>
             {
-                typeButton.text = typeData.name;
-                typeButton.userData = typeData.assemblyQualifiedName;
+                typeButton.text = type.Name;
+                typeButton.userData = type;
                 PersistState();
-            }, typeButton.clickable.lastMousePosition);
+            }, typeButton.clickable.lastMousePosition); // TODO Position is not correct at all
         }
 
         public void PersistState()
         {
             parameter.name = nameView.text;
-            parameter.typeName = typeButton.text;
-            parameter.typeAssemblyQualifiedName = typeButton.userData as string;
+            // Only update the data when the button was clicked once
+            parameter.type = typeButton.userData as Type ?? parameter.type;
 
             if (!graph.parameters.Contains(parameter))
                 graph.parameters.Add(parameter);
@@ -63,11 +63,11 @@ namespace GameGraph.Editor
             PersistState();
         }
 
-        private void CreateSearchWindow(Action<TypeData> callback, Vector2 position)
+        private void CreateSearchWindow(Action<Type> callback, Vector2 position)
         {
             // NOTE The search window might be provided by the editor view to improve performance
             // NOTE ... Alternatively make static?
-            var searchWindowProvider = ScriptableObject.CreateInstance<ReferenceSearchWindowProvider>();
+            var searchWindowProvider = ScriptableObject.CreateInstance<ParameterSearchWindowProvider>();
             searchWindowProvider.Initialize(callback);
             SearchWindow.Open(new SearchWindowContext(position), searchWindowProvider);
         }

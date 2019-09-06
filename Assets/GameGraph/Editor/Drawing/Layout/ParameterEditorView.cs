@@ -1,3 +1,4 @@
+using System.Linq;
 using JetBrains.Annotations;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -30,7 +31,7 @@ namespace GameGraph.Editor
                 var parameterView = new ParameterView();
                 parameterView.graph = graph;
                 Add(parameterView);
-                parameterView.Initialize(new TypeData(typeof(string)));
+                parameterView.Initialize(typeof(string));
                 parameterView.PersistState();
             };
         }
@@ -48,7 +49,17 @@ namespace GameGraph.Editor
 
         private void DrawParameters()
         {
-            // TODO
+            // Clear previous drawn stuff first
+            contentContainer.Clear();
+
+            // Draw parameters (by a clone of the list to be able to modify)
+            graph.parameters.ToList().ForEach(parameter =>
+            {
+                var parameterView = new ParameterView();
+                parameterView.graph = graph;
+                Add(parameterView);
+                parameterView.Initialize(parameter);
+            });
         }
 
         [UsedImplicitly]

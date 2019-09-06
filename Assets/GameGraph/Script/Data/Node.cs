@@ -8,17 +8,28 @@ namespace GameGraph
     [Serializable]
     public class Node : ISerializationCallbackReceiver
     {
-        public Type classType;
         public List<PropertyAdapter> propertyAdapters;
         public List<ExecutionAdapter> executionAdapters;
+        public string parameterId;
+        [SerializeField] private SerializableType serializableType;
 
-        [SerializeField] private SerializableType serializableClassType;
-
+        private Type type;
         public object instance { get; private set; }
 
-        public void ConstructInstance()
+        public Node(Type type)
         {
-            instance = Activator.CreateInstance(classType);
+            this.type = type;
+        }
+
+        public void ConstructOrReceiveInstance(Dictionary<string, Parameter> parameters)
+        {
+            if (!string.IsNullOrEmpty(parameterId) && parameters.ContainsKey(parameterId))
+            {
+                instance = parameters[parameterId].instance;
+                return;
+            }
+
+            instance = Activator.CreateInstance(type);
         }
 
         public void SetupExecutionAdapterLinks(Dictionary<string, Node> nodes)
@@ -43,12 +54,12 @@ namespace GameGraph
 
         public void OnBeforeSerialize()
         {
-            serializableClassType = classType?.ToSerializable();
+            serializableType = type.ToSerializable();
         }
 
         public void OnAfterDeserialize()
         {
-            classType = serializableClassType?.ToType();
+            type = serializableType.ToType();
         }
     }
 }

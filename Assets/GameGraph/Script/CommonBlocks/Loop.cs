@@ -7,14 +7,20 @@ namespace GameGraph
     [UsedImplicitly]
     public class Loop
     {
-        public int count;
+        [UsedImplicitly] public int count;
 
+        [UsedImplicitly]
+        public int index { get; private set; }
+
+        [UsedImplicitly]
         public event Action execute;
 
+        [UsedImplicitly]
         public void Invoke()
         {
             for (var i = 0; i < count; i++)
             {
+                index = i;
                 execute?.Invoke();
             }
         }

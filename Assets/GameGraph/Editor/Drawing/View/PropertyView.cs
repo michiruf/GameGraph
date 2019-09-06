@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
@@ -6,41 +7,53 @@ namespace GameGraph.Editor
 {
     public class PropertyView : VisualElement
     {
-        public PropertyView(MemberData<FieldInfo> data)
+        private PropertyView()
         {
             this.AddLayout(GameGraphEditorConstants.ResourcesUxmlViewPath + "/PropertyView.uxml");
-            Initialize(data);
         }
 
-        private void Initialize(MemberData<FieldInfo> data)
+        public PropertyView(FieldInfo info) : this()
         {
-            // Set simple data
-            this.Q<Label>("name").text = data.name.PrettifyName();
+            Initialize(info.Name, info.FieldType, true, true);
+        }
+
+        public PropertyView(PropertyInfo info) : this()
+        {
+            Initialize(info.Name, info.PropertyType,
+                info.SetMethod?.IsPublic ?? false,
+                info.GetMethod?.IsPublic ?? false);
+        }
+
+        private void Initialize(string name, Type type, bool hasInput, bool hasOutput)
+        {
+            this.Q<Label>("name").text = name.PrettifyName();
             this.Q<Label>("value").text = "TODO";
 
-            // Add ports
+            if (hasInput)
             {
                 var port = PortFactory.Create(
                     Orientation.Horizontal,
                     Direction.Input,
                     Port.Capacity.Single,
-                    data.info.FieldType,
-                    data.name,
+                    type,
+                    name,
                     null,
-                    data.info.FieldType.Name);
+                    type.Name);
                 var container = this.Q<VisualElement>("ingoingPortContainer");
                 container.Add(port);
                 container.AddToClassList("exists");
             }
+
+            if (hasOutput)
             {
                 var port = PortFactory.Create(
                     Orientation.Horizontal,
                     Direction.Output,
                     Port.Capacity.Single,
-                    data.info.FieldType,
-                    data.name,
+                    type,
+                    name,
                     null,
-                    data.info.FieldType.Name);
+                    type.Name);
                 var container = this.Q<VisualElement>("outgoingPortContainer");
                 container.Add(port);
                 container.AddToClassList("exists");

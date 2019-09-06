@@ -8,7 +8,7 @@ namespace GameGraph.Editor
 {
     public static class CodeAnalyzer
     {
-        public static IEnumerable<TypeData> GetNodeTypes()
+        public static IEnumerable<Type> GetNodeTypes()
         {
             // NOTE Query via AssetDatabase.FindAssets() to have more performance? 
             // E.g. AssetDatabase.FindAssets("t:MonoScript", new []{"Assets"});
@@ -17,61 +17,55 @@ namespace GameGraph.Editor
                 .Select(s => AssetDatabase.LoadMainAssetAtPath(s) as MonoScript)
                 .Where(script => script != null)
                 .Select(script => script.GetClass())
-                .Where(type => type?.GetCustomAttribute<GameGraphAttribute>() != null)
-                .Select(type => new TypeData(type));
+                .Where(type => type?.GetCustomAttribute<GameGraphAttribute>() != null);
         }
 
-        public static IEnumerable<TypeData> GetNonNodeTypes()
+        public static IEnumerable<Type> GetNonNodeTypes()
         {
             // TODO Does not receive unity types (e.g. collider)
             return AssetDatabase.GetAllAssetPaths()
                 .Select(s => AssetDatabase.LoadMainAssetAtPath(s) as MonoScript)
                 .Where(script => script != null)
                 .Select(script => script.GetClass())
-                .Where(type => type != null && type.GetCustomAttribute<GameGraphAttribute>() == null)
-                .Select(type => new TypeData(type));
+                .Where(type => type != null && type.GetCustomAttribute<GameGraphAttribute>() == null);
         }
 
-        public static BlockData GetNodeData(string assemblyQualifiedName)
-        {
-            return GetNodeData(Type.GetType(assemblyQualifiedName));
-        }
-
-        public static BlockData GetNodeData(Type type)
+        public static ClassData GetNodeData(Type type)
         {
             // NOTE Maybe enhance with nested exclude and includes
             // NOTE ... @see https://stackoverflow.com/questions/540749/can-a-c-sharp-class-inherit-attributes-from-its-interface
 
             // Get field and property data
-            var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+            var fields = type.GetFields(GameGraphConstants.ReflectionFlags)
                 .Where(info => info.GetCustomAttribute<ExcludeFromGraphAttribute>() == null)
-                .Select(info => new MemberData<FieldInfo>(info))
                 .ToList();
-            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+            var properties = type.GetProperties(GameGraphConstants.ReflectionFlags)
                 .Where(info => info.GetCustomAttribute<ExcludeFromGraphAttribute>() == null)
-                .Select(info => new MemberData<PropertyInfo>(info))
                 .ToList();
+            var propertyMethods = properties.SelectMany(info => new[]
+            {
+                info.GetMethod,
+                info.SetMethod
+            });
 
             // Get event data
-            var events = type.GetEvents(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+            var events = type.GetEvents(GameGraphConstants.ReflectionFlags)
                 .Where(info => info.GetCustomAttribute<ExcludeFromGraphAttribute>() == null)
-                .Select(info => new MemberData<EventInfo>(info))
                 .ToList();
-            var eventMethods = events.SelectMany(data => new[]
+            var eventMethods = events.SelectMany(info => new[]
             {
-                data.info.AddMethod,
-                data.info.RemoveMethod
+                info.AddMethod,
+                info.RemoveMethod
             });
 
             // Get method data
-            var typeMethods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            var typeMethods = type.GetMethods(GameGraphConstants.ReflectionFlags);
             var methods = typeMethods
                 .Where(info => info.GetCustomAttribute<ExcludeFromGraphAttribute>() == null)
-                .Where(info => !eventMethods.Contains(info))
-                .Select(info => new MemberData<MethodInfo>(info))
+                .Where(info => !propertyMethods.Contains(info) && !eventMethods.Contains(info))
                 .ToList();
 
-            return new BlockData(new TypeData(type), fields, properties, events, methods);
+            return new ClassData(type, fields, properties, events, methods);
         }
     }
 }

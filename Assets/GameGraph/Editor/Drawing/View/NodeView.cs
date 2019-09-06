@@ -12,28 +12,29 @@ namespace GameGraph.Editor
         public EditorGameGraph graph { private get; set; }
         private EditorNode node;
 
+        public void Initialize(Type type, Vector2 position, string parameterId)
+        {
+            Initialize(new EditorNode(type) {position = position, parameterId = parameterId});
+        }
+
         public void Initialize(EditorNode node)
         {
             this.node = node;
             Initialize();
         }
 
-        public void Initialize(TypeData typeData, Vector2 position)
-        {
-            Initialize(new EditorNode(typeData));
-            SetPosition(new Rect(position, Vector2.zero));
-        }
-
         private void Initialize()
         {
             // Use the name as if it would be an id, because this only makes sense
             name = node.id;
-            title = node.typeName;
+            title = node.type.Name.PrettifyName();
             SetPosition(new Rect(node.position, Vector2.zero));
             RegisterDragging();
             SetAlwaysExpanded();
 
-            CreateFields(CodeAnalyzer.GetNodeData(node.typeAssemblyQualifiedName));
+            CreateFields(CodeAnalyzer.GetNodeData(node.type));
+            RefreshExpandedState();
+
             // NOTE May fix this: For any reason if there is just one element the layout is misbehaving
             extensionContainer.Add(new VisualElement());
             RefreshExpandedState();
@@ -74,9 +75,10 @@ namespace GameGraph.Editor
             m_CollapseButton.parent.Remove(m_CollapseButton);
         }
 
-        private void CreateFields(BlockData analysisData)
+        private void CreateFields(ClassData analysisData)
         {
             // Properties
+            analysisData.properties.ForEach(data => extensionContainer.Add(new PropertyView(data)));
             analysisData.fields.ForEach(data => extensionContainer.Add(new PropertyView(data)));
 
             // Methods
@@ -87,8 +89,8 @@ namespace GameGraph.Editor
                     Direction.Input,
                     Port.Capacity.Single,
                     typeof(Action),
-                    data.name,
-                    data.name.PrettifyName()));
+                    data.Name,
+                    data.Name.PrettifyName()));
             });
 
             // Triggers
@@ -99,8 +101,8 @@ namespace GameGraph.Editor
                     Direction.Output,
                     Port.Capacity.Multi,
                     typeof(Action),
-                    data.name,
-                    data.name.PrettifyName()));
+                    data.Name,
+                    data.Name.PrettifyName()));
             });
         }
     }

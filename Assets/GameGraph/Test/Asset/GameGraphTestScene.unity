@@ -411,7 +411,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2028084716}
   - component: {fileID: 2028084717}
-  - component: {fileID: 2028084718}
   m_Layer: 0
   m_Name: GameGraphBehaviour
   m_TagString: Untagged
@@ -446,18 +445,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graph: {fileID: -5475051401550479605, guid: bf512c83495f47288f33e6f9c2a8b27e, type: 3}
---- !u!114 &2028084718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2028084715}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e892adb6a144139861dd463fb99038f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameGraphBehaviour: {fileID: 2028084717}
-  instance: {fileID: 0}
-  instanceName: 

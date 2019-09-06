@@ -3,10 +3,11 @@ using UnityEngine;
 
 namespace GameGraph
 {
-    // TODO Add Inspector button to open the graph from here
     public class GameGraphBehaviour : MonoBehaviour
     {
         public GraphObject graph;
+        
+        private GraphExecutor graphExecutor;
         private bool graphNotNull = true;
 
         void Start()
@@ -17,26 +18,27 @@ namespace GameGraph
                 throw new ArgumentException($"Graph on GameGraphBehaviour on {gameObject.name} must be present!");
             }
 
-            graph.ConstructGraph();
-            graph.Start();
+            graphExecutor = new GraphExecutor(graph);
+            graphExecutor.ConstructGraph();
+            graphExecutor.Start();
         }
 
         void Update()
         {
             if (graphNotNull)
-                graph.Update();
+                graphExecutor.Update();
         }
 
         void LateUpdate()
         {
             if (graphNotNull)
-                graph.LateUpdate();
+                graphExecutor.LateUpdate();
         }
 
         void FixedUpdate()
         {
             if (graphNotNull)
-                graph.FixedUpdate();
+                graphExecutor.FixedUpdate();
         }
     }
 }

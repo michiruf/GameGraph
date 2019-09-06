@@ -6,20 +6,29 @@ using UnityEngine;
 namespace GameGraph.Editor
 {
     [Serializable]
-    public class EditorNode
+    public class EditorNode : ISerializationCallbackReceiver
     {
         [SerializeField] private string idInternal = Guid.NewGuid().ToString();
-        [SerializeField] private string typeNameInternal;
-        [SerializeField] private string typeAssemblyQualifiedNameInternal;
-        public bool isInstanced; // TODO Handle this anyhow (-> by id!)
+        [SerializeField] private SerializableType typeInternal;
+        [SerializeField] private string parameterIdInternal;
         [SerializeField] private Vector2 positionInternal;
         [NonSerialized] public bool isDirty;
+        
+        [NonSerialized] public NodeView owner; // TODO Use these owners?!
 
         public string id => idInternal;
 
-        public string typeName => typeNameInternal.PrettifyName();
+        public Type type { get; private set; }
 
-        public string typeAssemblyQualifiedName => typeAssemblyQualifiedNameInternal;
+        public string parameterId
+        {
+            get => parameterIdInternal;
+            set
+            {
+                if (!string.Equals(value, parameterIdInternal)) MarkDirty();
+                parameterIdInternal = value;
+            }
+        }
 
         public Vector2 position
         {
@@ -31,16 +40,25 @@ namespace GameGraph.Editor
             }
         }
 
-        public EditorNode(TypeData data)
+        public EditorNode(Type type)
         {
-            typeNameInternal = data.name;
-            typeAssemblyQualifiedNameInternal = data.assemblyQualifiedName;
-            isDirty = true;
+            this.type = type;
+            MarkDirty();
         }
 
         private void MarkDirty()
         {
             isDirty = true;
+        }
+
+        public void OnBeforeSerialize()
+        {
+            typeInternal = type.ToSerializable();
+        }
+
+        public void OnAfterDeserialize()
+        {
+            type = typeInternal.ToType();
         }
     }
 }

@@ -4,8 +4,8 @@ using UnityEngine;
 [GameGraph]
 public class Rotator : IStartHook
 {
-    public float deltaTime = Time.fixedDeltaTime;
-    public float rotationSpeed = 1f;
+    public float deltaTime { private get; set; } = Time.fixedDeltaTime;
+    public float rotationSpeed { private get; set; }
 
     private GameObject cube;
 

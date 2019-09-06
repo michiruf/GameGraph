@@ -6,15 +6,15 @@ using UnityEngine;
 
 namespace GameGraph.Editor
 {
-    public class ReferenceSearchWindowProvider : ScriptableObject, ISearchWindowProvider
+    public class ParameterSearchWindowProvider : ScriptableObject, ISearchWindowProvider
     {
         private GraphEditorView graphView;
         private GameGraphWindow window;
-        private Action<TypeData> callback;
+        private Action<Type> callback;
 
         private Texture2D indent;
 
-        public void Initialize(Action<TypeData> callback)
+        public void Initialize(Action<Type> callback)
         {
             this.callback = callback;
 
@@ -40,26 +40,26 @@ namespace GameGraph.Editor
 
             CodeAnalyzer.GetNodeTypes()
                 .ToList()
-                .ForEach(typeData =>
+                .ForEach(type =>
                 {
-                    var guiContent = new GUIContent(typeData.name, indent);
+                    var guiContent = new GUIContent(type.Name, indent);
                     var entry = new SearchTreeEntry(guiContent)
                     {
                         level = 1,
-                        userData = typeData
+                        userData = type
                     };
                     tree.Add(entry);
                 });
 
             CodeAnalyzer.GetNonNodeTypes()
                 .ToList()
-                .ForEach(typeData =>
+                .ForEach(type =>
                 {
-                    var guiContent = new GUIContent(typeData.name, indent);
+                    var guiContent = new GUIContent(type.Name, indent);
                     var entry = new SearchTreeEntry(guiContent)
                     {
                         level = 1,
-                        userData = typeData
+                        userData = type
                     };
                     tree.Add(entry);
                 });
@@ -69,7 +69,7 @@ namespace GameGraph.Editor
 
         public bool OnSelectEntry(SearchTreeEntry entry, SearchWindowContext context)
         {
-            callback?.Invoke((TypeData) entry.userData);
+            callback?.Invoke((Type) entry.userData);
             return true;
         }
     }

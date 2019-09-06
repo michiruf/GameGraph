@@ -5,7 +5,7 @@ using UnityEngine;
 [GameGraph]
 public class Updater : IUpdateHook
 {
-    public float deltaTime;
+    public float deltaTime { get; private set; }
     public UpdaterType type = UpdaterType.Update;
 
     public event Action update;

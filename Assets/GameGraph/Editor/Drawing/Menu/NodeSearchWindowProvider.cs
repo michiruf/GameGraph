@@ -11,11 +11,11 @@ namespace GameGraph.Editor
     {
         private GraphEditorView graphView;
         private GameGraphWindow window;
-        private Action<TypeData, Vector2?> callback;
+        private Action<Type, Vector2?> callback;
 
         private Texture2D indent;
 
-        public void Initialize(GraphEditorView graphView, GameGraphWindow window, Action<TypeData, Vector2?> callback)
+        public void Initialize(GraphEditorView graphView, GameGraphWindow window, Action<Type, Vector2?> callback)
         {
             this.graphView = graphView;
             this.window = window;
@@ -45,13 +45,13 @@ namespace GameGraph.Editor
 
             CodeAnalyzer.GetNodeTypes()
                 .ToList()
-                .ForEach(typeData =>
+                .ForEach(type =>
                 {
-                    var guiContent = new GUIContent(typeData.name, indent);
+                    var guiContent = new GUIContent(type.Name, indent);
                     var entry = new SearchTreeEntry(guiContent)
                     {
                         level = 1,
-                        userData = typeData
+                        userData = type
                     };
                     tree.Add(entry);
                 });
@@ -61,16 +61,13 @@ namespace GameGraph.Editor
 
         public bool OnSelectEntry(SearchTreeEntry entry, SearchWindowContext context)
         {
-            // Receive type
-            var typeData = (TypeData) entry.userData;
-
             // Get position
             var windowRoot = window.rootVisualElement;
             var windowMousePosition = windowRoot.ChangeCoordinatesTo(windowRoot.parent,
                 context.screenMousePosition - window.position.position);
             var graphMousePosition = graphView.contentViewContainer.WorldToLocal(windowMousePosition);
 
-            callback?.Invoke(typeData, graphMousePosition);
+            callback?.Invoke((Type) entry.userData, graphMousePosition);
             return true;
         }
     }

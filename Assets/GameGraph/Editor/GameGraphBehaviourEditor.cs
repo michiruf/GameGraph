@@ -17,19 +17,26 @@ namespace GameGraph.Editor
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-
             var behaviour = (GameGraphBehaviour) target;
-            ShowOpenButton(behaviour);
-        }
 
-        private void ShowOpenButton(GameGraphBehaviour behaviour)
-        {
-            if (!GUILayout.Button(GameGraphEditorConstants.OpenEditorText))
-                return;
             if (behaviour.graph == null)
                 return;
 
-            var path = AssetDatabase.GetAssetPath(behaviour.graph);
+            AddGraphDependingFields(behaviour.graph);
+            AddOpenButton(behaviour.graph);
+        }
+
+        private void AddGraphDependingFields(GraphObject graph)
+        {
+            // TODO
+        }
+
+        private void AddOpenButton(GraphObject graph)
+        {
+            if (!GUILayout.Button(GameGraphEditorConstants.OpenEditorText))
+                return;
+
+            var path = AssetDatabase.GetAssetPath(graph);
             OpenGameGraphEditor.ShowGraphEditWindow(path);
         }
     }
