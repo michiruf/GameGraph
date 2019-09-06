@@ -23,11 +23,12 @@ namespace GameGraph.Editor
 
         public static IEnumerable<TypeData> GetNonNodeTypes()
         {
+            // TODO Does not receive unity types (e.g. collider)
             return AssetDatabase.GetAllAssetPaths()
                 .Select(s => AssetDatabase.LoadMainAssetAtPath(s) as MonoScript)
                 .Where(script => script != null)
                 .Select(script => script.GetClass())
-                .Where(type => type?.GetCustomAttribute<GameGraphAttribute>() != null)
+                .Where(type => type != null && type.GetCustomAttribute<GameGraphAttribute>() == null)
                 .Select(type => new TypeData(type));
         }
 

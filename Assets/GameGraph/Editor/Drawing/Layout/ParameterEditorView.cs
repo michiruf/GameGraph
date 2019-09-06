@@ -17,13 +17,10 @@ namespace GameGraph.Editor
             title = graphName;
             subTitle = GameGraphEditorConstants.BlackboardSubHeadline;
 
-
             RegisterAddElement();
             RegisterMoveElement();
             RegisterEditText();
             DrawParameters();
-
-            //AddBlockAddButtons();
         }
 
         private void RegisterAddElement()
@@ -32,40 +29,21 @@ namespace GameGraph.Editor
             {
                 var parameterView = new ParameterView();
                 parameterView.graph = graph;
+                Add(parameterView);
                 parameterView.Initialize(new TypeData(typeof(string)));
                 parameterView.PersistState();
-
-                var row = new BlackboardRow(parameterView, new Label("Test"));
-                Add(row);
             };
         }
 
         private void RegisterMoveElement()
         {
-            moveItemRequested += (blackboard, newIndex, element) => { };
+            moveItemRequested += (blackboard, newIndex, element) => { Debug.LogError("moveItemRequested"); };
         }
 
         private void RegisterEditText()
         {
             editTextRequested += (blackboard, element, newText) =>
-            { };
-        }
-        
-        
-
-        private void SEARCH_WINDOW_TODO(GameGraphWindow window)
-        {
-            // TODO HERE I AM
-            
-            var searchWindowProvider = ScriptableObject.CreateInstance<ReferenceSearchWindowProvider>();
-            searchWindowProvider.Initialize(typeData =>
-            {
-                // TODO Rename currently selected element
-            });
-//            nodeCreationRequest += context =>
-//            {
-//                SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), searchWindowProvider);
-//            };
+                element.GetFirstOfType<ParameterView>().OnRenameParameter(newText);
         }
 
         private void DrawParameters()

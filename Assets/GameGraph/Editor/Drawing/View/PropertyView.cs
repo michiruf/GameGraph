@@ -9,7 +9,11 @@ namespace GameGraph.Editor
         public PropertyView(MemberData<FieldInfo> data)
         {
             this.AddLayout(GameGraphEditorConstants.ResourcesUxmlViewPath + "/PropertyView.uxml");
+            Initialize(data);
+        }
 
+        private void Initialize(MemberData<FieldInfo> data)
+        {
             // Set simple data
             this.Q<Label>("name").text = data.name.PrettifyName();
             this.Q<Label>("value").text = "TODO";
@@ -22,7 +26,8 @@ namespace GameGraph.Editor
                     Port.Capacity.Single,
                     data.info.FieldType,
                     data.name,
-                    false);
+                    null,
+                    data.info.FieldType.Name);
                 var container = this.Q<VisualElement>("ingoingPortContainer");
                 container.Add(port);
                 container.AddToClassList("exists");
@@ -34,7 +39,8 @@ namespace GameGraph.Editor
                     Port.Capacity.Single,
                     data.info.FieldType,
                     data.name,
-                    false);
+                    null,
+                    data.info.FieldType.Name);
                 var container = this.Q<VisualElement>("outgoingPortContainer");
                 container.Add(port);
                 container.AddToClassList("exists");

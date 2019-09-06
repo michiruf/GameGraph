@@ -69,6 +69,34 @@ ParameterEditorView #contentContainer {
     margin: 5;
 }
 
+ParameterView {
+    flex-direction: row;
+}
+
+ParameterView .blackboardField #textField {
+    margin: 2 5 1 0;
+}
+
+ParameterView .blackboardField *,
+ParameterView .blackboardField #pill {
+    /* TODO Make the pill full width */
+    flex: 1;
+}
+
+ParameterView .blackboardField #pill #title-label {
+    padding: 3 5 4;
+    flex: 1;
+}
+
+ParameterView Button {
+    border-color: #393939;
+    border-width: 1;
+    border-radius: 3;
+    font-size: 12;
+    background-image: none;
+    padding: 0 10 1;
+}
+
 /***********************************************************/
 /* Graph MiniMap                                           */
 /***********************************************************/

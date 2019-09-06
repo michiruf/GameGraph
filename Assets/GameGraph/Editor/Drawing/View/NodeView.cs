@@ -87,7 +87,8 @@ namespace GameGraph.Editor
                     Direction.Input,
                     Port.Capacity.Single,
                     typeof(Action),
-                    data.name));
+                    data.name,
+                    data.name.PrettifyName()));
             });
 
             // Triggers
@@ -98,7 +99,8 @@ namespace GameGraph.Editor
                     Direction.Output,
                     Port.Capacity.Multi,
                     typeof(Action),
-                    data.name));
+                    data.name,
+                    data.name.PrettifyName()));
             });
         }
     }

@@ -1,6 +1,47 @@
 {
-    "serializedVersion": 8,
-    "parameters": [],
-    "nodes": [],
-    "edges": []
+    "serializedVersion": 16,
+    "parameters": [
+        {
+            "idInternal": "",
+            "nameInternal": "AAA",
+            "typeNameInternal": "Loop",
+            "typeAssemblyQualifiedNameInternal": "GameGraph.Loop, GameGraph, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+        }
+    ],
+    "nodes": [
+        {
+            "idInternal": "ac8d8fa24675ab847ad4119dfaa62462",
+            "typeNameInternal": "Updater",
+            "typeAssemblyQualifiedNameInternal": "Updater, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+            "isInstanced": false,
+            "positionInternal": {
+                "x": 469.0,
+                "y": 337.0
+            }
+        },
+        {
+            "idInternal": "db4c7ceff57a976408e8e9fbdd3aff23",
+            "typeNameInternal": "Loop",
+            "typeAssemblyQualifiedNameInternal": "GameGraph.Loop, GameGraph, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+            "isInstanced": false,
+            "positionInternal": {
+                "x": 814.0,
+                "y": 336.0
+            }
+        }
+    ],
+    "edges": [
+        {
+            "inputNodeIdInternal": "db4c7ceff57a976408e8e9fbdd3aff23",
+            "inputPortIdInternal": "Invoke",
+            "outputNodeIdInternal": "ac8d8fa24675ab847ad4119dfaa62462",
+            "outputPortIdInternal": "update"
+        },
+        {
+            "inputNodeIdInternal": "db4c7ceff57a976408e8e9fbdd3aff23",
+            "inputPortIdInternal": "Invoke",
+            "outputNodeIdInternal": "ac8d8fa24675ab847ad4119dfaa62462",
+            "outputPortIdInternal": "update"
+        }
+    ]
 }

@@ -8,22 +8,14 @@ namespace GameGraph.Editor
     [Serializable]
     public class EditorNode
     {
-        [SerializeField] private string idInternal;
+        [SerializeField] private string idInternal = Guid.NewGuid().ToString();
         [SerializeField] private string typeNameInternal;
         [SerializeField] private string typeAssemblyQualifiedNameInternal;
         public bool isInstanced; // TODO Handle this anyhow (-> by id!)
         [SerializeField] private Vector2 positionInternal;
         [NonSerialized] public bool isDirty;
 
-        public string id
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(idInternal))
-                    idInternal = GUID.Generate().ToString();
-                return idInternal;
-            }
-        }
+        public string id => idInternal;
 
         public string typeName => typeNameInternal.PrettifyName();
 

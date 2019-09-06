@@ -51,27 +51,18 @@ namespace GameGraph.Editor
         {
             graphViewChanged += change =>
             {
-                change.movedElements?.ForEach(element =>
-                {
-                    if (!(element is IGraphElement graphElement))
-                        return;
-                    graphElement.graph = graph;
-                    graphElement.PersistState();
-                });
-                change.edgesToCreate?.ForEach(element =>
-                {
-                    if (!(element is IGraphElement graphElement))
-                        return;
-                    graphElement.graph = graph;
-                    graphElement.PersistState();
-                });
-                change.elementsToRemove?.ForEach(element =>
-                {
-                    if (!(element is IGraphElement graphElement))
-                        return;
-                    graphElement.graph = graph;
-                    graphElement.RemoveState();
-                });
+                Enumerable.Empty<GraphElement>()
+                    .Concat(change.movedElements ?? Enumerable.Empty<GraphElement>())
+                    .Concat(change.edgesToCreate ?? Enumerable.Empty<GraphElement>())
+                    .Concat(change.elementsToRemove ?? Enumerable.Empty<GraphElement>())
+                    .ToList()
+                    .ForEach(element =>
+                    {
+                        if (!(element is IGraphElement graphElement))
+                            return;
+                        graphElement.graph = graph;
+                        graphElement.PersistState();
+                    });
                 return change;
             };
         }

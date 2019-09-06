@@ -1,5 +1,4 @@
 using System;
-using UnityEditor;
 using UnityEngine;
 
 namespace GameGraph.Editor
@@ -7,21 +6,13 @@ namespace GameGraph.Editor
     [Serializable]
     public class EditorParameter
     {
-        [SerializeField] private string idInternal;
+        [SerializeField] private string idInternal = Guid.NewGuid().ToString();
         [SerializeField] private string nameInternal;
         [SerializeField] private string typeNameInternal;
         [SerializeField] private string typeAssemblyQualifiedNameInternal;
         [NonSerialized] public bool isDirty;
 
-        public string id
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(idInternal))
-                    idInternal = GUID.Generate().ToString();
-                return idInternal;
-            }
-        }
+        public string id => idInternal;
 
         public string name
         {
@@ -33,12 +24,29 @@ namespace GameGraph.Editor
             }
         }
 
-        public string typeName => typeNameInternal.PrettifyName();
+        public string typeName
+        {
+            get => typeNameInternal.PrettifyName();
+            set
+            {
+                if (!string.Equals(value, typeNameInternal)) MarkDirty();
+                typeNameInternal = value;
+            }
+        }
 
-        public string typeAssemblyQualifiedName => typeAssemblyQualifiedNameInternal;
+        public string typeAssemblyQualifiedName
+        {
+            get => typeAssemblyQualifiedNameInternal;
+            set
+            {
+                if (!string.Equals(value, typeAssemblyQualifiedNameInternal)) MarkDirty();
+                typeAssemblyQualifiedNameInternal = value;
+            }
+        }
 
         public EditorParameter(TypeData data)
         {
+            name = "Parameter";
             typeNameInternal = data.name;
             typeAssemblyQualifiedNameInternal = data.assemblyQualifiedName;
             isDirty = true;
