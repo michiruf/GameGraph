@@ -11,7 +11,7 @@ namespace GameGraph.Editor
         public static IEnumerable<Type> GetNodeTypes()
         {
             // NOTE Query via AssetDatabase.FindAssets() to have more performance? 
-            // E.g. AssetDatabase.FindAssets("t:MonoScript", new []{"Assets"});
+            //      E.g. AssetDatabase.FindAssets("t:MonoScript", new []{"Assets"});
             return AssetDatabase.GetAllAssetPaths()
                 .Where(s => s.StartsWith("Assets/") && s.EndsWith(".cs"))
                 .Select(s => AssetDatabase.LoadMainAssetAtPath(s) as MonoScript)
@@ -22,18 +22,15 @@ namespace GameGraph.Editor
 
         public static IEnumerable<Type> GetNonNodeTypes()
         {
-            // TODO Does not receive unity types (e.g. collider)
-            return AssetDatabase.GetAllAssetPaths()
-                .Select(s => AssetDatabase.LoadMainAssetAtPath(s) as MonoScript)
-                .Where(script => script != null)
-                .Select(script => script.GetClass())
+            return AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(assembly => assembly.GetTypes())
                 .Where(type => type != null && type.GetCustomAttribute<GameGraphAttribute>() == null);
         }
 
         public static ClassData GetNodeData(Type type)
         {
             // NOTE Maybe enhance with nested exclude and includes
-            // NOTE ... @see https://stackoverflow.com/questions/540749/can-a-c-sharp-class-inherit-attributes-from-its-interface
+            //      @see https://stackoverflow.com/questions/540749/can-a-c-sharp-class-inherit-attributes-from-its-interface
 
             // Get field and property data
             var fields = type.GetFields(GameGraphConstants.ReflectionFlags)
@@ -62,6 +59,9 @@ namespace GameGraph.Editor
             var typeMethods = type.GetMethods(GameGraphConstants.ReflectionFlags);
             var methods = typeMethods
                 .Where(info => info.GetCustomAttribute<ExcludeFromGraphAttribute>() == null)
+                // Respect only void returning methods with nor arguments
+                .Where(info => info.ReturnType == typeof(void) && info.GetParameters().Length == 0)
+                // Remove property and event methods
                 .Where(info => !propertyMethods.Contains(info) && !eventMethods.Contains(info))
                 .ToList();
 

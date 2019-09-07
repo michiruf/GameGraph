@@ -33,14 +33,19 @@ namespace GameGraph.Editor
 
             // Initialize UI
             titleContent = new GUIContent(assetExists.name);
-            rootVisualElement.AddStylesheet(GameGraphEditorConstants.ResourcesUxmlPath + "/Style.uss");
-            rootVisualElement.AddLayout(GameGraphEditorConstants.ResourcesUxmlPath + "/GameGraphWindow.uxml");
+            rootVisualElement.AddStylesheet(EditorConstants.ResourcesUxmlPath + "/Style.uss");
+            rootVisualElement.AddLayout(EditorConstants.ResourcesUxmlPath + "/GameGraphWindow.uxml");
             RegisterSaveButton();
             RegisterReopenButton();
 
             // Initialize graph
             LoadGraph();
             DistributeGraphAndInitializeChildren();
+
+            // TODo
+            //RegisterChildCallbacks();
+            rootVisualElement.AddUserData(this);
+            this.AddEventBus();
 
             Repaint();
         }
@@ -103,8 +108,7 @@ namespace GameGraph.Editor
 
         private void DistributeGraphAndInitializeChildren(VisualElement element = null)
         {
-            // TODO May use a query here as well?
-
+            // NOTE Using a query here as well could improve the performance alot
             if (element == null)
                 element = rootVisualElement;
             if (element is IGraphVisualElement c)

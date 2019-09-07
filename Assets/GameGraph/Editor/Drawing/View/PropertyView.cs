@@ -9,7 +9,7 @@ namespace GameGraph.Editor
     {
         private PropertyView()
         {
-            this.AddLayout(GameGraphEditorConstants.ResourcesUxmlViewPath + "/PropertyView.uxml");
+            this.AddLayout(EditorConstants.ResourcesUxmlViewPath + "/PropertyView.uxml");
         }
 
         public PropertyView(FieldInfo info) : this()

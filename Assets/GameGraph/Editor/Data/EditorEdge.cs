@@ -17,8 +17,9 @@ namespace GameGraph.Editor
             get => outputConnection.nodeIdInternal;
             set
             {
-                if (!string.Equals(value, outputConnection.nodeIdInternal)) MarkDirty();
+                if (string.Equals(value, outputConnection.nodeIdInternal)) return;
                 outputConnection.nodeIdInternal = value;
+                MarkDirty();
             }
         }
 
@@ -27,8 +28,9 @@ namespace GameGraph.Editor
             get => outputConnection.portNameInternal;
             set
             {
-                if (!string.Equals(value, outputConnection.portNameInternal)) MarkDirty();
+                if (string.Equals(value, outputConnection.portNameInternal)) return;
                 outputConnection.portNameInternal = value;
+                MarkDirty();
             }
         }
 
@@ -37,8 +39,9 @@ namespace GameGraph.Editor
             get => inputConnection.nodeIdInternal;
             set
             {
-                if (!string.Equals(value, inputConnection.nodeIdInternal)) MarkDirty();
+                if (string.Equals(value, inputConnection.nodeIdInternal)) return;
                 inputConnection.nodeIdInternal = value;
+                MarkDirty();
             }
         }
 
@@ -47,8 +50,9 @@ namespace GameGraph.Editor
             get => inputConnection.portNameInternal;
             set
             {
-                if (!string.Equals(value, inputConnection.portNameInternal)) MarkDirty();
+                if (string.Equals(value, inputConnection.portNameInternal)) return;
                 inputConnection.portNameInternal = value;
+                MarkDirty();
             }
         }
 

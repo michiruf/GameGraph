@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -15,7 +16,18 @@ namespace GameGraph
         [SerializeField] private List<string> parametersInternalKeys;
         [SerializeField] private List<Parameter> parametersInternalValues;
 
-        // TODO GetInstance<T>
+        public T GetInstance<T>() where T : class
+        {
+            return nodes.FirstOrDefault(pair => pair.Value.instance is T) as T;
+        }
+
+        public List<T> GetInstances<T>() where T : class
+        {
+            return nodes
+                .Select(pair => pair.Value.instance as T)
+                .Where(arg => arg != null)
+                .ToList();
+        }
 
         public void OnBeforeSerialize()
         {

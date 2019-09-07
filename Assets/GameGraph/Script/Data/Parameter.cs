@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace GameGraph
 {
@@ -9,8 +10,8 @@ namespace GameGraph
         public string name;
         [SerializeField] private SerializableType serializableType;
 
-        private Type type;
-        public object instance { get; private set; }
+        public Type type { get; private set; }
+        public Object instance { get; set; }
 
         public Parameter(string name, Type type)
         {

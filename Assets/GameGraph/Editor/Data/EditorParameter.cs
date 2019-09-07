@@ -1,14 +1,18 @@
 using System;
+using System.Reflection;
 using UnityEngine;
 
 namespace GameGraph.Editor
 {
+    // TODO Rename parameter to references everywhere?
+
     [Serializable]
     public class EditorParameter : ISerializationCallbackReceiver
     {
         [SerializeField] private string idInternal = Guid.NewGuid().ToString();
         [SerializeField] private string nameInternal;
         [SerializeField] private SerializableType typeInternal;
+        [SerializeField] private bool isGameGraphTypeInternal;
         [NonSerialized] public bool isDirty;
 
         [NonSerialized] public ParameterView owner; // TODO Use these owners?!
@@ -20,8 +24,9 @@ namespace GameGraph.Editor
             get => nameInternal;
             set
             {
-                if (!string.Equals(value, nameInternal)) MarkDirty();
+                if (string.Equals(value, nameInternal)) return;
                 nameInternal = value;
+                MarkDirty();
             }
         }
 
@@ -31,15 +36,20 @@ namespace GameGraph.Editor
             get => typeValue;
             set
             {
-                if (value != typeValue) MarkDirty();
+                if (value == typeValue) return;
                 typeValue = value;
+                // NOTE Reflection might not belong here. Create a type wrapper maybe?
+                isGameGraphTypeInternal = value.GetCustomAttribute<GameGraphAttribute>() != null;
+                MarkDirty();
             }
         }
+
+        public bool isGameGraphType => isGameGraphTypeInternal;
 
         public EditorParameter(string name, Type type)
         {
             this.name = name;
-            typeValue = type;
+            this.type = type;
             MarkDirty();
         }
 

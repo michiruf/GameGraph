@@ -16,7 +16,7 @@ namespace GameGraph.Editor
             this.graph = graph;
 
             title = graphName;
-            subTitle = GameGraphEditorConstants.BlackboardSubHeadline;
+            subTitle = EditorConstants.BlackboardSubHeadline;
 
             RegisterAddElement();
             RegisterMoveElement();

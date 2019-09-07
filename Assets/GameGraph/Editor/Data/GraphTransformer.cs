@@ -18,6 +18,7 @@ namespace GameGraph.Editor
         private readonly Dictionary<string, Node> nodeResult = new Dictionary<string, Node>();
 
         // Parameter data
+        private readonly Dictionary<string, Parameter> parameterResult = new Dictionary<string, Parameter>();
 
         public GraphTransformer(EditorGameGraph graph)
         {
@@ -33,7 +34,7 @@ namespace GameGraph.Editor
                     nodeEdgesToNode.Add(editorNode.id, graph.edges
                         .Where(editorEdge => editorEdge.inputNodeId.Equals(editorNode.id))
                         .ToList());
-                    nodeResult.Add(editorNode.id, new Node(editorNode.type));
+                    nodeResult.Add(editorNode.id, new Node(editorNode.type, editorNode.parameterId));
                 });
         }
 
@@ -87,9 +88,9 @@ namespace GameGraph.Editor
 
         private void BuildParameterData()
         {
-            // TODO
             graph.parameters
-                .ForEach(parameter => { });
+                .ForEach(editorParameter =>
+                    parameterResult.Add(editorParameter.id, new Parameter(editorParameter.name, editorParameter.type)));
         }
 
         public GraphObject GetGraphObject()
@@ -100,7 +101,7 @@ namespace GameGraph.Editor
 
             var graphObject = ScriptableObject.CreateInstance<GraphObject>();
             graphObject.nodes = nodeResult;
-            graphObject.parameters = new Dictionary<string, Parameter>(); // TODO
+            graphObject.parameters = parameterResult;
             return graphObject;
         }
     }

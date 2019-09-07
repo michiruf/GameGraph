@@ -12,7 +12,7 @@ namespace GameGraph.Editor
     {
         public override void OnInspectorGUI()
         {
-            if (!GUILayout.Button(GameGraphEditorConstants.OpenEditorText))
+            if (!GUILayout.Button(EditorConstants.OpenEditorText))
                 return;
 
             var importer = target as AssetImporter;
@@ -30,7 +30,7 @@ namespace GameGraph.Editor
         public static bool ShowGraphEditWindow(string path)
         {
             var extension = Path.GetExtension(path);
-            if (extension != "." + GameGraphEditorConstants.FileExtension)
+            if (extension != "." + EditorConstants.FileExtension)
                 return false;
 
             var guid = AssetDatabase.AssetPathToGUID(path);

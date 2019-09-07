@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GameGraph.Editor
 {
-    [ScriptedImporter(1, GameGraphEditorConstants.FileExtension)]
+    [ScriptedImporter(1, EditorConstants.FileExtension)]
     public class GameGraphImporter : ScriptedImporter
     {
         public override void OnImportAsset(AssetImportContext ctx)

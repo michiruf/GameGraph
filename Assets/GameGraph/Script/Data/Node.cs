@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Object = UnityEngine.Object;
 
 namespace GameGraph
 {
@@ -16,9 +17,10 @@ namespace GameGraph
         private Type type;
         public object instance { get; private set; }
 
-        public Node(Type type)
+        public Node(Type type, string parameterId)
         {
             this.type = type;
+            this.parameterId = parameterId;
         }
 
         public void ConstructOrReceiveInstance(Dictionary<string, Parameter> parameters)

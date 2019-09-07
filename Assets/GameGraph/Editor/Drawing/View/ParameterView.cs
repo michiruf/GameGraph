@@ -16,7 +16,7 @@ namespace GameGraph.Editor
 
         public ParameterView()
         {
-            this.AddLayout(GameGraphEditorConstants.ResourcesUxmlViewPath + "/ParameterView.uxml");
+            this.AddLayout(EditorConstants.ResourcesUxmlViewPath + "/ParameterView.uxml");
         }
 
         public void Initialize(EditorParameter parameter)
@@ -50,7 +50,7 @@ namespace GameGraph.Editor
             });
 
             // TODO Register dragging to graph view
-            // @see UnityEditor.ShaderGraph.Drawing.BlackboardProvider#OnDragUpdatedEvent
+            //      @see UnityEditor.ShaderGraph.Drawing.BlackboardProvider#OnDragUpdatedEvent
             // For now, just add it anywhere
             var clickable = new Clickable(() =>
             {
@@ -89,7 +89,7 @@ namespace GameGraph.Editor
         private void CreateSearchWindow(Action<Type> callback, Vector2 position)
         {
             // NOTE The search window might be provided by the editor view to improve performance
-            // NOTE ... Alternatively make static?
+            //      Alternatively make static?
             var searchWindowProvider = ScriptableObject.CreateInstance<ParameterSearchWindowProvider>();
             searchWindowProvider.Initialize(callback);
             SearchWindow.Open(new SearchWindowContext(position), searchWindowProvider);

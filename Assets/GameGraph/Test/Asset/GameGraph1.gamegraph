@@ -1,42 +1,36 @@
 {
-    "serializedVersion": 5,
+    "serializedVersion": 25,
     "parameters": [
         {
-            "idInternal": "6aa76d01-c89d-4aee-b489-d39640dc9b1a",
+            "idInternal": "3e661794-f890-47a3-b3c2-3c0f00112ef6",
             "nameInternal": "ObjectReference",
             "typeInternal": {
-                "assemblyQualifiedName": "GameGraph.Loop, GameGraph, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
-            }
-        },
-        {
-            "idInternal": "f88150ad-1ca9-4425-810e-7894fdfb8dda",
-            "nameInternal": "ObjectReference",
-            "typeInternal": {
-                "assemblyQualifiedName": "UnityEngine.Rendering.PostProcessing.ColorGrading, Unity.Postprocessing.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
-            }
+                "assemblyQualifiedName": "Rotator, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "isGameGraphTypeInternal": true
         }
     ],
     "nodes": [
         {
-            "idInternal": "a924b203-8b76-49c8-8eb2-166141b1e746",
+            "idInternal": "e25c26f3-d034-45c0-a873-d9513aa79446",
             "typeInternal": {
-                "assemblyQualifiedName": "TestMethod, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
-            },
-            "parameterIdInternal": "6aa76d01-c89d-4aee-b489-d39640dc9b1a",
-            "positionInternal": {
-                "x": -454.0,
-                "y": 5.0
-            }
-        },
-        {
-            "idInternal": "4514c741-3f7f-4f0f-adf7-013bd77ee29e",
-            "typeInternal": {
-                "assemblyQualifiedName": "TestMethod, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+                "assemblyQualifiedName": "Updater, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
             },
             "parameterIdInternal": "",
             "positionInternal": {
-                "x": 162.0,
-                "y": 50.0
+                "x": 487.0,
+                "y": 448.0
+            }
+        },
+        {
+            "idInternal": "f265c87c-6029-4665-af00-ce4318477888",
+            "typeInternal": {
+                "assemblyQualifiedName": "Rotator, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "3e661794-f890-47a3-b3c2-3c0f00112ef6",
+            "positionInternal": {
+                "x": 717.0,
+                "y": 555.0
             }
         }
     ],

@@ -1,10 +1,11 @@
 namespace GameGraph.Editor
 {
-    public static class GameGraphEditorConstants
+    public static class EditorConstants
     {
         // Text
         public const string OpenEditorText = "Open Game Graph Editor";
         public const string BlackboardSubHeadline = "Game Graphs";
+        public const string ParameterPortName = "Instance";
 
         // Assets
         public const string FileExtension = "gamegraph";

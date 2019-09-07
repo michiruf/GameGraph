@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ namespace GameGraph.Editor
         [SerializeField] private string parameterIdInternal;
         [SerializeField] private Vector2 positionInternal;
         [NonSerialized] public bool isDirty;
-        
+
         [NonSerialized] public NodeView owner; // TODO Use these owners?!
 
         public string id => idInternal;
@@ -25,8 +26,9 @@ namespace GameGraph.Editor
             get => parameterIdInternal;
             set
             {
-                if (!string.Equals(value, parameterIdInternal)) MarkDirty();
+                if (string.Equals(value, parameterIdInternal)) return;
                 parameterIdInternal = value;
+                MarkDirty();
             }
         }
 
@@ -35,8 +37,9 @@ namespace GameGraph.Editor
             get => positionInternal;
             set
             {
-                if (!value.Equals(positionInternal)) MarkDirty();
+                if (value.Equals(positionInternal)) return;
                 positionInternal = value;
+                MarkDirty();
             }
         }
 
@@ -44,6 +47,11 @@ namespace GameGraph.Editor
         {
             this.type = type;
             MarkDirty();
+        }
+
+        public EditorParameter GetParameter(EditorGameGraph graph)
+        {
+            return graph.parameters.FirstOrDefault(parameter => parameter.id.Equals(parameterId));
         }
 
         private void MarkDirty()

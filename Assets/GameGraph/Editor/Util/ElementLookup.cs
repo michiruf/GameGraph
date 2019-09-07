@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
 {
+    // TODO Use this more!
     public class ElementLookup<T> where T : VisualElement
     {
         private readonly WeakReference<VisualElement> root;
@@ -40,6 +41,16 @@ namespace GameGraph.Editor
             new Dictionary<WeakReference<VisualElement>, Dictionary<string, object>>();
 
         public static ElementLookup<T> QCached<T>(this VisualElement root, string name = null, string className = null)
+            where T : VisualElement
+        {
+            if (!root.HasUserData<ElementLookup<T>>())
+                root.AddUserData(new ElementLookup<T>(root, name, className));
+            return root.GetUserData<ElementLookup<T>>();
+        }
+
+        // TODO Remove when new method works
+        public static ElementLookup<T> QCached_OLD<T>(this VisualElement root, string name = null,
+            string className = null)
             where T : VisualElement
         {
             var rootReference = new WeakReference<VisualElement>(root);

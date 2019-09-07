@@ -8,7 +8,7 @@ namespace GameGraph.Editor
 {
     // TODO For parameters maybe put the regular fields into expandable and the instance ports into non-expandable?
 
-    public class NodeView : UnityEditor.Experimental.GraphView.Node, IGraphElement
+    public class ParameterNodeView : UnityEditor.Experimental.GraphView.Node, IGraphElement
     {
         public EditorGameGraph graph { private get; set; }
         private EditorNode node;
@@ -18,7 +18,7 @@ namespace GameGraph.Editor
             Initialize(new EditorNode(type) {position = position, parameterId = parameterId});
         }
 
-        public void Initialize(EditorNode node)
+        public void Initialize(EditorParameter parameter, EditorNode node)
         {
             this.node = node;
             Initialize();

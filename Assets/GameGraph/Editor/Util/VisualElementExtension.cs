@@ -1,4 +1,3 @@
-using System;
 using UnityEditor;
 using UnityEngine.Assertions;
 using UnityEngine.UIElements;
@@ -21,28 +20,11 @@ namespace GameGraph.Editor
             element.styleSheets.Add(style);
         }
 
-        [Obsolete("Use Queries for VisualElements")]
-        public static T FindElementByName<T>(this VisualElement element, string name) where T : VisualElement
+        public static VisualElement GetRoot(this VisualElement element)
         {
-            var result = FindElementByNameInternal<T>(element, name);
-            if (result == null)
-                throw new ArgumentException("Element with name " + name + " could not be found");
-            return result;
-        }
-
-        private static T FindElementByNameInternal<T>(this VisualElement element, string name) where T : VisualElement
-        {
-            if (name.Equals(element.name))
-                return element as T;
-
-            foreach (var child in element.hierarchy.Children())
-            {
-                var result = FindElementByNameInternal<T>(child, name);
-                if (result != null)
-                    return result;
-            }
-
-            return null;
+            while (element.parent != null)
+                element = element.parent;
+            return element;
         }
     }
 }
