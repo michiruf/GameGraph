@@ -8,6 +8,6 @@
          xmlns:ue="UnityEditor.UIElements"
          xmlns:gg="GameGraph.Editor">
 
-    <gg:BlackboardNameField name="name"/>
+    <gg:BlackboardField name="name"/>
     <ui:Button name="type"/>
 </ui:UXML>

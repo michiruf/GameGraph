@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -9,7 +11,13 @@ namespace GameGraph.Editor
         public static string GetRepresentativeName(this VisualElement element)
         {
             var id = !string.IsNullOrEmpty(element.name) ? $"#{element.name}" : "";
-            return $"{element.GetType().Name} {id}";
+
+            var classesMethod =
+                element.GetType().GetMethod("GetClasses", BindingFlags.Instance | BindingFlags.NonPublic);
+            var classesValue = classesMethod?.Invoke(element, new object[] { }) as IEnumerable<string>;
+            var classes = classesValue?.Aggregate("", (s, s1) => s + "." + s1);
+
+            return $"{element.GetType().Name} {id} {classes}".Replace("  ", " ");
         }
 
         public static void PrintHierarchy(this VisualElement element)

@@ -1,17 +1,17 @@
 using System;
+using JetBrains.Annotations;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
 {
-    // TODO Maybe change back to BlackboardRows and make the collapsible again (might be nicer)
     public class ParameterView : VisualElement, IGraphElement
     {
         public EditorGameGraph graph { private get; set; }
         private EditorParameter parameter;
 
-        private BlackboardNameField nameView => this.QCached<BlackboardNameField>("name");
+        private BlackboardField nameView => this.QCached<BlackboardField>("name");
         private Button typeButton => this.QCached<Button>("type");
 
         public ParameterView()
@@ -27,7 +27,7 @@ namespace GameGraph.Editor
 
         public void Initialize(Type type)
         {
-            Initialize(new EditorParameter(type.Name, type));
+            Initialize(new EditorParameter(type.Name + "Reference", type));
         }
 
         private void Initialize()
@@ -39,7 +39,30 @@ namespace GameGraph.Editor
                 typeButton.text = type.Name;
                 typeButton.userData = type;
                 PersistState();
-            }, typeButton.clickable.lastMousePosition); // TODO Position is not correct at all
+            }, typeButton.worldBound.position); // TODO Position is not correct at all
+
+            // Register delete callback (why is this so hard?!)
+            // This also removes the state when the window is unloaded, but then no persistence should occur...
+            nameView.RegisterCallback<DetachFromPanelEvent>(evt =>
+            {
+                RemoveState();
+                RemoveFromHierarchy();
+            });
+
+            // TODO Register dragging to graph view
+            // @see UnityEditor.ShaderGraph.Drawing.BlackboardProvider#OnDragUpdatedEvent
+            // For now, just add it anywhere
+            var clickable = new Clickable(() =>
+            {
+                var graphContainer = GetFirstOfType<GraphEditorView>();
+
+                var nodeView = new NodeView();
+                nodeView.graph = graph;
+                graphContainer.AddElement(nodeView);
+                nodeView.Initialize(parameter.type, Vector2.zero, parameter.id); // TODO Set position correctly
+                nodeView.PersistState();
+            });
+            nameView.AddManipulator(clickable);
         }
 
         public void PersistState()
@@ -70,6 +93,15 @@ namespace GameGraph.Editor
             var searchWindowProvider = ScriptableObject.CreateInstance<ParameterSearchWindowProvider>();
             searchWindowProvider.Initialize(callback);
             SearchWindow.Open(new SearchWindowContext(position), searchWindowProvider);
+        }
+    }
+
+    [UsedImplicitly]
+    internal class BlackboardField : UnityEditor.Experimental.GraphView.BlackboardField
+    {
+        [UsedImplicitly]
+        public new class UxmlFactory : UxmlFactory<BlackboardField>
+        {
         }
     }
 }

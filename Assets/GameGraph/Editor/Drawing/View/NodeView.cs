@@ -31,6 +31,9 @@ namespace GameGraph.Editor
             SetPosition(new Rect(node.position, Vector2.zero));
             RegisterDragging();
             SetAlwaysExpanded();
+            if(!string.IsNullOrEmpty(node.parameterId))
+                AddToClassList("parameter");
+            this.PrintHierarchy();
 
             CreateFields(CodeAnalyzer.GetNodeData(node.type));
             RefreshExpandedState();

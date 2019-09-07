@@ -15,11 +15,10 @@ namespace GameGraph.Editor
             string portName = null,
             string tooltip = null)
         {
-            // TODO Add a tooltip when hovering over the port
-            
             var port = Port.Create<EdgeView>(orientation, direction, capacity, type);
             port.name = portId;
             port.portName = portName ?? "";
+            port.tooltip = tooltip;
             return port;
         }
     }

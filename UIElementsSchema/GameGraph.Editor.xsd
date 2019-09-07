@@ -52,7 +52,7 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="ParameterEditorView" substitutionGroup="engine:VisualElement" xmlns:q3="GameGraph.Editor" type="q3:ParameterEditorViewType" />
-  <xs:complexType name="BlackboardNameFieldType">
+  <xs:complexType name="BlackboardFieldType">
     <xs:complexContent mixed="false">
       <xs:restriction base="engine:VisualElementType">
         <xs:sequence minOccurs="0" maxOccurs="unbounded">
@@ -68,5 +68,5 @@
       </xs:restriction>
     </xs:complexContent>
   </xs:complexType>
-  <xs:element name="BlackboardNameField" substitutionGroup="engine:VisualElement" xmlns:q4="GameGraph.Editor" type="q4:BlackboardNameFieldType" />
+  <xs:element name="BlackboardField" substitutionGroup="engine:VisualElement" xmlns:q4="GameGraph.Editor" type="q4:BlackboardFieldType" />
 </xs:schema>

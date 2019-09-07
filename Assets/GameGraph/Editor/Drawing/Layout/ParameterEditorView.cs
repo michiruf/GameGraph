@@ -31,7 +31,7 @@ namespace GameGraph.Editor
                 var parameterView = new ParameterView();
                 parameterView.graph = graph;
                 Add(parameterView);
-                parameterView.Initialize(typeof(string));
+                parameterView.Initialize(typeof(object));
                 parameterView.PersistState();
             };
         }

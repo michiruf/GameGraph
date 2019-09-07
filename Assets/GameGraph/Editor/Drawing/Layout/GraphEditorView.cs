@@ -38,8 +38,7 @@ namespace GameGraph.Editor
                 var nodeView = new NodeView();
                 nodeView.graph = graph;
                 AddElement(nodeView);
-                nodeView.Initialize(type, position ?? Vector2.zero,
-                    null); // TODO Add parameter id if available (here never)
+                nodeView.Initialize(type, position ?? Vector2.zero, null);
                 nodeView.PersistState();
             });
             nodeCreationRequest += context =>

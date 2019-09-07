@@ -69,25 +69,6 @@ ParameterEditorView #contentContainer {
     margin: 5;
 }
 
-ParameterView {
-    flex-direction: row;
-}
-
-ParameterView .blackboardField #textField {
-    margin: 2 5 1 0;
-}
-
-ParameterView .blackboardField *,
-ParameterView .blackboardField #pill {
-    /* TODO Make the pill full width */
-    flex: 1;
-}
-
-ParameterView .blackboardField #pill #title-label {
-    padding: 3 5 4;
-    flex: 1;
-}
-
 ParameterView Button {
     border-color: #393939;
     border-width: 1;
@@ -96,6 +77,77 @@ ParameterView Button {
     background-image: none;
     padding: 0 10 1;
 }
+
+ParameterView Button:hover {
+    border-color: #44c0ff;
+}
+
+/***********************************************************/
+/* Graph Item Layout                                       */
+/***********************************************************/
+ParameterView {
+    flex-direction: row;
+}
+
+ParameterView #title-label {
+    padding: 3 5 4;
+}
+
+ParameterView #textField {
+    margin: 2 5 1 0;
+}
+
+/* TODO FROM HERE ON TRY TO MAKE THE PILL FULL WIDTH */
+/*
+ParameterView !!!!!!
+  BlackboardField #name .blackboardField
+    TemplateContainer .mainContainer
+      VisualElement #contentItem !!!!!!
+        Pill #pill .pill
+          TemplateContainer 
+            VisualElement #node-border 
+              VisualElement #contents 
+                VisualElement #top 
+                  VisualElement #input 
+                  Image #icon .unity-image
+                  Label #title-label .unity-text-element.unity-label
+                  VisualElement #output 
+            VisualElement #selection-border 
+        Label #typeLabel .unity-text-element.unity-label
+      TextField #textField .unity-base-field.unity-base-field--no-label.unity-base-text-field.unity-text-field !!!!!!
+        TextInput #unity-text-input .unity-base-text-field__input.unity-base-field__input.unity-text-field__input !!!!!!
+  Button #type .unity-text-element.unity-button !!!!!!
+*/
+/*
+ParameterView #pill {
+    flex: 1;
+    background-color: #0ff;
+    background-image: none;
+}
+
+ParameterView #contentItem * {
+    flex: 1;
+}
+
+ParameterView .blackboardField,
+ParameterView .mainContainer,
+ParameterView #contentItem,
+ParameterView #pill,
+ParameterView #node-border,
+ParameterView #contents,
+ParameterView #top,
+ParameterView #title-label,
+ParameterView #pill *
+{
+    flex: 1;
+    flex-direction: row;
+    align-self: stretch;
+    align-content: stretch;
+    position: relative; /* especially for borderItem */
+/*}*/
+
+/* TODO UNTIL HERE */
+
 
 /***********************************************************/
 /* Graph MiniMap                                           */
@@ -111,6 +163,10 @@ MiniMapEditorView {
 /***********************************************************/
 /* Node                                                    */
 /***********************************************************/
+NodeView.parameter #title {
+    background-color: rgba(99, 98, 0, 0.9);
+}
+
 NodeView #extension {
     background-color: rgba(39, 39, 39, 0.9);
 }
