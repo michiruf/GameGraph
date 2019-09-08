@@ -1,5 +1,5 @@
 {
-    "serializedVersion": 30,
+    "serializedVersion": 45,
     "parameters": [
         {
             "idInternal": "bd31db69-0a4e-4feb-8cd9-a484f4b233b0",
@@ -8,6 +8,14 @@
                 "assemblyQualifiedName": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
             },
             "isGameGraphTypeInternal": false
+        },
+        {
+            "idInternal": "e8c891e6-eb0c-427a-8aeb-ea00a380e995",
+            "nameInternal": "RotationPropertyHolder",
+            "typeInternal": {
+                "assemblyQualifiedName": "GameGraph.Test.TestMonoBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "isGameGraphTypeInternal": true
         }
     ],
     "nodes": [
@@ -34,39 +42,29 @@
             }
         },
         {
-            "idInternal": "b4c9ab6e-7a2c-4a87-a6dc-85ee8eebe321",
+            "idInternal": "eb723081-dc4e-40a0-ab0f-eac8b7be44d5",
             "typeInternal": {
                 "assemblyQualifiedName": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
             },
             "parameterIdInternal": "bd31db69-0a4e-4feb-8cd9-a484f4b233b0",
             "positionInternal": {
-                "x": 487.0,
-                "y": 470.0
+                "x": 486.0,
+                "y": 508.0
             }
         },
         {
-            "idInternal": "5f87f9d2-91c8-48b5-a335-3859b067fd21",
+            "idInternal": "276bde35-8ebc-43a8-9684-10c66c56911c",
             "typeInternal": {
-                "assemblyQualifiedName": "TestValue, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+                "assemblyQualifiedName": "GameGraph.Test.TestMonoBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
             },
-            "parameterIdInternal": "",
+            "parameterIdInternal": "e8c891e6-eb0c-427a-8aeb-ea00a380e995",
             "positionInternal": {
-                "x": 444.0,
+                "x": 394.0,
                 "y": 366.0
             }
         }
     ],
     "edges": [
-        {
-            "outputConnection": {
-                "nodeIdInternal": "b4c9ab6e-7a2c-4a87-a6dc-85ee8eebe321",
-                "portNameInternal": "Instance"
-            },
-            "inputConnection": {
-                "nodeIdInternal": "4a31aeef-0fb5-436a-9300-16d07f05bbb7",
-                "portNameInternal": "go"
-            }
-        },
         {
             "outputConnection": {
                 "nodeIdInternal": "a63c6ddb-ba27-4c8d-8612-03bb32a6809a",
@@ -89,12 +87,22 @@
         },
         {
             "outputConnection": {
-                "nodeIdInternal": "5f87f9d2-91c8-48b5-a335-3859b067fd21",
-                "portNameInternal": "value"
+                "nodeIdInternal": "276bde35-8ebc-43a8-9684-10c66c56911c",
+                "portNameInternal": "rotationSpeed"
             },
             "inputConnection": {
                 "nodeIdInternal": "4a31aeef-0fb5-436a-9300-16d07f05bbb7",
                 "portNameInternal": "rotationSpeed"
+            }
+        },
+        {
+            "outputConnection": {
+                "nodeIdInternal": "eb723081-dc4e-40a0-ab0f-eac8b7be44d5",
+                "portNameInternal": "Instance"
+            },
+            "inputConnection": {
+                "nodeIdInternal": "4a31aeef-0fb5-436a-9300-16d07f05bbb7",
+                "portNameInternal": "go"
             }
         }
     ]

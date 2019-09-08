@@ -110,13 +110,13 @@ namespace GameGraph.Editor
                     parameterResult.Add(editorParameter.id, new Parameter(editorParameter.name, editorParameter.type)));
         }
 
-        public GraphObject GetGraphObject()
+        public GraphObject GetGraphObject(GraphObject previous)
         {
             CollectNodeData();
             BuildNodes();
             BuildParameterData();
 
-            var graphObject = ScriptableObject.CreateInstance<GraphObject>();
+            var graphObject = previous != null ? previous : ScriptableObject.CreateInstance<GraphObject>();
             graphObject.nodes = nodeResult;
             graphObject.parameters = parameterResult;
             return graphObject;
@@ -125,9 +125,9 @@ namespace GameGraph.Editor
 
     public static class GraphTransformExtension
     {
-        public static GraphObject ToExecutableGraph(this EditorGameGraph graph)
+        public static GraphObject ToExecutableGraph(this EditorGameGraph graph, GraphObject previous)
         {
-            return new GraphTransformer(graph).GetGraphObject();
+            return new GraphTransformer(graph).GetGraphObject(previous);
         }
     }
 }

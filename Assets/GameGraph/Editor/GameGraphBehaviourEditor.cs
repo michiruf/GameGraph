@@ -18,6 +18,8 @@ namespace GameGraph.Editor
             AddGraphDependingFields(behaviour.graph);
             EditorGUILayout.Space();
             AddOpenButton(behaviour.graph);
+
+            EditorUtility.SetDirty(behaviour.graph);
         }
 
         private void AddGraphDependingFields(GraphObject graph)
@@ -26,7 +28,8 @@ namespace GameGraph.Editor
             {
                 var parameter = pair.Value;
                 parameter.instance =
-                    EditorGUILayout.ObjectField(parameter.name, parameter.instance, parameter.type.type, true);
+                    EditorGUILayout.ObjectField(parameter.name.PrettifyName(), parameter.instance, parameter.type.type,
+                        true);
             }
         }
 

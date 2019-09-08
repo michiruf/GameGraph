@@ -15,7 +15,7 @@ namespace GameGraph.Editor
             if (rawGraph == null)
                 throw new ArgumentException();
 
-            var executableGraph = rawGraph.ToExecutableGraph();
+            var executableGraph = rawGraph.ToExecutableGraph(ctx.mainObject as GraphObject);
             ctx.AddObjectToAsset("MainAsset", executableGraph);
             ctx.SetMainObject(executableGraph);
         }

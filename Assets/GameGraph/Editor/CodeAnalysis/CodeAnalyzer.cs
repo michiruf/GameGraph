@@ -23,6 +23,8 @@ namespace GameGraph.Editor
         public static IEnumerable<Type> GetNonNodeTypes()
         {
             return AppDomain.CurrentDomain.GetAssemblies()
+                // TODO For now, just show unity assembly stuff -> This might be enough?
+                .Where(assembly => assembly.GetName().Name.Equals("UnityEngine.CoreModule"))
                 .SelectMany(assembly => assembly.GetTypes())
                 .Where(type => type != null && type.GetCustomAttribute<GameGraphAttribute>() == null);
         }
