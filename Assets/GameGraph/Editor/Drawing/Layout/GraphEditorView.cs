@@ -11,13 +11,21 @@ namespace GameGraph.Editor
     public class GraphEditorView : GraphView, IGraphVisualElement
     {
         private EditorGameGraph graph;
+        private EventBus eventBus;
 
-        public void Initialize(string graphName, EditorGameGraph graph, GameGraphWindow window)
+        private NodeSearchWindowProvider nodeSearchWindowProvider => this.GetUserDataOrCreate(() =>
+        {
+            var provider = ScriptableObject.CreateInstance<NodeSearchWindowProvider>();
+            provider.Initialize();
+            return provider;
+        });
+
+        public void Initialize(EditorGameGraph graph)
         {
             this.graph = graph;
 
             RegisterViewNavigation();
-            RegisterAddElement(window);
+            RegisterAddElement();
             DrawGraph();
             RegisterChangeEvent(); // After draw!
         }
@@ -30,20 +38,21 @@ namespace GameGraph.Editor
             z.target = this;
         }
 
-        private void RegisterAddElement(GameGraphWindow window)
+        private void RegisterAddElement()
         {
-            var searchWindowProvider = ScriptableObject.CreateInstance<NodeSearchWindowProvider>();
-            searchWindowProvider.Initialize(this, window, (type, position) =>
+            nodeSearchWindowProvider.callback = (type, position) =>
             {
+                var realPosition = contentViewContainer.GetContainerRelativePosition(position);
+
                 var nodeView = new NodeView();
                 nodeView.graph = graph;
                 AddElement(nodeView);
-                nodeView.Initialize(type, position ?? Vector2.zero, null);
+                nodeView.Initialize(type, realPosition, null);
                 nodeView.PersistState();
-            });
+            };
             nodeCreationRequest += context =>
             {
-                SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), searchWindowProvider);
+                SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), nodeSearchWindowProvider);
             };
         }
 

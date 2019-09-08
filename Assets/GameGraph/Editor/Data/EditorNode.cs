@@ -7,7 +7,7 @@ using UnityEngine;
 namespace GameGraph.Editor
 {
     [Serializable]
-    public class EditorNode : ISerializationCallbackReceiver
+    public class EditorNode
     {
         [SerializeField] private string idInternal = Guid.NewGuid().ToString();
         [SerializeField] private SerializableType typeInternal;
@@ -19,7 +19,7 @@ namespace GameGraph.Editor
 
         public string id => idInternal;
 
-        public Type type { get; private set; }
+        public Type type => typeInternal;
 
         public string parameterId
         {
@@ -43,9 +43,9 @@ namespace GameGraph.Editor
             }
         }
 
-        public EditorNode(Type type)
+        public EditorNode(SerializableType type)
         {
-            this.type = type;
+            typeInternal = type;
             MarkDirty();
         }
 
@@ -57,16 +57,6 @@ namespace GameGraph.Editor
         private void MarkDirty()
         {
             isDirty = true;
-        }
-
-        public void OnBeforeSerialize()
-        {
-            typeInternal = type.ToSerializable();
-        }
-
-        public void OnAfterDeserialize()
-        {
-            type = typeInternal.ToType();
         }
     }
 }

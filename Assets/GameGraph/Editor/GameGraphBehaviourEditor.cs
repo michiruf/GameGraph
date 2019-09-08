@@ -26,7 +26,7 @@ namespace GameGraph.Editor
             {
                 var parameter = pair.Value;
                 parameter.instance =
-                    EditorGUILayout.ObjectField(parameter.name, parameter.instance, parameter.type, true);
+                    EditorGUILayout.ObjectField(parameter.name, parameter.instance, parameter.type.type, true);
             }
         }
 

@@ -24,6 +24,7 @@ namespace GameGraph
             }
             foreach (var pair in graph.nodes)
             {
+                pair.Value.SetupInstanceAdapterLinks(graph.nodes);
                 pair.Value.SetupExecutionAdapterLinks(graph.nodes);
             }
         }

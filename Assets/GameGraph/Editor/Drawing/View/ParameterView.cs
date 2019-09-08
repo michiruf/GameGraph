@@ -13,6 +13,15 @@ namespace GameGraph.Editor
 
         private BlackboardField nameView => this.QCached<BlackboardField>("name");
         private Button typeButton => this.QCached<Button>("type");
+        
+        private ParameterSearchWindowProvider parameterSearchWindowProvider => this.GetUserDataOrCreate(() =>
+        {
+            // Bottleneck is not reflection, but creation of the search window,
+            // so no need to cache this for all instances
+            var provider = ScriptableObject.CreateInstance<ParameterSearchWindowProvider>();
+            provider.Initialize();
+            return provider;
+        });
 
         public ParameterView()
         {
@@ -39,7 +48,7 @@ namespace GameGraph.Editor
                 typeButton.text = type.Name;
                 typeButton.userData = type;
                 PersistState();
-            }, typeButton.worldBound.position); // TODO Position is not correct at all
+            }, typeButton.GetScreenPosition() + typeButton.clickable.lastMousePosition);
 
             // Register delete callback (why is this so hard?!)
             // This also removes the state when the window is unloaded, but then no persistence should occur...
@@ -55,7 +64,6 @@ namespace GameGraph.Editor
             var clickable = new Clickable(() =>
             {
                 var graphContainer = GetFirstOfType<GraphEditorView>();
-
                 var nodeView = new NodeView();
                 nodeView.graph = graph;
                 graphContainer.AddElement(nodeView);
@@ -88,11 +96,8 @@ namespace GameGraph.Editor
 
         private void CreateSearchWindow(Action<Type> callback, Vector2 position)
         {
-            // NOTE The search window might be provided by the editor view to improve performance
-            //      Alternatively make static?
-            var searchWindowProvider = ScriptableObject.CreateInstance<ParameterSearchWindowProvider>();
-            searchWindowProvider.Initialize(callback);
-            SearchWindow.Open(new SearchWindowContext(position), searchWindowProvider);
+            parameterSearchWindowProvider.callback = (type, vector2) => callback.Invoke(type);
+            SearchWindow.Open(new SearchWindowContext(position), parameterSearchWindowProvider); 
         }
     }
 

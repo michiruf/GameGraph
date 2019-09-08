@@ -6,12 +6,13 @@ using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
 {
-    // TODO For parameters maybe put the regular fields into expandable and the instance ports into non-expandable?
-
     public class NodeView : UnityEditor.Experimental.GraphView.Node, IGraphElement
     {
         public EditorGameGraph graph { private get; set; }
         private EditorNode node;
+        private EditorParameter parameter;
+
+        private Type nodeType => parameter == null ? node.type : parameter.type;
 
         public void Initialize(Type type, Vector2 position, string parameterId)
         {
@@ -21,6 +22,7 @@ namespace GameGraph.Editor
         public void Initialize(EditorNode node)
         {
             this.node = node;
+            parameter = node.GetParameter(graph);
             Initialize();
         }
 
@@ -28,15 +30,14 @@ namespace GameGraph.Editor
         {
             // Use the name as if it would be an id, because this only makes sense
             name = node.id;
-            title = node.type.Name.PrettifyName();
+            title = nodeType.Name.PrettifyName();
             SetPosition(new Rect(node.position, Vector2.zero));
             RegisterDragging();
 
-            var parameter = node.GetParameter(graph);
             if (parameter == null || parameter.isGameGraphType)
-                CreateFields(CodeAnalyzer.GetNodeData(node.type));
+                CreateFields(CodeAnalyzer.GetNodeData(nodeType));
             if (parameter != null)
-                CreateParameterViews(node.GetParameter(graph));
+                CreateParameterViews(parameter);
 
             SetAlwaysExpandedAndRefresh();
 
@@ -112,6 +113,8 @@ namespace GameGraph.Editor
 
         private void CreateParameterViews(EditorParameter parameter)
         {
+            // NOTE For parameters maybe put the regular fields into expandable and the instance ports into non-expandable?
+
             // Flag the node as parameter
             AddToClassList("parameter");
 
@@ -121,7 +124,7 @@ namespace GameGraph.Editor
                 Direction.Output,
                 Port.Capacity.Multi,
                 parameter.type,
-                node.type.Name,
+                EditorConstants.ParameterPortId,
                 EditorConstants.ParameterPortName));
         }
     }

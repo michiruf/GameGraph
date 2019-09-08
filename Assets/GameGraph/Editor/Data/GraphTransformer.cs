@@ -48,6 +48,23 @@ namespace GameGraph.Editor
                     var inputClass = nodeClassData[id];
                     var edgesToNode = nodeEdgesToNode[id];
 
+                    node.instanceAdapters = edgesToNode
+                        .Where(editorEdge => editorEdge.outputPortName.Equals(EditorConstants.ParameterPortId))
+                        .Select(editorEdge =>
+                        {
+                            var inputProperty = inputClass.fields
+                                .Select(info => (MemberInfo) info)
+                                .Concat(inputClass.properties)
+                                .FirstOrDefault(data => data.Name.Equals(editorEdge.inputPortName));
+                            return Tuple.Create(
+                                editorEdge.outputNodeId,
+                                inputProperty
+                            );
+                        })
+                        .Where(tuple => tuple.Item2 != null)
+                        .Select(tuple => new InstanceAdapter(tuple.Item1, tuple.Item2))
+                        .ToList();
+
                     node.propertyAdapters = edgesToNode
                         .Select(editorEdge =>
                         {
@@ -110,8 +127,7 @@ namespace GameGraph.Editor
     {
         public static GraphObject ToExecutableGraph(this EditorGameGraph graph)
         {
-            var transformer = new GraphTransformer(graph);
-            return transformer.GetGraphObject();
+            return new GraphTransformer(graph).GetGraphObject();
         }
     }
 }

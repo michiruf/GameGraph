@@ -5,48 +5,53 @@ using UnityEngine;
 namespace GameGraph
 {
     [Serializable]
-    public class SerializableMemberInfo
+    public class SerializableMemberInfo : ISerializationCallbackReceiver
     {
-        [SerializeField] private SerializableType serializableType;
-        [SerializeField] private string memberName;
+        [SerializeField] private SerializableType type;
+        [SerializeField] private string name;
+
+        public MemberInfo memberInfo { get; private set; }
+        public FieldInfo fieldInfo => memberInfo as FieldInfo;
+        public PropertyInfo propertyInfo => memberInfo as PropertyInfo;
+        public EventInfo eventInfo => memberInfo as EventInfo;
 
         public SerializableMemberInfo(MemberInfo info)
         {
-            serializableType = info.DeclaringType.ToSerializable();
-            memberName = info.Name;
+            memberInfo = info;
         }
 
-        public FieldInfo ToFieldInfo()
+        // NOTE Are the MemberInfo operators not enough?
+        public static implicit operator MemberInfo(SerializableMemberInfo s) => s.memberInfo;
+        //public static implicit operator FieldInfo(SerializableMemberInfo s) => s.fieldInfo;
+        //public static implicit operator PropertyInfo(SerializableMemberInfo s) => s.propertyInfo;
+        //public static implicit operator EventInfo(SerializableMemberInfo s) => s.eventInfo;
+        public static implicit operator SerializableMemberInfo(MemberInfo i) => new SerializableMemberInfo(i);
+        //public static implicit operator SerializableMemberInfo(FieldInfo i) => new SerializableMemberInfo(i);
+        //public static implicit operator SerializableMemberInfo(PropertyInfo i) => new SerializableMemberInfo(i);
+        //public static implicit operator SerializableMemberInfo(EventInfo i) => new SerializableMemberInfo(i);
+
+        public override bool Equals(object obj)
         {
-            var type = serializableType.ToType();
-            return type.GetField(memberName, GameGraphConstants.ReflectionFlags);
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return memberInfo == ((SerializableMemberInfo) obj).memberInfo;
         }
 
-        // TODO Use properties as well
-        public PropertyInfo ToPropertyInfo()
+        public override int GetHashCode()
         {
-            var type = serializableType.ToType();
-            return type.GetProperty(memberName, GameGraphConstants.ReflectionFlags);
+            return memberInfo.GetHashCode();
         }
 
-        public EventInfo ToEventInfo()
+        public void OnBeforeSerialize()
         {
-            var type = serializableType.ToType();
-            return type.GetEvent(memberName, GameGraphConstants.ReflectionFlags);
+            type = memberInfo.DeclaringType;
+            name = memberInfo.Name;
         }
 
-        public MemberInfo ToMemberInfo(int index = 0)
+        public void OnAfterDeserialize()
         {
-            var type = serializableType.ToType();
-            return type.GetMember(memberName, GameGraphConstants.ReflectionFlags)[index];
-        }
-    }
-
-    public static class SerializableFieldInfoExtension
-    {
-        public static SerializableMemberInfo ToSerializable(this MemberInfo info)
-        {
-            return new SerializableMemberInfo(info);
+            memberInfo = type.type.GetMember(name, GameGraphConstants.ReflectionFlags)[0];
         }
     }
 }

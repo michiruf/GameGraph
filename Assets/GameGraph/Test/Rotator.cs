@@ -1,22 +1,19 @@
 using GameGraph;
+using JetBrains.Annotations;
 using UnityEngine;
 
 [GameGraph]
-public class Rotator : IStartHook
+[UsedImplicitly]
+public class Rotator
 {
     public float deltaTime { private get; set; } = Time.fixedDeltaTime;
     public float rotationSpeed { private get; set; }
 
-    private GameObject cube;
+    public GameObject go { private get; set; }
 
-    [ExcludeFromGraph]
-    public void Start()
-    {
-        cube = GameObject.FindWithTag("Player");
-    }
-
+    [UsedImplicitly]
     public void Rotate()
     {
-        cube.transform.Rotate(Vector3.up, rotationSpeed * deltaTime);
+        go.transform.Rotate(Vector3.up, rotationSpeed * deltaTime);
     }
 }

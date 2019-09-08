@@ -8,7 +8,7 @@ namespace GameGraph.Editor
     {
         // TODO Maybe use serializable data from here on, to have a unified and failsafe data handling?!
         public readonly Type type;
-        public bool isGameGraphComponent; // TODO Put this here instead if the EditorParameter
+        public static bool isGameGraphComponent = true; // TODO Put this here instead if the EditorParameter (static only because of error)
         public readonly List<FieldInfo> fields;
         public readonly List<PropertyInfo> properties;
         public readonly List<EventInfo> events;

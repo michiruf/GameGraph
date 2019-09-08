@@ -58,11 +58,7 @@ namespace GameGraph.Editor
             }
 
             if (!foundWindow)
-            {
-                var window = CreateInstance<GameGraphWindow>();
-                window.Initialize(guid);
-                window.Show();
-            }
+                CreateInstance<GameGraphWindow>().InitializeAndShow(guid);
 
             return true;
         }

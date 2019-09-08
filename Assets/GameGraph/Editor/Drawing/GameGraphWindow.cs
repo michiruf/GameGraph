@@ -15,7 +15,16 @@ namespace GameGraph.Editor
 
         private EditorGameGraph graph;
 
-        public void Initialize(string assetGuid)
+        private ToolbarButton toolbarSaveButton => rootVisualElement.QCached<ToolbarButton>("save");
+        private ToolbarButton toolbarReopenButton => rootVisualElement.QCached<ToolbarButton>("reopen");
+
+        public void InitializeAndShow(string assetGuid)
+        {
+            Initialize(assetGuid);
+            Show();
+        }
+
+        private void Initialize(string assetGuid)
         {
             var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
 
@@ -31,21 +40,25 @@ namespace GameGraph.Editor
                 return;
             assetGuidInternal = assetGuid;
 
+            // Initialize window stuff
+            this.MakeWindowReceivableByChildren();
+            this.RegisterWindowHooksForEasyAccess();
+            this.AddEventBus();
+
             // Initialize UI
             titleContent = new GUIContent(assetExists.name);
             rootVisualElement.AddStylesheet(EditorConstants.ResourcesUxmlPath + "/Style.uss");
             rootVisualElement.AddLayout(EditorConstants.ResourcesUxmlPath + "/GameGraphWindow.uxml");
-            RegisterSaveButton();
-            RegisterReopenButton();
+            toolbarSaveButton.clickable.clicked += SaveGraph;
+            toolbarReopenButton.clickable.clicked += () =>
+            {
+                Close();
+                CreateInstance<GameGraphWindow>().InitializeAndShow(assetGuid);
+            };
 
             // Initialize graph
             LoadGraph();
             DistributeGraphAndInitializeChildren();
-
-            // TODo
-            //RegisterChildCallbacks();
-            rootVisualElement.AddUserData(this);
-            this.AddEventBus();
 
             Repaint();
         }
@@ -70,7 +83,7 @@ namespace GameGraph.Editor
                     "Save",
                     "Don't Save"))
                 SaveGraph();
-            //DestroyImmediate(graph);
+            this.RemoveEventBus();
         }
 
         private void LoadGraph()
@@ -90,29 +103,13 @@ namespace GameGraph.Editor
             AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
         }
 
-        private void RegisterSaveButton()
-        {
-            rootVisualElement.Q<ToolbarButton>("save").clickable.clicked += SaveGraph;
-        }
-
-        private void RegisterReopenButton()
-        {
-            rootVisualElement.Q<ToolbarButton>("reopen").clickable.clicked += () =>
-            {
-                Close();
-                var window = CreateInstance<GameGraphWindow>();
-                window.Initialize(assetGuid);
-                window.Show();
-            };
-        }
-
         private void DistributeGraphAndInitializeChildren(VisualElement element = null)
         {
             // NOTE Using a query here as well could improve the performance alot
             if (element == null)
                 element = rootVisualElement;
             if (element is IGraphVisualElement c)
-                c.Initialize(titleContent.text, graph, this);
+                c.Initialize(graph);
 
             element.Children().ToList().ForEach(DistributeGraphAndInitializeChildren);
         }

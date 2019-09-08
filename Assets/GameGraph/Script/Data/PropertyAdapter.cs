@@ -5,25 +5,22 @@ using UnityEngine;
 namespace GameGraph
 {
     [Serializable]
-    public class PropertyAdapter : ISerializationCallbackReceiver
+    public class PropertyAdapter
     {
         // Since we only need this id in this context we abuse the adapter as a data holder for easiness
         public string outputNodeId;
         [SerializeField] private bool outputIsProperty;
         [SerializeField] private bool inputIsProperty;
-        [SerializeField] private SerializableMemberInfo serializableOutputInfo;
-        [SerializeField] private SerializableMemberInfo serializableInputInfo;
+        [SerializeField] private SerializableMemberInfo outputInfo;
+        [SerializeField] private SerializableMemberInfo inputInfo;
 
-        private MemberInfo outputInfo;
-        private MemberInfo inputInfo;
-
-        public PropertyAdapter(string outputNodeId, MemberInfo outputInfo, MemberInfo inputInfo)
+        public PropertyAdapter(string outputNodeId, SerializableMemberInfo outputInfo, SerializableMemberInfo inputInfo)
         {
             this.outputNodeId = outputNodeId;
             this.outputInfo = outputInfo;
             this.inputInfo = inputInfo;
-            outputIsProperty = outputInfo is PropertyInfo;
-            inputIsProperty = inputInfo is PropertyInfo;
+            outputIsProperty = outputInfo.memberInfo is PropertyInfo;
+            inputIsProperty = inputInfo.memberInfo is PropertyInfo;
         }
 
         public void TransmitValue(object output, object input)
@@ -36,33 +33,6 @@ namespace GameGraph
                 ((PropertyInfo) inputInfo).SetValue(input, value);
             else
                 ((FieldInfo) inputInfo).SetValue(input, value);
-        }
-
-        public void OnBeforeSerialize()
-        {
-            if (outputInfo != null)
-                serializableOutputInfo = outputInfo.ToSerializable();
-            if (inputInfo != null)
-                serializableInputInfo = inputInfo.ToSerializable();
-        }
-
-        public void OnAfterDeserialize()
-        {
-            if (serializableOutputInfo != null)
-                outputInfo = serializableOutputInfo.ToMemberInfo();
-            if (serializableInputInfo != null)
-                inputInfo = serializableInputInfo.ToMemberInfo();
-            return;
-            
-            // TODO Remove more explicit way
-            //if (serializableOutputInfo != null)
-            //    outputInfo = outputIsProperty
-            //        ? (MemberInfo) serializableOutputInfo.ToPropertyInfo()
-            //        : serializableOutputInfo.ToFieldInfo();
-            //if (serializableInputInfo != null)
-            //    inputInfo = inputIsProperty
-            //        ? (MemberInfo) serializableInputInfo.ToPropertyInfo()
-            //        : serializableInputInfo.ToFieldInfo();
         }
     }
 }

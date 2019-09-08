@@ -7,6 +7,11 @@ namespace GameGraph.Editor
 {
     public class PropertyView : VisualElement
     {
+        private Label nameLabel => this.QCached<Label>("name");
+        private Label valueLabel => this.QCached<Label>("value");
+        private VisualElement ingoingPortContainer => this.QCached<VisualElement>("ingoingPortContainer");
+        private VisualElement outgoingPortContainer => this.QCached<VisualElement>("outgoingPortContainer");
+
         private PropertyView()
         {
             this.AddLayout(EditorConstants.ResourcesUxmlViewPath + "/PropertyView.uxml");
@@ -26,8 +31,8 @@ namespace GameGraph.Editor
 
         private void Initialize(string name, Type type, bool hasInput, bool hasOutput)
         {
-            this.Q<Label>("name").text = name.PrettifyName();
-            this.Q<Label>("value").text = "TODO";
+            nameLabel.text = name.PrettifyName();
+            valueLabel.text = "TODO";
 
             if (hasInput)
             {
@@ -39,9 +44,8 @@ namespace GameGraph.Editor
                     name,
                     null,
                     type.Name);
-                var container = this.Q<VisualElement>("ingoingPortContainer");
-                container.Add(port);
-                container.AddToClassList("exists");
+                ingoingPortContainer.Add(port);
+                ingoingPortContainer.AddToClassList("exists");
             }
 
             if (hasOutput)
@@ -54,9 +58,8 @@ namespace GameGraph.Editor
                     name,
                     null,
                     type.Name);
-                var container = this.Q<VisualElement>("outgoingPortContainer");
-                container.Add(port);
-                container.AddToClassList("exists");
+                outgoingPortContainer.Add(port);
+                outgoingPortContainer.AddToClassList("exists");
             }
         }
     }

@@ -7,17 +7,17 @@ using Object = UnityEngine.Object;
 namespace GameGraph
 {
     [Serializable]
-    public class Node : ISerializationCallbackReceiver
+    public class Node
     {
-        public List<PropertyAdapter> propertyAdapters;
+        public List<InstanceAdapter> instanceAdapters;
         public List<ExecutionAdapter> executionAdapters;
-        public string parameterId;
-        [SerializeField] private SerializableType serializableType;
+        public List<PropertyAdapter> propertyAdapters;
+        [SerializeField] private string parameterId;
+        [SerializeField] private SerializableType type;
 
-        private Type type;
         public object instance { get; private set; }
 
-        public Node(Type type, string parameterId)
+        public Node(SerializableType type, string parameterId)
         {
             this.type = type;
             this.parameterId = parameterId;
@@ -31,7 +31,17 @@ namespace GameGraph
                 return;
             }
 
-            instance = Activator.CreateInstance(type);
+            instance = Activator.CreateInstance(type.type);
+        }
+
+        public void SetupInstanceAdapterLinks(Dictionary<string, Node> nodes)
+        {
+            instanceAdapters.ForEach(adapter =>
+            {
+                nodes.TryGetValue(adapter.outputNodeId, out var outputNode);
+                Assert.IsNotNull(outputNode);
+                adapter.TransmitValue(outputNode.instance, instance);
+            });
         }
 
         public void SetupExecutionAdapterLinks(Dictionary<string, Node> nodes)
@@ -52,16 +62,6 @@ namespace GameGraph
                 Assert.IsNotNull(outputNode);
                 adapter.TransmitValue(outputNode.instance, instance);
             });
-        }
-
-        public void OnBeforeSerialize()
-        {
-            serializableType = type.ToSerializable();
-        }
-
-        public void OnAfterDeserialize()
-        {
-            type = serializableType.ToType();
         }
     }
 }

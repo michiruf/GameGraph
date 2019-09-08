@@ -11,11 +11,11 @@ namespace GameGraph.Editor
     {
         private EditorGameGraph graph;
 
-        public void Initialize(string graphName, EditorGameGraph graph, GameGraphWindow window)
+        public void Initialize(EditorGameGraph graph)
         {
             this.graph = graph;
 
-            title = graphName;
+            title = this.GetWindow().titleContent.text;
             subTitle = EditorConstants.BlackboardSubHeadline;
 
             RegisterAddElement();
@@ -38,6 +38,7 @@ namespace GameGraph.Editor
 
         private void RegisterMoveElement()
         {
+            // TODO
             moveItemRequested += (blackboard, newIndex, element) => { Debug.LogError("moveItemRequested"); };
         }
 

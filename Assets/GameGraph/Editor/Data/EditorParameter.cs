@@ -7,7 +7,7 @@ namespace GameGraph.Editor
     // TODO Rename parameter to references everywhere?
 
     [Serializable]
-    public class EditorParameter : ISerializationCallbackReceiver
+    public class EditorParameter
     {
         [SerializeField] private string idInternal = Guid.NewGuid().ToString();
         [SerializeField] private string nameInternal;
@@ -30,15 +30,14 @@ namespace GameGraph.Editor
             }
         }
 
-        private Type typeValue;
         public Type type
         {
-            get => typeValue;
+            get => typeInternal;
             set
             {
-                if (value == typeValue) return;
-                typeValue = value;
-                // NOTE Reflection might not belong here. Create a type wrapper maybe?
+                if (value == typeInternal.type) return;
+                typeInternal = value;
+                // NOTE Reflection might not belong here
                 isGameGraphTypeInternal = value.GetCustomAttribute<GameGraphAttribute>() != null;
                 MarkDirty();
             }
@@ -46,26 +45,16 @@ namespace GameGraph.Editor
 
         public bool isGameGraphType => isGameGraphTypeInternal;
 
-        public EditorParameter(string name, Type type)
+        public EditorParameter(string name, SerializableType type)
         {
-            this.name = name;
-            this.type = type;
+            nameInternal = name;
+            typeInternal = type;
             MarkDirty();
         }
 
         private void MarkDirty()
         {
             isDirty = true;
-        }
-
-        public void OnBeforeSerialize()
-        {
-            typeInternal = typeValue.ToSerializable();
-        }
-
-        public void OnAfterDeserialize()
-        {
-            typeValue = typeInternal.ToType();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace GameGraph.Editor
             listeners.RemoveAll(l => l.listener == listener);
         }
 
-        public void PostEvent(object e)
+        public void Dispatch(object e)
         {
             listeners
                 .Where(l => l.eventType == e.GetType())
@@ -43,6 +43,7 @@ namespace GameGraph.Editor
 
                 var type = listener.GetType();
 
+                // TODO Handles only one element?!
                 method = type.GetMethod("OnEvent");
                 if (method == null)
                     throw new ArgumentException("Class " + type.Name + " does not contain method OnEvent");

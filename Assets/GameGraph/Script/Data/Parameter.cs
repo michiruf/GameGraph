@@ -5,15 +5,14 @@ using Object = UnityEngine.Object;
 namespace GameGraph
 {
     [Serializable]
-    public class Parameter : ISerializationCallbackReceiver
+    public class Parameter
     {
         public string name;
-        [SerializeField] private SerializableType serializableType;
+        public SerializableType type;
 
-        public Type type { get; private set; }
         public Object instance { get; set; }
 
-        public Parameter(string name, Type type)
+        public Parameter(string name, SerializableType type)
         {
             this.name = name;
             this.type = type;
@@ -22,16 +21,6 @@ namespace GameGraph
         public void FetchObjects()
         {
             // TODO Receive the objects anyhow from the inspector
-        }
-
-        public void OnBeforeSerialize()
-        {
-            serializableType = type.ToSerializable();
-        }
-
-        public void OnAfterDeserialize()
-        {
-            type = serializableType.ToType();
         }
     }
 }
