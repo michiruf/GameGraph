@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -13,6 +14,9 @@ namespace GameGraph.Editor
         private EditorParameter parameter;
 
         private Type nodeType => parameter == null ? node.type : parameter.type;
+        private string nodeName => (parameter == null ? node.type.Name : parameter.name).PrettifyName();
+
+        private readonly Dragger drag = new Dragger();
 
         public void Initialize(Type type, Vector2 position, string parameterId)
         {
@@ -30,9 +34,9 @@ namespace GameGraph.Editor
         {
             // Use the name as if it would be an id, because this only makes sense
             name = node.id;
-            title = nodeType.Name.PrettifyName();
+            title = nodeName;
             SetPosition(new Rect(node.position, Vector2.zero));
-            RegisterDragging();
+            drag.target = this;
 
             if (parameter == null || parameter.isGameGraphType)
                 CreateFields(CodeAnalyzer.GetNodeData(nodeType));
@@ -44,12 +48,9 @@ namespace GameGraph.Editor
             // NOTE Handle the move event manually, because it does not get triggered in
             //      GraphEditorView.graphViewChanged event listeners
             //      The current solution is pretty slow and should cause lags when there exist more nodes
-            RegisterCallback<MouseMoveEvent>(evt =>
-            {
-                GetFirstAncestorOfType<GraphEditorView>()
-                    .graphViewChanged
-                    .Invoke(new GraphViewChange {movedElements = new List<GraphElement> {this}});
-            });
+            RegisterCallback<MouseMoveEvent>(OnMove);
+
+            this.GetEventBus().Register(this);
         }
 
         public void PersistState()
@@ -65,16 +66,17 @@ namespace GameGraph.Editor
             graph.nodes.Remove(node);
         }
 
-        private void RegisterDragging()
+        private void OnMove(MouseMoveEvent evt)
         {
-            var d = new Dragger();
-            d.target = this;
+            GetFirstAncestorOfType<GraphEditorView>()
+                .graphViewChanged
+                .Invoke(new GraphViewChange {movedElements = new List<GraphElement> {this}});
         }
 
         private void SetAlwaysExpandedAndRefresh()
         {
             expanded = true;
-            m_CollapseButton.parent.Remove(m_CollapseButton);
+            m_CollapseButton?.parent?.Remove(m_CollapseButton);
             // NOTE May fix this: For any reason if there is just one element the layout is misbehaving
             extensionContainer.Add(new VisualElement());
             RefreshExpandedState();
@@ -94,8 +96,8 @@ namespace GameGraph.Editor
                     Direction.Input,
                     Port.Capacity.Single,
                     typeof(Action),
-                    data.Name,
-                    data.Name.PrettifyName()));
+                    data.info.Name,
+                    data.info.Name.PrettifyName()));
             });
 
             // Triggers
@@ -106,8 +108,8 @@ namespace GameGraph.Editor
                     Direction.Output,
                     Port.Capacity.Multi,
                     typeof(Action),
-                    data.Name,
-                    data.Name.PrettifyName()));
+                    data.info.Name,
+                    data.info.Name.PrettifyName()));
             });
         }
 
@@ -126,6 +128,20 @@ namespace GameGraph.Editor
                 parameter.type,
                 EditorConstants.ParameterPortId,
                 EditorConstants.ParameterPortName));
+        }
+
+        [UsedImplicitly]
+        public void OnEvent(ParameterChangedEvent e)
+        {
+            if (e.parameter != parameter)
+                return;
+            
+            // NOTE For immediate easiness just recreate the node
+            extensionContainer.Clear();
+            inputContainer.Clear();
+            outputContainer.Clear();
+            UnregisterCallback<MouseMoveEvent>(OnMove);
+            Initialize();
         }
     }
 }

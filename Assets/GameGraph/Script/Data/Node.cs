@@ -23,7 +23,7 @@ namespace GameGraph
             this.parameterId = parameterId;
         }
 
-        public void ConstructOrReceiveInstance(Dictionary<string, Parameter> parameters)
+        public void ConstructOrReferenceInstance(Dictionary<string, Parameter> parameters)
         {
             if (!string.IsNullOrEmpty(parameterId) && parameters.ContainsKey(parameterId))
             {

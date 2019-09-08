@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
+using UnityEditor.MemoryProfiler;
 
 namespace GameGraph.Editor
 {
@@ -10,21 +11,22 @@ namespace GameGraph.Editor
     {
         public static IEnumerable<Type> GetNodeTypes()
         {
-            // NOTE Query via AssetDatabase.FindAssets() to have more performance? 
-            //      E.g. AssetDatabase.FindAssets("t:MonoScript", new []{"Assets"});
+            var gameGraphTypes = Assembly.GetAssembly(typeof(GameGraphBehaviour)).GetTypes();
             return AssetDatabase.GetAllAssetPaths()
                 .Where(s => s.StartsWith("Assets/") && s.EndsWith(".cs"))
                 .Select(s => AssetDatabase.LoadMainAssetAtPath(s) as MonoScript)
                 .Where(script => script != null)
                 .Select(script => script.GetClass())
+                .Where(type => !gameGraphTypes.Contains(type))
+                .Concat(gameGraphTypes)
                 .Where(type => type?.GetCustomAttribute<GameGraphAttribute>() != null);
         }
 
         public static IEnumerable<Type> GetNonNodeTypes()
         {
             return AppDomain.CurrentDomain.GetAssemblies()
-                // TODO For now, just show unity assembly stuff -> This might be enough?
-                .Where(assembly => assembly.GetName().Name.Equals("UnityEngine.CoreModule"))
+                .Where(assembly =>
+                    EditorConstants.AssemblyModulesToIncludeForParameters.Contains(assembly.GetName().Name))
                 .SelectMany(assembly => assembly.GetTypes())
                 .Where(type => type != null && type.GetCustomAttribute<GameGraphAttribute>() == null);
         }
@@ -37,24 +39,27 @@ namespace GameGraph.Editor
             // Get field and property data
             var fields = type.GetFields(GameGraphConstants.ReflectionFlags)
                 .Where(info => info.GetCustomAttribute<ExcludeFromGraphAttribute>() == null)
+                .Select(info => new MemberData<FieldInfo>(info))
                 .ToList();
             var properties = type.GetProperties(GameGraphConstants.ReflectionFlags)
                 .Where(info => info.GetCustomAttribute<ExcludeFromGraphAttribute>() == null)
+                .Select(info => new MemberData<PropertyInfo>(info))
                 .ToList();
-            var propertyMethods = properties.SelectMany(info => new[]
+            var propertyMethods = properties.SelectMany(data => new[]
             {
-                info.GetMethod,
-                info.SetMethod
+                data.info.GetMethod,
+                data.info.SetMethod
             });
 
             // Get event data
             var events = type.GetEvents(GameGraphConstants.ReflectionFlags)
                 .Where(info => info.GetCustomAttribute<ExcludeFromGraphAttribute>() == null)
+                .Select(info => new MemberData<EventInfo>(info))
                 .ToList();
-            var eventMethods = events.SelectMany(info => new[]
+            var eventMethods = events.SelectMany(data => new[]
             {
-                info.AddMethod,
-                info.RemoveMethod
+                data.info.AddMethod,
+                data.info.RemoveMethod
             });
 
             // Get method data
@@ -65,9 +70,10 @@ namespace GameGraph.Editor
                 .Where(info => info.ReturnType == typeof(void) && info.GetParameters().Length == 0)
                 // Remove property and event methods
                 .Where(info => !propertyMethods.Contains(info) && !eventMethods.Contains(info))
+                .Select(info => new MethodData(info))
                 .ToList();
 
-            return new ClassData(type, fields, properties, events, methods);
+            return new ClassData(new TypeData(type), fields, properties, events, methods);
         }
     }
 }

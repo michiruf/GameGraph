@@ -14,13 +14,9 @@ namespace GameGraph
             // To speed this up, nodes.AsParallel().ForEach() would be pretty nice,
             // but since initial values like Time.deltaTime on fields require
             // Unity's main thread, this would be impossible to do
-            foreach (var pair in graph.parameters)
-            {
-                pair.Value.FetchObjects();
-            }
             foreach (var pair in graph.nodes)
             {
-                pair.Value.ConstructOrReceiveInstance(graph.parameters);
+                pair.Value.ConstructOrReferenceInstance(graph.parameters);
             }
             foreach (var pair in graph.nodes)
             {

@@ -13,7 +13,7 @@ namespace GameGraph.Editor
 
         private BlackboardField nameView => this.QCached<BlackboardField>("name");
         private Button typeButton => this.QCached<Button>("type");
-        
+
         private ParameterSearchWindowProvider parameterSearchWindowProvider => this.GetUserDataOrCreate(() =>
         {
             // Bottleneck is not reflection, but creation of the search window,
@@ -44,11 +44,11 @@ namespace GameGraph.Editor
             nameView.text = parameter.name;
             typeButton.text = parameter.type.Name;
             typeButton.clickable.clicked += () => CreateSearchWindow(type =>
-            {
-                typeButton.text = type.Name;
-                typeButton.userData = type;
-                PersistState();
-            }, typeButton.GetScreenPosition() + typeButton.clickable.lastMousePosition);
+                {
+                    typeButton.text = type.Name;
+                    typeButton.userData = type;
+                    PersistState();
+                }, typeButton.GetScreenPosition() + typeButton.clickable.lastMousePosition);
 
             // Register delete callback (why is this so hard?!)
             // This also removes the state when the window is unloaded, but then no persistence should occur...
@@ -92,12 +92,13 @@ namespace GameGraph.Editor
         {
             nameView.text = newName;
             PersistState();
+            this.GetEventBus().Dispatch(new ParameterChangedEvent(parameter));
         }
 
         private void CreateSearchWindow(Action<Type> callback, Vector2 position)
         {
             parameterSearchWindowProvider.callback = (type, vector2) => callback.Invoke(type);
-            SearchWindow.Open(new SearchWindowContext(position), parameterSearchWindowProvider); 
+            SearchWindow.Open(new SearchWindowContext(position), parameterSearchWindowProvider);
         }
     }
 

@@ -17,10 +17,5 @@ namespace GameGraph
             this.name = name;
             this.type = type;
         }
-
-        public void FetchObjects()
-        {
-            // TODO Receive the objects anyhow from the inspector
-        }
     }
 }

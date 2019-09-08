@@ -2,11 +2,19 @@ namespace GameGraph.Editor
 {
     public static class EditorConstants
     {
+        // Configuration
+        public static readonly string[] AssemblyModulesToIncludeForParameters = {"UnityEngine.CoreModule"};
+
         // Magic constants
-        public const string ParameterPortId = "Instance";
-        
+        public const string ParameterPortId = "!Instance";
+
         // Text
         public const string OpenEditorText = "Open Game Graph Editor";
+        public const string CloseEditorSaveHeadline = "Game Graph Has Been Modified";
+        public const string CloseEditorSaveContent = "Do you want to save the changes you made in the Graph?\n" +
+                                                     "Your changes will be lost if you don't save them.";
+        public const string CloseEditorSaveOk = "Save";
+        public const string CloseEditorSaveCancel = "Don't Save";
         public const string BlackboardSubHeadline = "Game Graphs";
         public const string ParameterPortName = "Instance";
         public const string NodeSearchWindowHeadline = "Create Node";

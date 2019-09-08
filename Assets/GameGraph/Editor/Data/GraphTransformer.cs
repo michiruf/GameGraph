@@ -53,8 +53,8 @@ namespace GameGraph.Editor
                         .Select(editorEdge =>
                         {
                             var inputProperty = inputClass.fields
-                                .Select(info => (MemberInfo) info)
-                                .Concat(inputClass.properties)
+                                .Select(data => (MemberInfo) data.info)
+                                .Concat(inputClass.properties.Select(data => data.info))
                                 .FirstOrDefault(data => data.Name.Equals(editorEdge.inputPortName));
                             return Tuple.Create(
                                 editorEdge.outputNodeId,
@@ -70,12 +70,12 @@ namespace GameGraph.Editor
                         {
                             var outputClass = nodeClassData[editorEdge.outputNodeId];
                             var outputProperty = outputClass.fields
-                                .Select(info => (MemberInfo) info)
-                                .Concat(outputClass.properties)
+                                .Select(data => (MemberInfo) data.info)
+                                .Concat(outputClass.properties.Select(data => data.info))
                                 .FirstOrDefault(data => data.Name.Equals(editorEdge.outputPortName));
                             var inputProperty = inputClass.fields
-                                .Select(info => (MemberInfo) info)
-                                .Concat(inputClass.properties)
+                                .Select(data => (MemberInfo) data.info)
+                                .Concat(inputClass.properties.Select(data => data.info))
                                 .FirstOrDefault(data => data.Name.Equals(editorEdge.inputPortName));
                             return Tuple.Create(
                                 editorEdge.outputNodeId,
@@ -93,12 +93,14 @@ namespace GameGraph.Editor
                             var outputClass = nodeClassData[editorEdge.outputNodeId];
                             return Tuple.Create(
                                 editorEdge.outputNodeId,
-                                outputClass.events.FirstOrDefault(data => data.Name.Equals(editorEdge.outputPortName)),
-                                inputClass.methods?.FirstOrDefault(data => data.Name.Equals(editorEdge.inputPortName))
+                                outputClass.events.FirstOrDefault(data => 
+                                    data.info.Name.Equals(editorEdge.outputPortName)),
+                                inputClass.methods.FirstOrDefault(data => 
+                                    data.info.Name.Equals(editorEdge.inputPortName))
                             );
                         })
-                        .Where(tuple => tuple.Item2 != null && tuple.Item3 != null)
-                        .Select(tuple => new ExecutionAdapter(tuple.Item1, tuple.Item2, tuple.Item3))
+                        .Where(tuple => tuple.Item2.info != null && tuple.Item3.info != null)
+                        .Select(tuple => new ExecutionAdapter(tuple.Item1, tuple.Item2.info, tuple.Item3.info))
                         .ToList();
                 });
         }

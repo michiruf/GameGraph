@@ -4,8 +4,6 @@ using UnityEngine;
 
 namespace GameGraph.Editor
 {
-    // TODO Rename parameter to references everywhere?
-
     [Serializable]
     public class EditorParameter
     {

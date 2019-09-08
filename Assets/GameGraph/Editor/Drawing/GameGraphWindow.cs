@@ -42,7 +42,6 @@ namespace GameGraph.Editor
 
             // Initialize window stuff
             this.MakeWindowReceivableByChildren();
-            this.RegisterWindowHooksForEasyAccess();
             this.AddEventBus();
 
             // Initialize UI
@@ -77,11 +76,10 @@ namespace GameGraph.Editor
         void OnDestroy()
         {
             if (graph.isDirty && EditorUtility.DisplayDialog(
-                    "Game Graph Has Been Modified",
-                    "Do you want to save the changes you made in the Graph?\n"
-                    + "Your changes will be lost if you don't save them.",
-                    "Save",
-                    "Don't Save"))
+                    EditorConstants.CloseEditorSaveHeadline,
+                    EditorConstants.CloseEditorSaveContent,
+                    EditorConstants.CloseEditorSaveOk,
+                    EditorConstants.CloseEditorSaveCancel))
                 SaveGraph();
             this.RemoveEventBus();
         }

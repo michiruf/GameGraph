@@ -37,20 +37,6 @@ namespace GameGraph.Editor
             var foundWindow = false;
             foreach (var w in Resources.FindObjectsOfTypeAll<GameGraphWindow>())
             {
-                // TODO While dev, always kill the window and recreate it
-                if (true)
-                {
-                    try
-                    {
-                        w.Close();
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                    continue;
-                }
-
                 if (w.assetGuid != guid)
                     continue;
                 foundWindow = true;

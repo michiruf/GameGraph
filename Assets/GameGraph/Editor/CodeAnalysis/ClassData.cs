@@ -6,20 +6,18 @@ namespace GameGraph.Editor
 {
     public struct ClassData
     {
-        // TODO Maybe use serializable data from here on, to have a unified and failsafe data handling?!
-        public readonly Type type;
-        public static bool isGameGraphComponent = true; // TODO Put this here instead if the EditorParameter (static only because of error)
-        public readonly List<FieldInfo> fields;
-        public readonly List<PropertyInfo> properties;
-        public readonly List<EventInfo> events;
-        public readonly List<MethodInfo> methods;
+        public readonly TypeData type;
+        public readonly List<MemberData<FieldInfo>> fields;
+        public readonly List<MemberData<PropertyInfo>> properties;
+        public readonly List<MemberData<EventInfo>> events;
+        public readonly List<MethodData> methods;
 
         public ClassData(
-            Type type,
-            List<FieldInfo> fields,
-            List<PropertyInfo> properties,
-            List<EventInfo> events,
-            List<MethodInfo> methods)
+            TypeData type,
+            List<MemberData<FieldInfo>> fields,
+            List<MemberData<PropertyInfo>> properties,
+            List<MemberData<EventInfo>> events,
+            List<MethodData> methods)
         {
             this.type = type;
             this.fields = fields;

@@ -17,16 +17,16 @@ namespace GameGraph.Editor
             this.AddLayout(EditorConstants.ResourcesUxmlViewPath + "/PropertyView.uxml");
         }
 
-        public PropertyView(FieldInfo info) : this()
+        public PropertyView(MemberData<FieldInfo> data) : this()
         {
-            Initialize(info.Name, info.FieldType, true, true);
+            Initialize(data.info.Name, data.info.FieldType, true, true);
         }
 
-        public PropertyView(PropertyInfo info) : this()
+        public PropertyView(MemberData<PropertyInfo> data) : this()
         {
-            Initialize(info.Name, info.PropertyType,
-                info.SetMethod?.IsPublic ?? false,
-                info.GetMethod?.IsPublic ?? false);
+            Initialize(data.info.Name, data.info.PropertyType,
+                data.info.SetMethod?.IsPublic ?? false,
+                data.info.GetMethod?.IsPublic ?? false);
         }
 
         private void Initialize(string name, Type type, bool hasInput, bool hasOutput)

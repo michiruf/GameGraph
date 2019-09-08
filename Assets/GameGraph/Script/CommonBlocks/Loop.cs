@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 
 namespace GameGraph
 {
-    [GameGraph]
+    [GameGraph("Common")]
     [UsedImplicitly]
     public class Loop
     {

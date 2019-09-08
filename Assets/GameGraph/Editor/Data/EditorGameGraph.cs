@@ -5,8 +5,6 @@ using UnityEngine;
 
 namespace GameGraph.Editor
 {
-    // TODO Maybe add the viewport dimensions
-
     [Serializable]
     public class EditorGameGraph : ISerializationCallbackReceiver
     {
@@ -51,8 +49,7 @@ namespace GameGraph.Editor
         }
 
         // TODO For undo use a simple chained list (non-serialized)?!
-        // TODO ... Since this is all serializable that should work pretty well!
-        // TODO Undo:
+        //      Since this is all serializable that should work pretty well!
         //public void RegisterCompleteObjectUndo(string actionName)
         //{
         //    Undo.RegisterCompleteObjectUndo(this, actionName);

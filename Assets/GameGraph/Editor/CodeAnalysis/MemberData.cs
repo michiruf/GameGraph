@@ -1,7 +1,16 @@
+using System.Reflection;
+
 namespace GameGraph.Editor
 {
-    public class MemberData
+    public struct MemberData<T> where T : MemberInfo
     {
-        // TODO Use this to put the required attribute in
+        public readonly T info;
+        public readonly bool isRequired;
+
+        public MemberData(T info)
+        {
+            this.info = info;
+            isRequired = info.GetCustomAttribute<RequiredAttribute>() != null;
+        }
     }
 }

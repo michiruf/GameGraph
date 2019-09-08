@@ -3,15 +3,16 @@ using UnityEngine;
 
 namespace GameGraph
 {
-    [GameGraph]
+    [GameGraph("Common")]
     [UsedImplicitly]
     public class Spawn
     {
-        public GameObject prefab;
+        [UsedImplicitly] public GameObject prefab;
 
+        [UsedImplicitly]
         public void Invoke()
         {
-            Debug.LogError("M CALLED YEAH!");
+            Object.Instantiate(prefab);
         }
     }
 }

@@ -88,18 +88,7 @@ namespace GameGraph.Editor
 
         #endregion
 
-        #region Window Easy Access Callback Setup 
 
-        public static void RegisterWindowHooksForEasyAccess(this EditorWindow window)
-        {
-            // TODO This does not help nothing.. Thanks unity
-            //window.rootVisualElement.RegisterCallback<AttachToPanelEvent>(evt => Debug.LogError("AttachToPanelEvent"));
-            //window.rootVisualElement.RegisterCallback<DetachFromPanelEvent>(evt => Debug.LogError("DetachFromPanelEvent"));
-        }
-
-        #endregion
-
-        
         #region Event Bus Receiving
 
         public static void AddEventBus(this EditorWindow window)

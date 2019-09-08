@@ -13,7 +13,6 @@ namespace GameGraph
         public SerializableType(Type type)
         {
             this.type = type;
-            assemblyQualifiedName = type.AssemblyQualifiedName;
         }
 
         public static implicit operator Type(SerializableType i) => i.type;
