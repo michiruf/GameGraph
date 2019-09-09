@@ -13,10 +13,11 @@ namespace GameGraph.Editor
         private EditorGameGraph graph;
         private EventBus eventBus;
 
-        private NodeSearchWindowProvider nodeSearchWindowProvider => this.GetUserDataOrCreate(() =>
+        private TypeSearchWindowProvider nodeTypeSearchWindowProvider => this.GetUserDataOrCreate(() =>
         {
-            var provider = ScriptableObject.CreateInstance<NodeSearchWindowProvider>();
-            provider.Initialize();
+            var data = CodeAnalyzer.GetNodeTypes();
+            var provider = ScriptableObject.CreateInstance<TypeSearchWindowProvider>();
+            provider.Initialize(EditorConstants.NodeSearchWindowHeadline, data);
             return provider;
         });
 
@@ -40,7 +41,7 @@ namespace GameGraph.Editor
 
         private void RegisterAddElement()
         {
-            nodeSearchWindowProvider.callback = (type, position) =>
+            nodeTypeSearchWindowProvider.callback = (type, position) =>
             {
                 var realPosition = contentViewContainer.GetContainerRelativePosition(position);
 
@@ -52,7 +53,8 @@ namespace GameGraph.Editor
             };
             nodeCreationRequest += context =>
             {
-                SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), nodeSearchWindowProvider);
+                SearchWindow.Open(new SearchWindowContext(context.screenMousePosition),
+                    nodeTypeSearchWindowProvider);
             };
         }
 

@@ -2,7 +2,7 @@ using System;
 using GameGraph;
 using UnityEngine;
 
-[GameGraph]
+[GameGraph("RealTest")]
 public class Updater : IUpdateHook
 {
     public float deltaTime { get; private set; }

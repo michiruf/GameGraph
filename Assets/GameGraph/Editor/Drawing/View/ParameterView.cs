@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using JetBrains.Annotations;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -14,12 +15,13 @@ namespace GameGraph.Editor
         private BlackboardField nameView => this.QCached<BlackboardField>("name");
         private Button typeButton => this.QCached<Button>("type");
 
-        private ParameterSearchWindowProvider parameterSearchWindowProvider => this.GetUserDataOrCreate(() =>
+        private TypeSearchWindowProvider parameterTypeSearchWindowProvider => this.GetUserDataOrCreate(() =>
         {
             // Bottleneck is not reflection, but creation of the search window,
             // so no need to cache this for all instances
-            var provider = ScriptableObject.CreateInstance<ParameterSearchWindowProvider>();
-            provider.Initialize();
+            var data = CodeAnalyzer.GetNodeTypes().Concat(CodeAnalyzer.GetNonNodeTypes());
+            var provider = ScriptableObject.CreateInstance<TypeSearchWindowProvider>();
+            provider.Initialize(EditorConstants.ParameterSearchWindowHeadline, data);
             return provider;
         });
 
@@ -97,8 +99,8 @@ namespace GameGraph.Editor
 
         private void CreateSearchWindow(Action<Type> callback, Vector2 position)
         {
-            parameterSearchWindowProvider.callback = (type, vector2) => callback.Invoke(type);
-            SearchWindow.Open(new SearchWindowContext(position), parameterSearchWindowProvider);
+            parameterTypeSearchWindowProvider.callback = (type, vector2) => callback.Invoke(type);
+            SearchWindow.Open(new SearchWindowContext(position), parameterTypeSearchWindowProvider);
         }
     }
 

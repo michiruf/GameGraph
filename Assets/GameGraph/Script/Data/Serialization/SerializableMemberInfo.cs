@@ -44,7 +44,7 @@ namespace GameGraph
 
         public void OnAfterDeserialize()
         {
-            memberInfo = type.type.GetMember(name, GameGraphConstants.ReflectionFlags)[0];
+            memberInfo = type.type.GetMember(name, Constants.ReflectionFlags)[0];
         }
     }
 }

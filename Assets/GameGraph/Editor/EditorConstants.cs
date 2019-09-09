@@ -3,7 +3,13 @@ namespace GameGraph.Editor
     public static class EditorConstants
     {
         // Configuration
-        public static readonly string[] AssemblyModulesToIncludeForParameters = {"UnityEngine.CoreModule"};
+        // E.g.: "UnityEngine.CoreModule"
+        public static readonly string[] ParameterAssemblyModules = { };
+        public static readonly string[] ParameterAssemblyModulesStartWith =
+        {
+            "UnityEngine.",
+        };
+        public static readonly string[] ParameterTypesExcludedStrings = {"<", "$", "`"};
 
         // Magic constants
         public const string ParameterPortId = "!Instance";

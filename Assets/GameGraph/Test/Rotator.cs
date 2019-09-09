@@ -2,7 +2,7 @@ using GameGraph;
 using JetBrains.Annotations;
 using UnityEngine;
 
-[GameGraph]
+[GameGraph("RealTest")]
 [UsedImplicitly]
 public class Rotator
 {

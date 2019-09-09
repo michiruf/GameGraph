@@ -6,7 +6,7 @@ namespace GameGraph.Editor
     public struct TypeData
     {
         public readonly Type type;
-        public GameGraphAttribute gameGraphAttribute;
+        public readonly GameGraphAttribute gameGraphAttribute;
 
         public bool isGameGraphType => gameGraphAttribute != null;
 

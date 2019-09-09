@@ -41,7 +41,7 @@ namespace GameGraph
 
         public void OnAfterDeserialize()
         {
-            methodInfo = type.type.GetMethod(name, GameGraphConstants.ReflectionFlags);
+            methodInfo = type.type.GetMethod(name, Constants.ReflectionFlags);
         }
     }
 }

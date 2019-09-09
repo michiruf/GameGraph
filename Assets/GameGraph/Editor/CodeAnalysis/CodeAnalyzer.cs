@@ -9,7 +9,7 @@ namespace GameGraph.Editor
 {
     public static class CodeAnalyzer
     {
-        public static IEnumerable<Type> GetNodeTypes()
+        public static IEnumerable<TypeData> GetNodeTypes()
         {
             var gameGraphTypes = Assembly.GetAssembly(typeof(GameGraphBehaviour)).GetTypes();
             return AssetDatabase.GetAllAssetPaths()
@@ -19,29 +19,38 @@ namespace GameGraph.Editor
                 .Select(script => script.GetClass())
                 .Where(type => !gameGraphTypes.Contains(type))
                 .Concat(gameGraphTypes)
-                .Where(type => type?.GetCustomAttribute<GameGraphAttribute>() != null);
+                .Where(type => type?.GetCustomAttribute<GameGraphAttribute>() != null)
+                .Select(type => new TypeData(type));
         }
 
-        public static IEnumerable<Type> GetNonNodeTypes()
+        public static IEnumerable<TypeData> GetNonNodeTypes()
         {
             return AppDomain.CurrentDomain.GetAssemblies()
                 .Where(assembly =>
-                    EditorConstants.AssemblyModulesToIncludeForParameters.Contains(assembly.GetName().Name))
+                {
+                    var name = assembly.GetName().Name;
+                    return EditorConstants.ParameterAssemblyModules.Contains(name) ||
+                           EditorConstants.ParameterAssemblyModulesStartWith.Aggregate(false, (b, s) =>
+                               b || name.StartsWith(s));
+                })
                 .SelectMany(assembly => assembly.GetTypes())
-                .Where(type => type != null && type.GetCustomAttribute<GameGraphAttribute>() == null);
+                .Where(type => EditorConstants.ParameterTypesExcludedStrings.Aggregate(true, (b, s) =>
+                    b && !type.Name.Contains(s)))
+                .Where(type => type != null && type.GetCustomAttribute<GameGraphAttribute>() == null)
+                .Select(type => new TypeData(type));
         }
 
         public static ClassData GetNodeData(Type type)
         {
-            // NOTE Maybe enhance with nested exclude and includes
+            // NOTE Maybe enhance with nested excludes and includes
             //      @see https://stackoverflow.com/questions/540749/can-a-c-sharp-class-inherit-attributes-from-its-interface
 
             // Get field and property data
-            var fields = type.GetFields(GameGraphConstants.ReflectionFlags)
+            var fields = type.GetFields(Constants.ReflectionFlags)
                 .Where(info => info.GetCustomAttribute<ExcludeFromGraphAttribute>() == null)
                 .Select(info => new MemberData<FieldInfo>(info))
                 .ToList();
-            var properties = type.GetProperties(GameGraphConstants.ReflectionFlags)
+            var properties = type.GetProperties(Constants.ReflectionFlags)
                 .Where(info => info.GetCustomAttribute<ExcludeFromGraphAttribute>() == null)
                 .Select(info => new MemberData<PropertyInfo>(info))
                 .ToList();
@@ -52,7 +61,7 @@ namespace GameGraph.Editor
             });
 
             // Get event data
-            var events = type.GetEvents(GameGraphConstants.ReflectionFlags)
+            var events = type.GetEvents(Constants.ReflectionFlags)
                 .Where(info => info.GetCustomAttribute<ExcludeFromGraphAttribute>() == null)
                 .Select(info => new MemberData<EventInfo>(info))
                 .ToList();
@@ -63,7 +72,7 @@ namespace GameGraph.Editor
             });
 
             // Get method data
-            var typeMethods = type.GetMethods(GameGraphConstants.ReflectionFlags);
+            var typeMethods = type.GetMethods(Constants.ReflectionFlags);
             var methods = typeMethods
                 .Where(info => info.GetCustomAttribute<ExcludeFromGraphAttribute>() == null)
                 // Respect only void returning methods with nor arguments

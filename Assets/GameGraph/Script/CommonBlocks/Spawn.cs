@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GameGraph
 {
-    [GameGraph("Common")]
+    [GameGraph("Common/TODO Name")]
     [UsedImplicitly]
     public class Spawn
     {

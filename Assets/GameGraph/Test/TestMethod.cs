@@ -1,7 +1,7 @@
 using GameGraph;
 using UnityEngine;
 
-[GameGraph]
+[GameGraph("Test")]
 public class TestMethod
 {
     public void Foo()
