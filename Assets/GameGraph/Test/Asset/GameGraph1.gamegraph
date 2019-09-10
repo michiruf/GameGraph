@@ -1,5 +1,5 @@
 {
-    "serializedVersion": 50,
+    "serializedVersion": 402,
     "parameters": [
         {
             "idInternal": "bd31db69-0a4e-4feb-8cd9-a484f4b233b0",
@@ -26,8 +26,8 @@
             },
             "parameterIdInternal": "",
             "positionInternal": {
-                "x": 446.0,
-                "y": 179.0
+                "x": 452.0,
+                "y": 151.0
             }
         },
         {
@@ -42,25 +42,25 @@
             }
         },
         {
-            "idInternal": "eb723081-dc4e-40a0-ab0f-eac8b7be44d5",
-            "typeInternal": {
-                "assemblyQualifiedName": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
-            },
-            "parameterIdInternal": "bd31db69-0a4e-4feb-8cd9-a484f4b233b0",
-            "positionInternal": {
-                "x": 444.0,
-                "y": 528.0
-            }
-        },
-        {
             "idInternal": "276bde35-8ebc-43a8-9684-10c66c56911c",
             "typeInternal": {
                 "assemblyQualifiedName": "GameGraph.Test.TestMonoBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
             },
             "parameterIdInternal": "e8c891e6-eb0c-427a-8aeb-ea00a380e995",
             "positionInternal": {
-                "x": 394.0,
-                "y": 366.0
+                "x": 399.0,
+                "y": 337.0
+            }
+        },
+        {
+            "idInternal": "d82c0c05-26b5-444f-afb7-1d4c9cb662ec",
+            "typeInternal": {
+                "assemblyQualifiedName": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "bd31db69-0a4e-4feb-8cd9-a484f4b233b0",
+            "positionInternal": {
+                "x": 476.0,
+                "y": 477.0
             }
         }
     ],
@@ -97,7 +97,7 @@
         },
         {
             "outputConnection": {
-                "nodeIdInternal": "eb723081-dc4e-40a0-ab0f-eac8b7be44d5",
+                "nodeIdInternal": "d82c0c05-26b5-444f-afb7-1d4c9cb662ec",
                 "portNameInternal": "!Instance"
             },
             "inputConnection": {

@@ -93,9 +93,9 @@ namespace GameGraph.Editor
                             var outputClass = nodeClassData[editorEdge.outputNodeId];
                             return Tuple.Create(
                                 editorEdge.outputNodeId,
-                                outputClass.events.FirstOrDefault(data => 
+                                outputClass.events.FirstOrDefault(data =>
                                     data.info.Name.Equals(editorEdge.outputPortName)),
-                                inputClass.methods.FirstOrDefault(data => 
+                                inputClass.methods.FirstOrDefault(data =>
                                     data.info.Name.Equals(editorEdge.inputPortName))
                             );
                         })
@@ -127,9 +127,9 @@ namespace GameGraph.Editor
 
     public static class GraphTransformExtension
     {
-        public static GraphObject ToExecutableGraph(this EditorGameGraph graph, GraphObject previous)
+        public static GraphTransformer Transformer(this EditorGameGraph graph)
         {
-            return new GraphTransformer(graph).GetGraphObject(previous);
+            return new GraphTransformer(graph);
         }
     }
 }

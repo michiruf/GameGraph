@@ -1,5 +1,5 @@
 using System;
-using UnityEngine;
+using JetBrains.Annotations;
 using Object = UnityEngine.Object;
 
 namespace GameGraph
@@ -7,10 +7,11 @@ namespace GameGraph
     [Serializable]
     public class Parameter
     {
-        public string name;
-        public SerializableType type;
+        [UsedImplicitly] public string name;
+        [UsedImplicitly] public SerializableType type;
 
-        public Object instance { get; set; }
+        // TODO This does not belong here
+        public Object instance; // TODO UnityEngine.Object or object?
 
         public Parameter(string name, SerializableType type)
         {

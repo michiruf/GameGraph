@@ -40,6 +40,7 @@ namespace GameGraph.Editor
                 if (w.assetGuid != guid)
                     continue;
                 foundWindow = true;
+                w.Show(); // Just in case it was not shown before
                 w.Focus();
             }
 

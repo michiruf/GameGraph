@@ -1,5 +1,4 @@
 General TODOs:
-* Serialize Inspector data properly
 * Add field values (to node views)
   - See https://docs.unity3d.com/ScriptReference/UIElements.EnumField.html
 * Instance connector - add a script that provides an instance from one graph to another?

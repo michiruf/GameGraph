@@ -20,7 +20,7 @@ namespace GameGraph
             memberInfo = info;
         }
 
-        public static implicit operator MemberInfo(SerializableMemberInfo s) => s.memberInfo;
+        public static implicit operator MemberInfo(SerializableMemberInfo i) => i.memberInfo;
         public static implicit operator SerializableMemberInfo(MemberInfo i) => new SerializableMemberInfo(i);
 
         public override bool Equals(object obj)

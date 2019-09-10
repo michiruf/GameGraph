@@ -1,6 +1,5 @@
 using System;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine.Networking.Types;
 
 namespace GameGraph.Editor
 {

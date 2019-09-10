@@ -21,10 +21,11 @@ namespace GameGraph.Editor
                                                      "Your changes will be lost if you don't save them.";
         public const string CloseEditorSaveOk = "Save";
         public const string CloseEditorSaveCancel = "Don't Save";
+        public const string NodeSearchWindowHeadline = "Create Node";
         public const string BlackboardSubHeadline = "Game Graphs";
         public const string ParameterPortName = "Instance";
-        public const string NodeSearchWindowHeadline = "Create Node";
         public const string ParameterSearchWindowHeadline = "Select Type";
+        public const string ParameterInspectorLabel = "Paramters";
 
         // Assets
         public const string FileExtension = "gamegraph";

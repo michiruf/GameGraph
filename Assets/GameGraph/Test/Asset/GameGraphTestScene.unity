@@ -447,6 +447,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graph: {fileID: -5475051401550479605, guid: bf512c83495f47288f33e6f9c2a8b27e, type: 3}
+  parameterInstancesInternal:
+    keys:
+    - bd31db69-0a4e-4feb-8cd9-a484f4b233b0
+    - e8c891e6-eb0c-427a-8aeb-ea00a380e995
+    - 81920cc4-3cff-456b-a1bb-61d701952dbf
+    values:
+    - {fileID: 129978433}
+    - {fileID: 2028084719}
+    - {fileID: 129978433}
 --- !u!65 &2028084718
 BoxCollider:
   m_ObjectHideFlags: 0

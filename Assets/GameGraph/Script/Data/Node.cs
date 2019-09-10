@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
-using Object = UnityEngine.Object;
 
 namespace GameGraph
 {
@@ -23,11 +22,11 @@ namespace GameGraph
             this.parameterId = parameterId;
         }
 
-        public void ConstructOrReferenceInstance(Dictionary<string, Parameter> parameters)
+        public void ConstructOrReferenceInstance(Dictionary<string, object> parameters)
         {
             if (!string.IsNullOrEmpty(parameterId) && parameters.ContainsKey(parameterId))
             {
-                instance = parameters[parameterId].instance;
+                instance = parameters[parameterId];
                 return;
             }
 

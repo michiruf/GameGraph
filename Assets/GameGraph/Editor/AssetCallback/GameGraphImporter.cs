@@ -8,6 +8,9 @@ namespace GameGraph.Editor
     [ScriptedImporter(1, EditorConstants.FileExtension)]
     public class GameGraphImporter : ScriptedImporter
     {
+        public const string MainAsset = "MainAsset";
+        public const string ParameterAsset = "ParameterAsset";
+
         public override void OnImportAsset(AssetImportContext ctx)
         {
             var rawTextGraph = File.ReadAllText(ctx.assetPath);
@@ -15,8 +18,8 @@ namespace GameGraph.Editor
             if (rawGraph == null)
                 throw new ArgumentException();
 
-            var executableGraph = rawGraph.ToExecutableGraph(ctx.mainObject as GraphObject);
-            ctx.AddObjectToAsset("MainAsset", executableGraph);
+            var executableGraph = rawGraph.Transformer().GetGraphObject(ctx.mainObject as GraphObject);
+            ctx.AddObjectToAsset(MainAsset, executableGraph);
             ctx.SetMainObject(executableGraph);
         }
     }

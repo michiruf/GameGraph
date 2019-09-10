@@ -67,7 +67,7 @@ namespace GameGraph.Editor
                         new SearchTreeEntry(new GUIContent(data.type.Name, indent))
                         {
                             level = currentSplit.Length + 1,
-                            userData = data
+                            userData = data.type
                         }));
 
                 previousGroup = lookup.Key;

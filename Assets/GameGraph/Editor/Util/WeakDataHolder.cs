@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace GameGraph.Editor
 {
+    // TODO Rename, is not weak anymore
     public class WeakDataHolder
     {
         private readonly Dictionary<string, object> namedData = new Dictionary<string, object>();

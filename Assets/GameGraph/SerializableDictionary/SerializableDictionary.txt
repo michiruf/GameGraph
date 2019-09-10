@@ -1,0 +1,6 @@
+Got from:
+https://wiki.unity3d.com/index.php/SerializableDictionary
+
+Modifications:
+* Remove "New" method and add constructor
+  -> static public T New<T>() where T : SerializableDictionary<K, V>, new() 

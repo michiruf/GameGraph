@@ -1,8 +1,6 @@
 {
-    "name": "GameGraph",
-    "references": [
-        "SerializableDictionary"
-    ],
+    "name": "SerializableDictionary",
+    "references": [],
     "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],

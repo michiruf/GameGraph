@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
-using UnityEditor.MemoryProfiler;
 
 namespace GameGraph.Editor
 {
@@ -25,6 +24,8 @@ namespace GameGraph.Editor
 
         public static IEnumerable<TypeData> GetNonNodeTypes()
         {
+            // TODO Only classes extending UnityEngine.Object must be respected!
+            
             return AppDomain.CurrentDomain.GetAssemblies()
                 .Where(assembly =>
                 {
