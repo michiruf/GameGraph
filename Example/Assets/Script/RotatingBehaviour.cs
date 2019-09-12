@@ -1,10 +1,8 @@
+using GameGraph;
 using UnityEngine;
 
-namespace GameGraph.Test
-{
     [GameGraph]
-    public class TestMonoBehaviour : MonoBehaviour
+    public class RotatingBehaviour : MonoBehaviour
     {
         public float rotationSpeed;
     }
-}

@@ -13,14 +13,14 @@ namespace GameGraph.Editor
 
         public static void AddLayout(this VisualElement element, string path)
         {
-            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(path);
+            var visualTree = Resources.Load<VisualTreeAsset>(path);;
             Assert.IsNotNull(visualTree, "Asset at " + path + " non existent!");
             visualTree.CloneTree(element);
         }
 
         public static void AddStylesheet(this VisualElement element, string path)
         {
-            var style = AssetDatabase.LoadAssetAtPath<StyleSheet>(path);
+            var style = Resources.Load<StyleSheet>(path);
             Assert.IsNotNull(style, "Asset at " + path + " non existent!");
             element.styleSheets.Add(style);
         }

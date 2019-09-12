@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2814573446549718729}
   - component: {fileID: 2814573446549718732}
   - component: {fileID: 2814573446549718735}
-  - component: {fileID: 2814573446549718734}
   - component: {fileID: 2814573446549718733}
   m_Layer: 0
   m_Name: Cube
@@ -79,19 +78,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &2814573446549718734
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2814573446549718728}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2814573446549718733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,7 +101,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2814573446784749961}
   - component: {fileID: 2814573446784749960}
-  - component: {fileID: 2814573446784749963}
   m_Layer: 0
   m_Name: GameGraphBehaviour2
   m_TagString: Untagged
@@ -153,21 +138,8 @@ MonoBehaviour:
   graph: {fileID: -5475051401550479605, guid: 40ea004a11c82eb4296295505b353083, type: 3}
   parameterInstancesInternal:
     keys:
-    - 6ebf6f29-615e-479d-b05d-777a1776ef78
-    - 011fc2d8-0822-4a54-ba3e-b3e6c34e36ff
+    - d58c0abd-4e29-460a-8498-8bca8d66c664
+    - ad42bfc6-da9b-4ab4-978a-2a38858298ec
     values:
-    - {fileID: 2814573446549718728}
     - {fileID: 2814573446549718733}
---- !u!65 &2814573446784749963
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2814573446784750005}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+    - {fileID: 2814573446549718728}

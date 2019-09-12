@@ -61,7 +61,8 @@ GraphEditorView {
 /* Graph Blackboard                                        */
 /***********************************************************/
 ParameterEditorView {
-    width: 250;
+    width: 300;
+    height: 500;
     background-color: #303030;
 }
 

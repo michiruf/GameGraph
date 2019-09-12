@@ -30,7 +30,7 @@ namespace GameGraph.Editor
 
         public ParameterView()
         {
-            this.AddLayout(EditorConstants.ResourcesUxmlViewPath + "/ParameterView.uxml");
+            this.AddLayout(EditorConstants.ResourcesUxmlViewPath + "ParameterView");
         }
 
         public void Initialize(EditorParameter parameter)

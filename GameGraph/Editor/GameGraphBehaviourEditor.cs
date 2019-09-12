@@ -18,9 +18,12 @@ namespace GameGraph.Editor
 
             EditorGUILayout.Space();
             AddOpenButton(behaviour.graph);
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField(EditorConstants.ParameterInspectorLabel, EditorStyles.boldLabel);
-            AddGraphDependingFields(behaviour.graph, behaviour.parameterInstances);
+            if (behaviour.graph.parameters.Count > 0)
+            {
+                EditorGUILayout.Space();
+                EditorGUILayout.LabelField(EditorConstants.ParameterInspectorLabel, EditorStyles.boldLabel);
+                AddGraphDependingFields(behaviour.graph, behaviour.parameterInstances);
+            }
         }
 
         private void AddGraphDependingFields(GraphObject graph, Dictionary<string, Object> parameterInstances)

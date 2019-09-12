@@ -46,8 +46,8 @@ namespace GameGraph.Editor
 
             // Initialize UI
             titleContent = new GUIContent(assetExists.name);
-            rootVisualElement.AddStylesheet(EditorConstants.ResourcesUxmlPath + "/Style.uss");
-            rootVisualElement.AddLayout(EditorConstants.ResourcesUxmlPath + "/GameGraphWindow.uxml");
+            rootVisualElement.AddStylesheet(EditorConstants.ResourcesUxmlPath + "Style");
+            rootVisualElement.AddLayout(EditorConstants.ResourcesUxmlPath + "GameGraphWindow");
             toolbarSaveButton.clickable.clicked += SaveGraph;
             toolbarReopenButton.clickable.clicked += () =>
             {

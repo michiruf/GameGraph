@@ -14,7 +14,7 @@ namespace GameGraph.Editor
 
         private PropertyView()
         {
-            this.AddLayout(EditorConstants.ResourcesUxmlViewPath + "/PropertyView.uxml");
+            this.AddLayout(EditorConstants.ResourcesUxmlViewPath + "PropertyView");
         }
 
         public PropertyView(MemberData<FieldInfo> data) : this()
