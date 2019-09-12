@@ -9,7 +9,6 @@ namespace GameGraph.Editor
         {
             "UnityEngine.",
         };
-        public static readonly string[] ParameterTypesExcludedStrings = {"<", "$", "`"};
 
         // Magic constants
         public const string ParameterPortId = "!Instance";

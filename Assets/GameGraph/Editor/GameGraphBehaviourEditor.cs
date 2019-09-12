@@ -5,12 +5,7 @@ using UnityEngine;
 
 namespace GameGraph.Editor
 {
-    // TODO HERE I AM
-    // The complete approach is bullshit.
-    // Instead of saving a already saved asset, attach the instances to the behaviour.
-    // This way is totally easy to persist references and it is totally easy to make them changeable!
-
-    [CustomEditor(typeof(GameGraphBehaviour), true)] // TODO For children might not be necessary after rework
+    [CustomEditor(typeof(GameGraphBehaviour))]
     public class GameGraphBehaviourEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
@@ -22,12 +17,10 @@ namespace GameGraph.Editor
                 return;
 
             EditorGUILayout.Space();
+            AddOpenButton(behaviour.graph);
             EditorGUILayout.Space();
             EditorGUILayout.LabelField(EditorConstants.ParameterInspectorLabel, EditorStyles.boldLabel);
             AddGraphDependingFields(behaviour.graph, behaviour.parameterInstances);
-            EditorGUILayout.Space();
-            EditorGUILayout.Space();
-            AddOpenButton(behaviour.graph);
         }
 
         private void AddGraphDependingFields(GraphObject graph, Dictionary<string, Object> parameterInstances)

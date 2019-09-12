@@ -1,17 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace GameGraph.Editor
 {
     // TODO Rename, is not weak anymore
-    public class WeakDataHolder
+    public class DataHolder
     {
         private readonly Dictionary<string, object> namedData = new Dictionary<string, object>();
         private readonly List<object> unnamedData = new List<object>();
 
-        ~WeakDataHolder()
+        ~DataHolder()
         {
             namedData.Clear();
             unnamedData.Clear();
@@ -64,47 +63,6 @@ namespace GameGraph.Editor
                 .FindAll(o => o is T)
                 .Concat(namedData.Select(pair => pair.Value).ToList().FindAll(o => o is T))
                 .Select(o => o as T).ToList();
-        }
-    }
-
-    public static class WeakDataHolderExtension
-    {
-        private static readonly ConditionalWeakTable<object, WeakDataHolder> Instances =
-            new ConditionalWeakTable<object, WeakDataHolder>();
-
-        public static WeakDataHolder GetUserDataHolder(this object o)
-        {
-            return Instances.GetOrCreateValue(o);
-        }
-
-        public static void AddUserData<T>(this object o, T data, string name = null) where T : class
-        {
-            o.GetUserDataHolder().AddData(data, name);
-        }
-
-        public static T GetUserData<T>(this object o, string name = null) where T : class
-        {
-            return o.GetUserDataHolder().GetData<T>(name);
-        }
-
-        public static T GetUserDataOrCreate<T>(this object o, Func<T> creator, string name = null) where T : class
-        {
-            return o.GetUserDataHolder().GetDataOrCreate(creator, name);
-        }
-
-        public static bool HasUserData<T>(this object o, string name = null) where T : class
-        {
-            return o.GetUserDataHolder().HasData<T>(name);
-        }
-
-        public static void RemoveUserData<T>(this object o, string name = null) where T : class
-        {
-            o.GetUserDataHolder().RemoveData<T>(name);
-        }
-
-        public static List<T> GetAllUserData<T>(this object o) where T : class
-        {
-            return o.GetUserDataHolder().GetAllData<T>();
         }
     }
 }

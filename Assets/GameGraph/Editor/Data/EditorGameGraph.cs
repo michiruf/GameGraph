@@ -12,9 +12,10 @@ namespace GameGraph.Editor
         public List<EditorParameter> parameters = new List<EditorParameter>();
         public List<EditorNode> nodes = new List<EditorNode>();
         public List<EditorEdge> edges = new List<EditorEdge>();
-        // TODO UserBounds: viewport GraphEditorView
-        // TODO UserBounds: bounds ParameterEditorView
-        // TODO UserBounds: bounds MiniMapEditorView
+        // TODO Persist "window" config as well
+        //      UserBounds: viewport GraphEditorView
+        //      UserBounds: bounds ParameterEditorView
+        //      UserBounds: bounds MiniMapEditorView
         private bool isDirtyInternal;
         
         [NonSerialized] public GraphEditorView owner; // TODO Use these owners?!

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
+using Object = UnityEngine.Object;
 
 namespace GameGraph.Editor
 {
@@ -24,8 +25,6 @@ namespace GameGraph.Editor
 
         public static IEnumerable<TypeData> GetNonNodeTypes()
         {
-            // TODO Only classes extending UnityEngine.Object must be respected!
-            
             return AppDomain.CurrentDomain.GetAssemblies()
                 .Where(assembly =>
                 {
@@ -35,16 +34,17 @@ namespace GameGraph.Editor
                                b || name.StartsWith(s));
                 })
                 .SelectMany(assembly => assembly.GetTypes())
-                .Where(type => EditorConstants.ParameterTypesExcludedStrings.Aggregate(true, (b, s) =>
-                    b && !type.Name.Contains(s)))
-                .Where(type => type != null && type.GetCustomAttribute<GameGraphAttribute>() == null)
+                // Since these will be persisted in Inspector, we only need UnityEngine.Object
+                .Where(type => typeof(Object).IsAssignableFrom(type))
+                // GameGraph elements are handled in method above
+                .Where(type => type.GetCustomAttribute<GameGraphAttribute>() == null)
                 .Select(type => new TypeData(type));
         }
 
         public static ClassData GetNodeData(Type type)
         {
             // NOTE Maybe enhance with nested excludes and includes
-            //      @see https://stackoverflow.com/questions/540749/can-a-c-sharp-class-inherit-attributes-from-its-interface
+            //      https://stackoverflow.com/questions/540749/can-a-c-sharp-class-inherit-attributes-from-its-interface
 
             // Get field and property data
             var fields = type.GetFields(Constants.ReflectionFlags)

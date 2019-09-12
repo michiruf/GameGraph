@@ -182,7 +182,7 @@ public static class SerializedPropertyExtension
         }
         else if (source.propertyType == SerializedPropertyType.Gradient)
         {
-            // TODO?
+            // TO-DO?
         }
         else if (source.propertyType == SerializedPropertyType.Quaternion)
         {
