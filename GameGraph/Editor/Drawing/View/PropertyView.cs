@@ -53,7 +53,7 @@ namespace GameGraph.Editor
                 var port = PortFactory.Create(
                     Orientation.Horizontal,
                     Direction.Output,
-                    Port.Capacity.Single,
+                    Port.Capacity.Multi,
                     type,
                     name,
                     null,
