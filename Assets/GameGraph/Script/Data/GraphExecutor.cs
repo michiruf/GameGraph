@@ -28,7 +28,7 @@ namespace GameGraph
             {
                 var instance = nodeInstances[pair.Key];
                 pair.Value.SetupInstanceAdapterLinks(instance, nodeInstances);
-                pair.Value.SetupExecutionAdapterLinks(instance, nodeInstances);
+                pair.Value.SetupExecutionAdapterLinks(instance, nodeInstances, graph.nodes);
             }
         }
 

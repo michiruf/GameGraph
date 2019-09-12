@@ -36,13 +36,28 @@ namespace GameGraph
             });
         }
 
-        public void SetupExecutionAdapterLinks(object instance, Dictionary<string, object> nodeInstances)
+        public void SetupExecutionAdapterLinks(object instance, Dictionary<string, object> nodeInstances,
+            Dictionary<string, Node> nodes)
         {
             executionAdapters.ForEach(adapter =>
             {
                 adapter.LinkAction(nodeInstances[adapter.outputNodeId], instance,
-                    () => FetchProperties(instance, nodeInstances));
+                    () => FetchPropertiesRecursive(instance, nodeInstances, nodes));
             });
+        }
+
+        private void FetchPropertiesRecursive(object instance, Dictionary<string, object> nodeInstances,
+            Dictionary<string, Node> nodes)
+        {
+            // NOTE This might be a bit overkill. Would it be better to fetch only the one property needed?
+            // Would it be better to only activate this behaviour for specific edges via attribute in classes?
+            propertyAdapters.ForEach(adapter =>
+            {
+                var recursiveFetchInputNode = nodes[adapter.outputNodeId];
+                var recursiveFetchInputNodeInstance = nodeInstances[adapter.outputNodeId];
+                recursiveFetchInputNode.FetchPropertiesRecursive(recursiveFetchInputNodeInstance, nodeInstances, nodes);
+            });
+            FetchProperties(instance, nodeInstances);
         }
 
         private void FetchProperties(object instance, Dictionary<string, object> nodeInstances)
