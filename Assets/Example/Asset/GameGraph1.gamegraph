@@ -1,0 +1,188 @@
+{
+    "serializedVersion": 406,
+    "parameters": [
+        {
+            "idInternal": "bd31db69-0a4e-4feb-8cd9-a484f4b233b0",
+            "nameInternal": "RotatingObject1",
+            "typeInternal": {
+                "assemblyQualifiedName": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "isGameGraphTypeInternal": false
+        },
+        {
+            "idInternal": "e8c891e6-eb0c-427a-8aeb-ea00a380e995",
+            "nameInternal": "RotationPropertyHolder1",
+            "typeInternal": {
+                "assemblyQualifiedName": "GameGraph.Test.TestMonoBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "isGameGraphTypeInternal": true
+        },
+        {
+            "idInternal": "c372b51b-1cd1-4cab-b5a7-8b05730439cd",
+            "nameInternal": "RotatingObject2",
+            "typeInternal": {
+                "assemblyQualifiedName": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "isGameGraphTypeInternal": false
+        },
+        {
+            "idInternal": "549dd76b-b919-41a2-833e-34bb81d24396",
+            "nameInternal": "RotationPropertyHolder2",
+            "typeInternal": {
+                "assemblyQualifiedName": "GameGraph.Test.TestMonoBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "isGameGraphTypeInternal": true
+        }
+    ],
+    "nodes": [
+        {
+            "idInternal": "a63c6ddb-ba27-4c8d-8612-03bb32a6809a",
+            "typeInternal": {
+                "assemblyQualifiedName": "Updater, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "",
+            "positionInternal": {
+                "x": 443.0,
+                "y": 45.0
+            }
+        },
+        {
+            "idInternal": "4a31aeef-0fb5-436a-9300-16d07f05bbb7",
+            "typeInternal": {
+                "assemblyQualifiedName": "Rotator, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "",
+            "positionInternal": {
+                "x": 688.0,
+                "y": 222.0
+            }
+        },
+        {
+            "idInternal": "276bde35-8ebc-43a8-9684-10c66c56911c",
+            "typeInternal": {
+                "assemblyQualifiedName": "GameGraph.Test.TestMonoBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "e8c891e6-eb0c-427a-8aeb-ea00a380e995",
+            "positionInternal": {
+                "x": 403.0,
+                "y": 333.0
+            }
+        },
+        {
+            "idInternal": "d82c0c05-26b5-444f-afb7-1d4c9cb662ec",
+            "typeInternal": {
+                "assemblyQualifiedName": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "bd31db69-0a4e-4feb-8cd9-a484f4b233b0",
+            "positionInternal": {
+                "x": 476.0,
+                "y": 477.0
+            }
+        },
+        {
+            "idInternal": "079d9818-e9e9-4357-94dd-2869d8826056",
+            "typeInternal": {
+                "assemblyQualifiedName": "GameGraph.Test.TestMonoBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "549dd76b-b919-41a2-833e-34bb81d24396",
+            "positionInternal": {
+                "x": 913.0,
+                "y": 170.0
+            }
+        },
+        {
+            "idInternal": "d908a99d-dc5e-4b26-ad04-1ffdf3bd86ce",
+            "typeInternal": {
+                "assemblyQualifiedName": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "c372b51b-1cd1-4cab-b5a7-8b05730439cd",
+            "positionInternal": {
+                "x": 983.0,
+                "y": 315.0
+            }
+        },
+        {
+            "idInternal": "800e638b-f710-4853-8927-5d1756896d47",
+            "typeInternal": {
+                "assemblyQualifiedName": "Rotator, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "",
+            "positionInternal": {
+                "x": 1165.0,
+                "y": 43.0
+            }
+        }
+    ],
+    "edges": [
+        {
+            "outputConnection": {
+                "nodeIdInternal": "a63c6ddb-ba27-4c8d-8612-03bb32a6809a",
+                "portNameInternal": "update"
+            },
+            "inputConnection": {
+                "nodeIdInternal": "4a31aeef-0fb5-436a-9300-16d07f05bbb7",
+                "portNameInternal": "Rotate"
+            }
+        },
+        {
+            "outputConnection": {
+                "nodeIdInternal": "276bde35-8ebc-43a8-9684-10c66c56911c",
+                "portNameInternal": "rotationSpeed"
+            },
+            "inputConnection": {
+                "nodeIdInternal": "4a31aeef-0fb5-436a-9300-16d07f05bbb7",
+                "portNameInternal": "rotationSpeed"
+            }
+        },
+        {
+            "outputConnection": {
+                "nodeIdInternal": "d82c0c05-26b5-444f-afb7-1d4c9cb662ec",
+                "portNameInternal": "!Instance"
+            },
+            "inputConnection": {
+                "nodeIdInternal": "4a31aeef-0fb5-436a-9300-16d07f05bbb7",
+                "portNameInternal": "gameObject"
+            }
+        },
+        {
+            "outputConnection": {
+                "nodeIdInternal": "d908a99d-dc5e-4b26-ad04-1ffdf3bd86ce",
+                "portNameInternal": "!Instance"
+            },
+            "inputConnection": {
+                "nodeIdInternal": "800e638b-f710-4853-8927-5d1756896d47",
+                "portNameInternal": "gameObject"
+            }
+        },
+        {
+            "outputConnection": {
+                "nodeIdInternal": "079d9818-e9e9-4357-94dd-2869d8826056",
+                "portNameInternal": "rotationSpeed"
+            },
+            "inputConnection": {
+                "nodeIdInternal": "800e638b-f710-4853-8927-5d1756896d47",
+                "portNameInternal": "rotationSpeed"
+            }
+        },
+        {
+            "outputConnection": {
+                "nodeIdInternal": "a63c6ddb-ba27-4c8d-8612-03bb32a6809a",
+                "portNameInternal": "update"
+            },
+            "inputConnection": {
+                "nodeIdInternal": "800e638b-f710-4853-8927-5d1756896d47",
+                "portNameInternal": "Rotate"
+            }
+        },
+        {
+            "outputConnection": {
+                "nodeIdInternal": "a63c6ddb-ba27-4c8d-8612-03bb32a6809a",
+                "portNameInternal": "deltaTime"
+            },
+            "inputConnection": {
+                "nodeIdInternal": "800e638b-f710-4853-8927-5d1756896d47",
+                "portNameInternal": "deltaTime"
+            }
+        }
+    ]
+}

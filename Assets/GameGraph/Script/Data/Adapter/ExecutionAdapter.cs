@@ -4,17 +4,14 @@ using UnityEngine;
 namespace GameGraph
 {
     [Serializable]
-    public class ExecutionAdapter
+    public class ExecutionAdapter : AdapterBase
     {
-        // Since we only need this id in this context we abuse the adapter as a data holder for easiness
-        public string outputNodeId;
         [SerializeField] private SerializableMemberInfo outputEventInfo;
         [SerializeField] private SerializableMethodInfo inputMethodInfo;
 
-        public ExecutionAdapter(
-            string outputNodeId, SerializableMemberInfo outputEventInfo, SerializableMethodInfo inputMethodInfo)
+        public ExecutionAdapter(string outputNodeId, SerializableMemberInfo outputEventInfo,
+            SerializableMethodInfo inputMethodInfo) : base(outputNodeId)
         {
-            this.outputNodeId = outputNodeId;
             this.outputEventInfo = outputEventInfo;
             this.inputMethodInfo = inputMethodInfo;
         }

@@ -15,6 +15,8 @@ namespace GameGraph
         [SerializeField] [HideInInspector]
         private StringObjectDictionary parameterInstancesInternal = new StringObjectDictionary();
 
+        public GraphExecutor executor { get; private set; }
+
         void Start()
         {
             if (graph == null)
@@ -23,29 +25,31 @@ namespace GameGraph
                 throw new ArgumentException($"Graph on GameGraphBehaviour on {gameObject.name} must be present!");
             }
 
-            // This cast could be unnecessary because the parameter could be of same type as parameterInstances
-            // but to be able to maybe put other stuff than UnityEngine.Objects in here it must be present
-            graph.ConstructGraph(parameterInstances.ToDictionary(pair => pair.Key, pair => (object) pair.Value));
-            graph.OrderNodesByExecutionOrder();
-            graph.Start();
+            executor = new GraphExecutor(graph,
+                // This cast could be unnecessary because the parameter could be of same type as parameterInstances
+                // but to be able to maybe put other stuff than UnityEngine.Objects in here it must be present
+                parameterInstances.ToDictionary(pair => pair.Key, pair => (object) pair.Value));
+            executor.ConstructGraph();
+            executor.OrderNodesByExecutionOrder();
+            executor.Start();
         }
 
-        public void Update()
+        void Update()
         {
             if (graphNull) return;
-            graph.Update();
+            executor.Update();
         }
 
-        public void LateUpdate()
+        void LateUpdate()
         {
             if (graphNull) return;
-            graph.LateUpdate();
+            executor.LateUpdate();
         }
 
-        public void FixedUpdate()
+        void FixedUpdate()
         {
             if (graphNull) return;
-            graph.FixedUpdate();
+            executor.FixedUpdate();
         }
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace GameGraph
 {
@@ -14,52 +13,43 @@ namespace GameGraph
         [SerializeField] private string parameterId;
         [SerializeField] private SerializableType type;
 
-        public object instance { get; private set; }
-
         public Node(SerializableType type, string parameterId)
         {
             this.type = type;
             this.parameterId = parameterId;
         }
 
-        public void ConstructOrReferenceInstance(Dictionary<string, object> parameters)
+        public object ConstructOrFindParameter(Dictionary<string, object> parameterInstances)
         {
-            if (!string.IsNullOrEmpty(parameterId) && parameters.ContainsKey(parameterId))
+            if (!string.IsNullOrEmpty(parameterId) && parameterInstances.ContainsKey(parameterId))
             {
-                instance = parameters[parameterId];
-                return;
+                return parameterInstances[parameterId];
             }
-
-            instance = Activator.CreateInstance(type.type);
+            return Activator.CreateInstance(type.type);
         }
 
-        public void SetupInstanceAdapterLinks(Dictionary<string, Node> nodes)
+        public void SetupInstanceAdapterLinks(object instance, Dictionary<string, object> nodeInstances)
         {
             instanceAdapters.ForEach(adapter =>
             {
-                nodes.TryGetValue(adapter.outputNodeId, out var outputNode);
-                Assert.IsNotNull(outputNode);
-                adapter.TransmitValue(outputNode.instance, instance);
+                adapter.TransmitValue(nodeInstances[adapter.outputNodeId], instance);
             });
         }
 
-        public void SetupExecutionAdapterLinks(Dictionary<string, Node> nodes)
+        public void SetupExecutionAdapterLinks(object instance, Dictionary<string, object> nodeInstances)
         {
             executionAdapters.ForEach(adapter =>
             {
-                nodes.TryGetValue(adapter.outputNodeId, out var outputNode);
-                Assert.IsNotNull(outputNode);
-                adapter.LinkAction(outputNode.instance, instance, () => FetchProperties(nodes));
+                adapter.LinkAction(nodeInstances[adapter.outputNodeId], instance,
+                    () => FetchProperties(instance, nodeInstances));
             });
         }
 
-        private void FetchProperties(Dictionary<string, Node> nodes)
+        private void FetchProperties(object instance, Dictionary<string, object> nodeInstances)
         {
             propertyAdapters.ForEach(adapter =>
             {
-                nodes.TryGetValue(adapter.outputNodeId, out var outputNode);
-                Assert.IsNotNull(outputNode);
-                adapter.TransmitValue(outputNode.instance, instance);
+                adapter.TransmitValue(nodeInstances[adapter.outputNodeId], instance);
             });
         }
     }

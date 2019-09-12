@@ -5,18 +5,16 @@ using UnityEngine;
 namespace GameGraph
 {
     [Serializable]
-    public class PropertyAdapter
+    public class PropertyAdapter : AdapterBase
     {
-        // Since we only need this id in this context we abuse the adapter as a data holder for easiness
-        public string outputNodeId;
-        [SerializeField] private bool outputIsProperty;
-        [SerializeField] private bool inputIsProperty;
         [SerializeField] private SerializableMemberInfo outputInfo;
+        [SerializeField] private bool outputIsProperty;
         [SerializeField] private SerializableMemberInfo inputInfo;
+        [SerializeField] private bool inputIsProperty;
 
         public PropertyAdapter(string outputNodeId, SerializableMemberInfo outputInfo, SerializableMemberInfo inputInfo)
+            : base(outputNodeId)
         {
-            this.outputNodeId = outputNodeId;
             this.outputInfo = outputInfo;
             this.inputInfo = inputInfo;
             outputIsProperty = outputInfo.memberInfo is PropertyInfo;
