@@ -10,6 +10,7 @@ namespace GameGraph.Editor
     public class ParameterEditorView : Blackboard, IGraphVisualElement
     {
         private EditorGameGraph graph;
+        private BlackboardSection section;
 
         public void Initialize(EditorGameGraph graph)
         {
@@ -18,10 +19,11 @@ namespace GameGraph.Editor
             title = this.GetWindow().titleContent.text;
             subTitle = EditorConstants.BlackboardSubHeadline;
 
+            section = new BlackboardSection {headerVisible = false};
             RegisterAddElement();
             RegisterMoveElement();
-            RegisterEditText();
             DrawParameters();
+            Add(section);
         }
 
         private void RegisterAddElement()
@@ -30,22 +32,19 @@ namespace GameGraph.Editor
             {
                 var parameterView = new ParameterView();
                 parameterView.graph = graph;
-                Add(parameterView);
+                section.Add(parameterView);
                 parameterView.Initialize(typeof(object));
                 parameterView.PersistState();
+                // Show edit name field immediately
+                parameterView.nameView.OpenTextEditor();
+                graph.isDirty = true;
             };
         }
 
         private void RegisterMoveElement()
         {
-            // TODO
-            moveItemRequested += (blackboard, newIndex, element) => { Debug.LogError("moveItemRequested"); };
-        }
-
-        private void RegisterEditText()
-        {
-            editTextRequested += (blackboard, element, newText) =>
-                element.GetFirstOfType<ParameterView>().OnRenameParameter(newText);
+            moveItemRequested += (blackboard, newIndex, element) =>
+                element.GetFirstOfType<ParameterView>().MoveToIndex(newIndex);
         }
 
         private void DrawParameters()
@@ -58,7 +57,7 @@ namespace GameGraph.Editor
             {
                 var parameterView = new ParameterView();
                 parameterView.graph = graph;
-                Add(parameterView);
+                section.Add(parameterView);
                 parameterView.Initialize(parameter);
             });
         }

@@ -4,7 +4,6 @@ using System.Linq;
 
 namespace GameGraph.Editor
 {
-    // TODO Rename, is not weak anymore
     public class DataHolder
     {
         private readonly Dictionary<string, object> namedData = new Dictionary<string, object>();

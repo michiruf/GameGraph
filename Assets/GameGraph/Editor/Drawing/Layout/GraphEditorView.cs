@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -26,7 +27,8 @@ namespace GameGraph.Editor
             this.graph = graph;
 
             RegisterViewNavigation();
-            RegisterAddElement();
+            RegisterAddNode();
+            RegisterAddParameter();
             DrawGraph();
             RegisterChangeEvent(); // After draw!
         }
@@ -39,7 +41,7 @@ namespace GameGraph.Editor
             z.target = this;
         }
 
-        private void RegisterAddElement()
+        private void RegisterAddNode()
         {
             nodeTypeSearchWindowProvider.callback = (type, position) =>
             {
@@ -56,6 +58,38 @@ namespace GameGraph.Editor
                 SearchWindow.Open(new SearchWindowContext(context.screenMousePosition),
                     nodeTypeSearchWindowProvider);
             };
+        }
+
+        private void RegisterAddParameter()
+        {
+            RegisterCallback<DragUpdatedEvent>(evt =>
+            {
+                if (!(DragAndDrop.GetGenericData("DragSelection") is List<ISelectable> selection))
+                    return;
+                if (selection.OfType<BlackboardField>().Any())
+                    // Visual mode is necessary for the perform event to work!
+                    DragAndDrop.visualMode = DragAndDropVisualMode.Generic;
+            });
+
+            RegisterCallback<DragPerformEvent>(evt =>
+            {
+                if (!(DragAndDrop.GetGenericData("DragSelection") is List<ISelectable> selection))
+                    return;
+
+                foreach (var field in selection.OfType<BlackboardField>())
+                {
+                    var localPos = (evt.currentTarget as VisualElement).ChangeCoordinatesTo(
+                        contentViewContainer, evt.localMousePosition);
+
+                    var parameter = field.GetFirstOfType<ParameterView>().parameter;
+                    var nodeView = new NodeView();
+                    nodeView.graph = graph;
+                    AddElement(nodeView);
+                    nodeView.Initialize(parameter.type, localPos, parameter.id);
+                    nodeView.PersistState();
+                    graph.isDirty = true;
+                }
+            });
         }
 
         private void RegisterChangeEvent()

@@ -4,6 +4,8 @@ using System.Runtime.CompilerServices;
 
 namespace GameGraph.Editor
 {
+    // TODO https://docs.unity3d.com/2018.3/Documentation/ScriptReference/Experimental.UIElements.VisualElement-userData.html
+    //      Could make this completely obsolete
     public static class WeakDataHolderExtension
     {
         private static readonly ConditionalWeakTable<object, DataHolder> Instances =
