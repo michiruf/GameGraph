@@ -4,13 +4,13 @@ Desktop.ini
 .DS_Store
 
 # Unity3D core stuff
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/Assets/AssetStoreTools*
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+Assets/AssetStoreTools*
 # Never ignore Asset meta data
 ![Aa]ssets/**/*.meta
 
@@ -42,16 +42,15 @@ ExportedObj/
 *.VC.db
 
 # Rider
-/.idea/
+.idea/
 [Bb]in/
-[Oo]bj/
 _UpgradeReport_Files/
 # Rider Unity plugin
-/[Aa]ssets/Plugins.meta
-/[Aa]ssets/Plugins/
+[Aa]ssets/Plugins.meta
+[Aa]ssets/Plugins/
 
 # Builds
-/.gradle/
+.gradle/
 *.apk
 *.unitypackage
 crashlytics-build.properties
