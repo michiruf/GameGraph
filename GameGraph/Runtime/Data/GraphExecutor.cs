@@ -40,6 +40,7 @@ namespace GameGraph
 
         public void Start()
         {
+            FetchValuesNow();
             foreach (var pair in orderedNodeInstances)
             {
                 (pair.Value as IStartHook)?.Start();
@@ -48,6 +49,7 @@ namespace GameGraph
 
         public void Update()
         {
+            FetchValuesNow();
             foreach (var pair in orderedNodeInstances)
             {
                 (pair.Value as IUpdateHook)?.Update();
@@ -56,18 +58,28 @@ namespace GameGraph
 
         public void LateUpdate()
         {
+            FetchValuesNow();
             foreach (var pair in orderedNodeInstances)
             {
-                (pair.Value as IUpdateHook)?.LateUpdate();
+                (pair.Value as ILateUpdateHook)?.LateUpdate();
             }
         }
 
         public void FixedUpdate()
         {
+            FetchValuesNow();
             foreach (var pair in orderedNodeInstances)
             {
-                (pair.Value as IUpdateHook)?.FixedUpdate();
+                (pair.Value as IFixedUpdateHook)?.FixedUpdate();
             }
+        }
+
+        // TODO When there are no Methods in the scripts, no values will get transmitted
+        //      This method call fixes this for now, but is much overhead
+        private void FetchValuesNow()
+        {
+            foreach (var pair in graph.nodes)
+                pair.Value.FetchPropertiesRecursive(nodeInstances[pair.Key], nodeInstances, graph.nodes);
         }
 
         public T GetInstance<T>() where T : class

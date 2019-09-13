@@ -46,7 +46,7 @@ namespace GameGraph
             });
         }
 
-        private void FetchPropertiesRecursive(object instance, Dictionary<string, object> nodeInstances,
+        internal void FetchPropertiesRecursive(object instance, Dictionary<string, object> nodeInstances,
             Dictionary<string, Node> nodes)
         {
             // NOTE This might be a bit overkill. Would it be better to fetch only the one property needed?
