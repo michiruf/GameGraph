@@ -8,6 +8,7 @@ namespace GameGraph
     public class Node
     {
         public List<InstanceAdapter> instanceAdapters;
+        public List<InitialValueAdapter> initialValueAdapters;
         public List<ExecutionAdapter> executionAdapters;
         public List<PropertyAdapter> propertyAdapters;
         [SerializeField] private string parameterId;
@@ -28,29 +29,32 @@ namespace GameGraph
             return Activator.CreateInstance(type.type);
         }
 
+        public void SetInitialValues(object instance)
+        {
+            initialValueAdapters.ForEach(adapter => 
+                adapter.SetValue(instance));
+        }
+
         public void SetupInstanceAdapterLinks(object instance, Dictionary<string, object> nodeInstances)
         {
             instanceAdapters.ForEach(adapter =>
-            {
-                adapter.TransmitValue(nodeInstances[adapter.outputNodeId], instance);
-            });
+                adapter.TransmitValue(nodeInstances[adapter.outputNodeId], instance));
         }
 
         public void SetupExecutionAdapterLinks(object instance, Dictionary<string, object> nodeInstances,
             Dictionary<string, Node> nodes)
         {
             executionAdapters.ForEach(adapter =>
-            {
-                adapter.LinkAction(nodeInstances[adapter.outputNodeId], instance,
-                    () => FetchPropertiesRecursive(instance, nodeInstances, nodes));
-            });
+                adapter.LinkAction(
+                    nodeInstances[adapter.outputNodeId], instance,
+                    () => FetchPropertiesRecursive(instance, nodeInstances, nodes)));
         }
 
         internal void FetchPropertiesRecursive(object instance, Dictionary<string, object> nodeInstances,
             Dictionary<string, Node> nodes)
         {
             // NOTE This might be a bit overkill. Would it be better to fetch only the one property needed?
-            // Would it be better to only activate this behaviour for specific edges via attribute in classes?
+            //      Would it be better to only activate this behaviour for specific edges via attribute in classes?
             propertyAdapters.ForEach(adapter =>
             {
                 var recursiveFetchInputNode = nodes[adapter.outputNodeId];
@@ -62,10 +66,8 @@ namespace GameGraph
 
         private void FetchProperties(object instance, Dictionary<string, object> nodeInstances)
         {
-            propertyAdapters.ForEach(adapter =>
-            {
-                adapter.TransmitValue(nodeInstances[adapter.outputNodeId], instance);
-            });
+            propertyAdapters.ForEach(adapter => 
+                adapter.TransmitValue(nodeInstances[adapter.outputNodeId], instance));
         }
     }
 }

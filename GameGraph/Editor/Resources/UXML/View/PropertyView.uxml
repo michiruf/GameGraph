@@ -9,9 +9,9 @@
          xmlns:gg="GameGraph.Editor">
 
     <ui:VisualElement name="ingoingPortContainer"/>
-    <ui:VisualElement name="contentContainer" class="flex vertical">
-        <ui:Label name="name" class="bold"/>
-        <ui:Label name="value" text="Value placeholder"/>
+    <ui:VisualElement name="contentContainer">
+        <ui:Label name="nameOnly"/>
+        <ui:VisualElement name="nameAndValue"/>
     </ui:VisualElement>
     <ui:VisualElement name="outgoingPortContainer"/>
 </ui:UXML>

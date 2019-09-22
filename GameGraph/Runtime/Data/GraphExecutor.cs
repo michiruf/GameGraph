@@ -27,6 +27,7 @@ namespace GameGraph
             foreach (var pair in graph.nodes)
             {
                 var instance = nodeInstances[pair.Key];
+                pair.Value.SetInitialValues(instance);
                 pair.Value.SetupInstanceAdapterLinks(instance, nodeInstances);
                 pair.Value.SetupExecutionAdapterLinks(instance, nodeInstances, graph.nodes);
             }
@@ -42,36 +43,28 @@ namespace GameGraph
         {
             FetchValuesNow();
             foreach (var pair in orderedNodeInstances)
-            {
                 (pair.Value as IStartHook)?.Start();
-            }
         }
 
         public void Update()
         {
             FetchValuesNow();
             foreach (var pair in orderedNodeInstances)
-            {
                 (pair.Value as IUpdateHook)?.Update();
-            }
         }
 
         public void LateUpdate()
         {
             FetchValuesNow();
             foreach (var pair in orderedNodeInstances)
-            {
                 (pair.Value as ILateUpdateHook)?.LateUpdate();
-            }
         }
 
         public void FixedUpdate()
         {
             FetchValuesNow();
             foreach (var pair in orderedNodeInstances)
-            {
                 (pair.Value as IFixedUpdateHook)?.FixedUpdate();
-            }
         }
 
         // TODO When there are no Methods in the scripts, no values will get transmitted

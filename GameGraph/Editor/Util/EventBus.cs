@@ -6,6 +6,7 @@ using System.Reflection;
 namespace GameGraph.Editor
 {
     // Got from: https://stackoverflow.com/questions/368265/a-simple-event-bus-for-net
+    [Obsolete("This is not a good practice in C#")]
     public class EventBus
     {
         private static EventBus instanceInternal;

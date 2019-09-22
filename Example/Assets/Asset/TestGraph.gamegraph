@@ -1,0 +1,19 @@
+{
+    "serializedVersion": 28,
+    "parameters": [],
+    "nodes": [
+        {
+            "idInternal": "d0e6e354-a7e9-4559-8594-c09f43506eda",
+            "typeInternal": {
+                "assemblyQualifiedName": "RotatingBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "",
+            "propertyValuesInternal": "{\"rotationSpeed\":4.36}",
+            "positionInternal": {
+                "x": 603.0,
+                "y": 406.0
+            }
+        }
+    ],
+    "edges": []
+}

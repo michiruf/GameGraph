@@ -13,7 +13,7 @@ namespace GameGraph
 
         public Dictionary<string, Object> parameterInstances => parameterInstancesInternal.dictionary;
         [SerializeField] [HideInInspector]
-        private StringObjectDictionary parameterInstancesInternal = new StringObjectDictionary();
+        private StringUnityObjectDictionary parameterInstancesInternal = new StringUnityObjectDictionary();
 
         public GraphExecutor executor { get; private set; }
 

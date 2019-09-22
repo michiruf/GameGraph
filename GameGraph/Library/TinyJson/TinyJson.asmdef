@@ -1,14 +1,8 @@
 {
-    "name": "GameGraph.Editor",
-    "references": [
-        "GameGraph",
-        "GameGraph.Debug",
-        "TinyJson"
-    ],
+    "name": "TinyJson",
+    "references": [],
     "optionalUnityReferences": [],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

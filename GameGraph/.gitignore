@@ -3,17 +3,6 @@ Thumbs.db
 Desktop.ini
 .DS_Store
 
-# Unity3D core stuff
-[Ll]ibrary/
-[Tt]emp/
-[Oo]bj/
-[Bb]uild/
-[Bb]uilds/
-[Ll]ogs/
-Assets/AssetStoreTools*
-# Never ignore Asset meta data
-![Aa]ssets/**/*.meta
-
 # Unity3D generated meta files
 *.pidb.meta
 *.pdb.meta
@@ -45,18 +34,9 @@ ExportedObj/
 .idea/
 [Bb]in/
 _UpgradeReport_Files/
-# Rider Unity plugin
-[Aa]ssets/Plugins.meta
-[Aa]ssets/Plugins/
 
 # Builds
 .gradle/
 *.apk
 *.unitypackage
 crashlytics-build.properties
-
-# Do not ignore library files (included in a directory starting with @)
-![Aa]ssets/@*/**
-# But ignore NuGet asset files
-[Aa]ssets/@AssetsNuGet/**
-[Aa]ssets/@AssetsNuGet.meta

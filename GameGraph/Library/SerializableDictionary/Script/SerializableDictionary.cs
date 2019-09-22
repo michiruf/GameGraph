@@ -8,8 +8,8 @@ public abstract class SerializableDictionary<TKey, TValue> : ISerializationCallb
     [SerializeField] private TKey[] keys;
     [SerializeField] private TValue[] values;
 
-    public Dictionary<TKey, TValue> dictionary;
-    
+    [NonSerialized] public Dictionary<TKey, TValue> dictionary;
+
     public SerializableDictionary()
     {
         dictionary = new Dictionary<TKey, TValue>();
@@ -19,7 +19,7 @@ public abstract class SerializableDictionary<TKey, TValue> : ISerializationCallb
     {
         var c = keys.Length;
         dictionary = new Dictionary<TKey, TValue>(c);
-        for (int i = 0; i < c; i++)
+        for (var i = 0; i < c; i++)
         {
             dictionary[keys[i]] = values[i];
         }
@@ -32,7 +32,7 @@ public abstract class SerializableDictionary<TKey, TValue> : ISerializationCallb
         var c = dictionary.Count;
         keys = new TKey[c];
         values = new TValue[c];
-        int i = 0;
+        var i = 0;
         using (var e = dictionary.GetEnumerator())
             while (e.MoveNext())
             {
