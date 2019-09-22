@@ -1,5 +1,5 @@
 {
-    "serializedVersion": 28,
+    "serializedVersion": 36,
     "parameters": [],
     "nodes": [
         {
@@ -8,10 +8,22 @@
                 "assemblyQualifiedName": "RotatingBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
             },
             "parameterIdInternal": "",
-            "propertyValuesInternal": "{\"rotationSpeed\":4.36}",
+            "propertyValuesInternal": "{\"rotationSpeed\":95.6}",
             "positionInternal": {
                 "x": 603.0,
                 "y": 406.0
+            }
+        },
+        {
+            "idInternal": "9cd4e0f1-ec48-4bf2-b715-b0ce6c93658d",
+            "typeInternal": {
+                "assemblyQualifiedName": "Test, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "",
+            "propertyValuesInternal": "{\"bla\":\"H\"}",
+            "positionInternal": {
+                "x": 589.0,
+                "y": 272.0
             }
         }
     ],

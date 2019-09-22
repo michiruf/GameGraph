@@ -33,7 +33,7 @@ namespace GameGraph.Editor
             }
         }
 
-        public Dictionary<string, object> propertyValues { get; private set; }
+        public Dictionary<string, object> propertyValues { get; private set; } = new Dictionary<string, object>();
 
         public Vector2 position
         {

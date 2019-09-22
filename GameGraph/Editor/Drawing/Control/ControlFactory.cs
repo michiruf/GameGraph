@@ -1,6 +1,4 @@
 using System;
-using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
@@ -9,16 +7,16 @@ namespace GameGraph.Editor
     {
         public static VisualElement Create(string name, string fieldName, Type type, EditorNode node)
         {
-            if (type == typeof(int))
-                return new ControlContainerView<int>(new IntegerField(name), fieldName, node);
+//            if (type == typeof(int))
+//                return new IntControl(fieldName, node);
             if (type == typeof(float))
-                return new ControlContainerView<float>(new FloatField(name), fieldName, node);
+                return new FloatControl(fieldName, name, node);
             if (type == typeof(string))
-                return new ControlContainerView<string>(new TextField(name), fieldName, node);
-            if (type == typeof(Vector2))
-                return new ControlContainerView<Vector2>(new Vector2Field(name), fieldName, node);
-            if (type == typeof(Vector3))
-                return new ControlContainerView<Vector3>(new Vector3Field(name), fieldName, node);
+                return new StringControl(fieldName, name, node);
+//            if (type == typeof(Vector2))
+//                return new ControlBase<,,>(fieldName, node);
+//            if (type == typeof(Vector3))
+//                return new ControlBase<,,>(fieldName, node);
 //            if (type == typeof(Type))
 //                return new ControlView<Type>(new TypeField(name), node);
 
