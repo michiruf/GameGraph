@@ -2,7 +2,8 @@
     "name": "GameGraph.Editor",
     "references": [
         "GameGraph",
-        "GameGraph.Debug"
+        "GameGraph.Debug",
+        "SerializableDictionary"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [

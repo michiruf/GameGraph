@@ -43,6 +43,8 @@ namespace GameGraph.Editor
             }
 
             // Draw parameters
+            // TODO Use: nameof(GameGraphBehaviour.parameterInstancesInternal) if possible with private,
+            //      else may change to internal?
             var parameterInstancesProperty = serializedObject.FindProperty("parameterInstancesInternal");
             var values = parameterInstancesProperty.FindPropertyRelative("values");
             var i = 0;

@@ -15,6 +15,8 @@ namespace GameGraph.Editor
         private readonly Dictionary<string, ClassData> nodeClassData = new Dictionary<string, ClassData>();
         private readonly Dictionary<string, List<EditorEdge>> nodeEdgesToNode =
             new Dictionary<string, List<EditorEdge>>();
+        private readonly Dictionary<string, Dictionary<string, object>> nodePropertyValueData =
+            new Dictionary<string, Dictionary<string, object>>();
         private readonly Dictionary<string, Node> nodeResult = new Dictionary<string, Node>();
 
         // Parameter data
@@ -34,6 +36,7 @@ namespace GameGraph.Editor
                     nodeEdgesToNode.Add(editorNode.id, graph.edges
                         .Where(editorEdge => editorEdge.inputNodeId.Equals(editorNode.id))
                         .ToList());
+                    nodePropertyValueData.Add(editorNode.id, editorNode.propertyValues);
                     nodeResult.Add(editorNode.id, new Node(editorNode.type, editorNode.parameterId));
                 });
         }
@@ -65,6 +68,19 @@ namespace GameGraph.Editor
                         .Select(tuple => new InstanceAdapter(tuple.Item1, tuple.Item2))
                         .ToList();
 
+                    node.initialValueAdapters = nodePropertyValueData[id]?
+                        .Select(propertyValues =>
+                        {
+                            var inputProperty = inputClass.fields
+                                .Select(data => (MemberInfo) data.info)
+                                .Concat(inputClass.properties.Select(data => data.info))
+                                .FirstOrDefault(data => data.Name.Equals(propertyValues.Key));
+                            return Tuple.Create(id, inputProperty, propertyValues.Value);
+                        })
+                        .Where(tuple => tuple.Item2 != null && tuple.Item3 != null)
+                        .Select(tuple => new InitialValueAdapter(tuple.Item1, tuple.Item2, tuple.Item3))
+                        .ToList();
+                    
                     node.propertyAdapters = edgesToNode
                         .Select(editorEdge =>
                         {

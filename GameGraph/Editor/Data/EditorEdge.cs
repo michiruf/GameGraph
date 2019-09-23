@@ -10,8 +10,6 @@ namespace GameGraph.Editor
         [SerializeField] private Connection inputConnection;
         [NonSerialized] public bool isDirty;
 
-        [NonSerialized] public EdgeView owner; // TODO Use these owners?!
-
         public string outputNodeId
         {
             get => outputConnection.nodeIdInternal;

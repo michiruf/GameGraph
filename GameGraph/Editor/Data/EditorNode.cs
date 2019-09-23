@@ -1,19 +1,19 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace GameGraph.Editor
 {
     [Serializable]
-    public class EditorNode
+    public class EditorNode : ISerializationCallbackReceiver
     {
         [SerializeField] private string idInternal = Guid.NewGuid().ToString();
         [SerializeField] private SerializableType typeInternal;
         [SerializeField] private string parameterIdInternal;
+        [SerializeField] private StringSerializableObjectDictionary propertyValuesInternal;
         [SerializeField] private Vector2 positionInternal;
         [NonSerialized] public bool isDirty;
-
-        [NonSerialized] public NodeView owner; // TODO Use these owners?!
 
         public string id => idInternal;
 
@@ -30,6 +30,8 @@ namespace GameGraph.Editor
             }
         }
 
+        public Dictionary<string, object> propertyValues { get; private set; } = new Dictionary<string, object>();
+
         public Vector2 position
         {
             get => positionInternal;
@@ -44,6 +46,7 @@ namespace GameGraph.Editor
         public EditorNode(SerializableType type)
         {
             typeInternal = type;
+            propertyValuesInternal = new StringSerializableObjectDictionary();
             MarkDirty();
         }
 
@@ -55,6 +58,20 @@ namespace GameGraph.Editor
         private void MarkDirty()
         {
             isDirty = true;
+        }
+
+        public void OnBeforeSerialize()
+        {
+            if (propertyValues != null)
+                propertyValuesInternal.dictionary = propertyValues
+                    .ToDictionary(pair => pair.Key, pair => new SerializableObject(pair.Value));
+        }
+
+        public void OnAfterDeserialize()
+        {
+            if (propertyValuesInternal != null)
+                propertyValues = propertyValuesInternal.dictionary
+                    .ToDictionary(pair => pair.Key, pair => pair.Value.@object);
         }
     }
 }

@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
 {
     // TODO https://docs.unity3d.com/2018.3/Documentation/ScriptReference/Experimental.UIElements.VisualElement-userData.html
     //      Could make this completely obsolete
+    [Obsolete("Use VisualElement.userData")]
     public static class WeakDataHolderExtension
     {
         private static readonly ConditionalWeakTable<object, DataHolder> Instances =
@@ -13,6 +15,7 @@ namespace GameGraph.Editor
 
         public static DataHolder GetUserDataHolder(this object o)
         {
+            // TODO Instead of handling this myself, every VisualElement has a field "userData" 
             return Instances.GetOrCreateValue(o);
         }
 

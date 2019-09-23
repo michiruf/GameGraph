@@ -98,58 +98,6 @@ ParameterView #textField {
     margin: 2 5 1 0;
 }
 
-/* TODO FROM HERE ON TRY TO MAKE THE PILL FULL WIDTH */
-/*
-ParameterView !!!!!!
-  BlackboardField #name .blackboardField
-    TemplateContainer .mainContainer
-      VisualElement #contentItem !!!!!!
-        Pill #pill .pill
-          TemplateContainer 
-            VisualElement #node-border 
-              VisualElement #contents 
-                VisualElement #top 
-                  VisualElement #input 
-                  Image #icon .unity-image
-                  Label #title-label .unity-text-element.unity-label
-                  VisualElement #output 
-            VisualElement #selection-border 
-        Label #typeLabel .unity-text-element.unity-label
-      TextField #textField .unity-base-field.unity-base-field--no-label.unity-base-text-field.unity-text-field !!!!!!
-        TextInput #unity-text-input .unity-base-text-field__input.unity-base-field__input.unity-text-field__input !!!!!!
-  Button #type .unity-text-element.unity-button !!!!!!
-*/
-/*
-ParameterView #pill {
-    flex: 1;
-    background-color: #0ff;
-    background-image: none;
-}
-
-ParameterView #contentItem * {
-    flex: 1;
-}
-
-ParameterView .blackboardField,
-ParameterView .mainContainer,
-ParameterView #contentItem,
-ParameterView #pill,
-ParameterView #node-border,
-ParameterView #contents,
-ParameterView #top,
-ParameterView #title-label,
-ParameterView #pill *
-{
-    flex: 1;
-    flex-direction: row;
-    align-self: stretch;
-    align-content: stretch;
-    position: relative; /* especially for borderItem */
-/*}*/
-
-/* TODO UNTIL HERE */
-
-
 /***********************************************************/
 /* Graph MiniMap                                           */
 /***********************************************************/
@@ -172,18 +120,12 @@ NodeView #extension {
     background-color: rgba(39, 39, 39, 0.9);
 }
 
-NodeView .node-slicer {
-    border-top-width: 1;
-    border-color: rgba(255, 255, 255, 0.02);
-}
-
+/***********************************************************/
+/* Node Properties                                         */
+/***********************************************************/
 PropertyView {
     flex: 1;
     flex-direction: row;
-}
-
-PropertyView #contentContainer {
-    padding: 5 15 5 10;
 }
 
 PropertyView #ingoingPortContainer,
@@ -197,3 +139,45 @@ PropertyView #ingoingPortContainer.exists,
 PropertyView #outgoingPortContainer.exists {
     background-color: rgba(255, 255, 255, 0.02);
 }
+
+PropertyView #contentContainer {
+    padding: 6 15 4 10;
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+}
+
+/***********************************************************/
+/* Node Controls                                           */
+/***********************************************************/
+PropertyView #nameAndValue {
+    flex: 1;
+}
+
+PropertyView #nameAndValue .unity-base-text-field__label {
+    min-width: auto;
+    flex: 1;
+    margin: 0 10 0 0;
+}
+
+PropertyView #nameAndValue .unity-base-text-field__input {
+    min-width: 30;
+    flex: 0;
+    -unity-text-align: middle-right;
+}
+
+/* TODO Add the controls to input ports */
+/*
+NodeView * {
+    overflow: visible;
+}
+
+PropertyView .control {
+    position: absolute;
+    right: -100;
+    top: 0;
+}
+PropertyView .control * {
+    background-color: #f00;
+}
+*/

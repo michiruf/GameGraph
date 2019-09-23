@@ -4,7 +4,12 @@ using UnityEngine;
 
 [GameGraph]
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-public class RotatingBehaviour : MonoBehaviour
+public class Logger
 {
-    public float rotationSpeed;
+    public string value;
+
+    public void Log()
+    {
+        Debug.Log(value);
+    }
 }

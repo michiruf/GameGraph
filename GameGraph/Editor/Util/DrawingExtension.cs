@@ -113,6 +113,7 @@ namespace GameGraph.Editor
         
         #region Prettify Name
 
+        [Obsolete("Use ObjectNames.NicifyVariableName")]
         public static string PrettifyName(this string input)
         {
             return Regex.Replace(

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -14,7 +15,7 @@ namespace GameGraph.Editor
         private EditorParameter parameter;
 
         private Type nodeType => parameter == null ? node.type : parameter.type;
-        private string nodeName => (parameter == null ? node.type.Name : parameter.name).PrettifyName();
+        private string nodeName => ObjectNames.NicifyVariableName(parameter == null ? node.type.Name : parameter.name);
 
         private readonly Dragger drag = new Dragger();
 
@@ -26,6 +27,15 @@ namespace GameGraph.Editor
         public void Initialize(EditorNode node)
         {
             this.node = node;
+            
+            // Cancel initialization and remove node if node type does not exist anymore
+            if (node.type == null)
+            {
+                RemoveState();
+                RemoveFromHierarchy();
+                return;
+            }
+            
             parameter = node.GetParameter(graph);
             Initialize();
         }
@@ -47,8 +57,10 @@ namespace GameGraph.Editor
 
             // NOTE Handle the move event manually, because it does not get triggered in
             //      GraphEditorView.graphViewChanged event listeners
-            //      The current solution is pretty slow and should cause lags when there exist more nodes
             RegisterCallback<MouseMoveEvent>(OnMove);
+
+            // Persist state whenever a value has changed
+            RegisterCallback<ControlBase.ControlValueChangeEvent>(evt => PersistState());
 
             this.GetEventBus().Register(this);
         }
@@ -56,6 +68,11 @@ namespace GameGraph.Editor
         public void PersistState()
         {
             node.position = GetPosition().position;
+
+            node.propertyValues.Clear();
+            // Delegate the collection to controls
+            this.Query<ControlBase>()
+                .ForEach(controlBase => controlBase.PersistState());
 
             if (!graph.nodes.Contains(node))
                 graph.nodes.Add(node);
@@ -85,8 +102,8 @@ namespace GameGraph.Editor
         private void CreateFields(ClassData analysisData)
         {
             // Properties
-            analysisData.properties.ForEach(data => extensionContainer.Add(new PropertyView(data)));
-            analysisData.fields.ForEach(data => extensionContainer.Add(new PropertyView(data)));
+            analysisData.properties.ForEach(data => extensionContainer.Add(new PropertyView(data, node)));
+            analysisData.fields.ForEach(data => extensionContainer.Add(new PropertyView(data, node)));
 
             // Methods
             analysisData.methods.ForEach(data =>
@@ -97,7 +114,7 @@ namespace GameGraph.Editor
                     Port.Capacity.Single,
                     typeof(Action),
                     data.info.Name,
-                    data.info.Name.PrettifyName()));
+                    ObjectNames.NicifyVariableName(data.info.Name)));
             });
 
             // Triggers
@@ -109,7 +126,7 @@ namespace GameGraph.Editor
                     Port.Capacity.Multi,
                     typeof(Action),
                     data.info.Name,
-                    data.info.Name.PrettifyName()));
+                    ObjectNames.NicifyVariableName(data.info.Name)));
             });
         }
 
@@ -135,7 +152,7 @@ namespace GameGraph.Editor
         {
             if (e.parameter != parameter)
                 return;
-            
+
             // NOTE For immediate easiness just recreate the node
             extensionContainer.Clear();
             inputContainer.Clear();

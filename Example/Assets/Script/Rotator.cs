@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 
 [GameGraph("RealTest")]
-[UsedImplicitly]
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public class Rotator
 {
     public float deltaTime { private get; set; } = Time.fixedDeltaTime;
