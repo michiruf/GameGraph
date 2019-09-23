@@ -1,15 +1,14 @@
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace GameGraph
+namespace GameGraph.CommonBlocks
 {
-    [GameGraph("Common/TODO Name")]
-    [UsedImplicitly]
+    [GameGraph("Common/Uncategorized")]
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class Spawn
     {
-        [UsedImplicitly] public GameObject prefab;
+        public GameObject prefab;
 
-        [UsedImplicitly]
         public void Invoke()
         {
             Object.Instantiate(prefab);
