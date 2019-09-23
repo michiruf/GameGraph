@@ -33,12 +33,14 @@ namespace GameGraph
 
         public void OnBeforeSerialize()
         {
-            assemblyQualifiedName = type.AssemblyQualifiedName;
+            if (type != null)
+                assemblyQualifiedName = type.AssemblyQualifiedName;
         }
 
         public void OnAfterDeserialize()
         {
-            type = Type.GetType(assemblyQualifiedName);
+            if (assemblyQualifiedName != null)
+                type = Type.GetType(assemblyQualifiedName);
         }
     }
 }

@@ -27,6 +27,15 @@ namespace GameGraph.Editor
         public void Initialize(EditorNode node)
         {
             this.node = node;
+            
+            // Cancel initialization and remove node if node type does not exist anymore
+            if (node.type == null)
+            {
+                RemoveState();
+                RemoveFromHierarchy();
+                return;
+            }
+            
             parameter = node.GetParameter(graph);
             Initialize();
         }

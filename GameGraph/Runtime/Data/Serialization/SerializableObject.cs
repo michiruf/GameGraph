@@ -3,6 +3,7 @@ using System.Reflection;
 using DeJson;
 using JetBrains.Annotations;
 using UnityEngine;
+using Object = System.Object;
 
 namespace GameGraph
 {
@@ -31,17 +32,26 @@ namespace GameGraph
 
         public override int GetHashCode()
         {
+            if (@object == null)
+                return -1;
+
             return @object.GetHashCode();
         }
 
         public void OnBeforeSerialize()
         {
+            if (@object == null)
+                return;
+
             type = @object.GetType();
             objectInternal = Serializer.Serialize(@object);
         }
 
         public void OnAfterDeserialize()
         {
+            if (string.IsNullOrEmpty(objectInternal))
+                return;
+
             // Access via reflection to build the generic type
             var method = GetType()
                 .GetMethod("DeserializeWrapper", BindingFlags.Instance | BindingFlags.NonPublic)?

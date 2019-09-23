@@ -38,12 +38,18 @@ namespace GameGraph
 
         public void OnBeforeSerialize()
         {
+            if (memberInfo == null)
+                return;
+
             type = memberInfo.DeclaringType;
             name = memberInfo.Name;
         }
 
         public void OnAfterDeserialize()
         {
+            if (type == null || type.type == null || name == null)
+                return;
+
             memberInfo = type.type.GetMember(name, Constants.ReflectionFlags)[0];
         }
     }
