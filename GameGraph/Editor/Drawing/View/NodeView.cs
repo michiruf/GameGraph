@@ -50,12 +50,20 @@ namespace GameGraph.Editor
             //      GraphEditorView.graphViewChanged event listeners
             RegisterCallback<MouseMoveEvent>(OnMove);
 
+            // Persist state whenever a value has changed
+            RegisterCallback<ControlBase.ControlValueChangeEvent>(evt => PersistState());
+
             this.GetEventBus().Register(this);
         }
 
         public void PersistState()
         {
             node.position = GetPosition().position;
+
+            node.propertyValues.Clear();
+            // Delegate the collection to controls
+            this.Query<ControlBase>()
+                .ForEach(controlBase => controlBase.PersistState());
 
             if (!graph.nodes.Contains(node))
                 graph.nodes.Add(node);
