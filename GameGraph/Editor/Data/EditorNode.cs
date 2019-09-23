@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TinyJson;
 using UnityEngine;
 
 namespace GameGraph.Editor
@@ -12,11 +11,9 @@ namespace GameGraph.Editor
         [SerializeField] private string idInternal = Guid.NewGuid().ToString();
         [SerializeField] private SerializableType typeInternal;
         [SerializeField] private string parameterIdInternal;
-        [SerializeField] private string propertyValuesInternal;
+        [SerializeField] private StringSerializableObjectDictionary propertyValuesInternal;
         [SerializeField] private Vector2 positionInternal;
         [NonSerialized] public bool isDirty;
-
-        [NonSerialized] public NodeView owner; // TODO Use these owners?!
 
         public string id => idInternal;
 
@@ -49,6 +46,7 @@ namespace GameGraph.Editor
         public EditorNode(SerializableType type)
         {
             typeInternal = type;
+            propertyValuesInternal = new StringSerializableObjectDictionary();
             MarkDirty();
         }
 
@@ -65,14 +63,15 @@ namespace GameGraph.Editor
         public void OnBeforeSerialize()
         {
             if (propertyValues != null)
-                propertyValuesInternal = propertyValues.ToJson();
+                propertyValuesInternal.dictionary = propertyValues
+                    .ToDictionary(pair => pair.Key, pair => new SerializableObject(pair.Value));
         }
 
         public void OnAfterDeserialize()
         {
             if (propertyValuesInternal != null)
-                propertyValues = propertyValuesInternal.FromJson<object>() as Dictionary<string, object>
-                                 ?? new Dictionary<string, object>();
+                propertyValues = propertyValuesInternal.dictionary
+                    .ToDictionary(pair => pair.Key, pair => pair.Value.@object);
         }
     }
 }

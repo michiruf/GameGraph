@@ -2,8 +2,7 @@ using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
 {
-    // TODO Still serialization to handle. Fuck... (when creating adapters)
-    public abstract class ControlBase<TValue, TSerializedValue, TField> : ControlBase
+    public class FieldControl<TValue, TField> : ControlBase
         where TField : BaseField<TValue>, new()
     {
         private readonly string fieldName;
@@ -11,7 +10,7 @@ namespace GameGraph.Editor
         private readonly EditorNode node;
         private TValue value;
 
-        public ControlBase(string fieldName, string label, EditorNode node)
+        public FieldControl(string fieldName, string label, EditorNode node)
         {
             this.fieldName = fieldName;
             this.label = label;
@@ -24,7 +23,11 @@ namespace GameGraph.Editor
             var field = new TField {label = label};
 
             if (node.propertyValues.ContainsKey(fieldName))
-                value = GetValue((TSerializedValue) node.propertyValues[fieldName]);
+            {
+                var valueObject = node.propertyValues[fieldName];
+                if (valueObject != null)
+                    value = (TValue) valueObject;
+            }
 
             if (value != null)
                 field.SetValueWithoutNotify(value);
@@ -32,8 +35,6 @@ namespace GameGraph.Editor
             field.RegisterValueChangedCallback(OnChange);
             Add(field);
         }
-
-        protected abstract TValue GetValue(TSerializedValue value);
 
         private void OnChange(ChangeEvent<TValue> evt)
         {

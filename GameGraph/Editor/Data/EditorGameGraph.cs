@@ -18,8 +18,6 @@ namespace GameGraph.Editor
         //      UserBounds: bounds MiniMapEditorView
         private bool isDirtyInternal;
         
-        [NonSerialized] public GraphEditorView owner; // TODO Use these owners?!
-
         public bool isDirty
         {
             get

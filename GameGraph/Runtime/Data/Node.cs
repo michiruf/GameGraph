@@ -31,8 +31,7 @@ namespace GameGraph
 
         public void SetInitialValues(object instance)
         {
-            initialValueAdapters.ForEach(adapter => 
-                adapter.SetValue(instance));
+            initialValueAdapters.ForEach(adapter => adapter.SetValue(instance));
         }
 
         public void SetupInstanceAdapterLinks(object instance, Dictionary<string, object> nodeInstances)
@@ -66,7 +65,7 @@ namespace GameGraph
 
         private void FetchProperties(object instance, Dictionary<string, object> nodeInstances)
         {
-            propertyAdapters.ForEach(adapter => 
+            propertyAdapters.ForEach(adapter =>
                 adapter.TransmitValue(nodeInstances[adapter.outputNodeId], instance));
         }
     }

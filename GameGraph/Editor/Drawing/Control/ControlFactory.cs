@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
@@ -10,9 +11,9 @@ namespace GameGraph.Editor
 //            if (type == typeof(int))
 //                return new IntControl(fieldName, node);
             if (type == typeof(float))
-                return new FloatControl(fieldName, name, node);
+                return new FieldControl<float, FloatField>(fieldName, name, node);
             if (type == typeof(string))
-                return new StringControl(fieldName, name, node);
+                return new FieldControl<string, TextField>(fieldName, name, node);
 //            if (type == typeof(Vector2))
 //                return new ControlBase<,,>(fieldName, node);
 //            if (type == typeof(Vector3))

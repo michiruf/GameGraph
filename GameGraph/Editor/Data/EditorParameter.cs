@@ -13,8 +13,6 @@ namespace GameGraph.Editor
         [SerializeField] private bool isGameGraphTypeInternal;
         [NonSerialized] public bool isDirty;
 
-        [NonSerialized] public ParameterView owner; // TODO Use these owners?!
-
         public string id => idInternal;
 
         public string name

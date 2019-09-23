@@ -3,7 +3,7 @@
     "references": [
         "GameGraph",
         "GameGraph.Debug",
-        "TinyJson"
+        "SerializableDictionary"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [
