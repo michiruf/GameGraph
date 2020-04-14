@@ -30,6 +30,8 @@ namespace GameGraph.Editor
             }
         }
 
+        public bool isParameter => !string.IsNullOrEmpty(parameterId);
+
         public Dictionary<string, object> propertyValues { get; private set; } = new Dictionary<string, object>();
 
         public Vector2 position

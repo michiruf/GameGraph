@@ -23,22 +23,26 @@ namespace GameGraph.Editor
 
         public PropertyView(MemberData<FieldInfo> data, EditorNode node) : this(node)
         {
-            Initialize(data.info.Name, data.info.FieldType, true, true);
+            Initialize(data.info.Name, data.info.FieldType,
+                !node.isParameter,
+                true,
+                true);
         }
 
         public PropertyView(MemberData<PropertyInfo> data, EditorNode node) : this(node)
         {
             Initialize(data.info.Name, data.info.PropertyType,
+                !node.isParameter,
                 data.info.SetMethod?.IsPublic ?? false,
                 data.info.GetMethod?.IsPublic ?? false);
         }
 
-        private void Initialize(string name, Type type, bool hasInput, bool hasOutput)
+        private void Initialize(string name, Type type, bool hasField, bool hasInput, bool hasOutput)
         {
             // TODO Add these controls to the ports like ShaderGraph
             var prettyName = ObjectNames.NicifyVariableName(name);
             var valueField = ControlFactory.Create(prettyName, name, type, node);
-            if (valueField != null)
+            if (hasField && valueField != null)
             {
                 nameOnlyLabel.RemoveFromHierarchy();
                 nameAndValueContainer.Add(valueField);
