@@ -1,5 +1,5 @@
 {
-    "serializedVersion": 1,
+    "serializedVersion": 5,
     "parameters": [
         {
             "idInternal": "d58c0abd-4e29-460a-8498-8bca8d66c664",
@@ -25,9 +25,29 @@
                 "assemblyQualifiedName": "Rotator, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
             },
             "parameterIdInternal": "",
+            "propertyValuesInternal": {
+                "keys": [
+                    "deltaTime",
+                    "rotationSpeed"
+                ],
+                "values": [
+                    {
+                        "type": {
+                            "assemblyQualifiedName": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                        },
+                        "objectInternal": "0"
+                    },
+                    {
+                        "type": {
+                            "assemblyQualifiedName": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                        },
+                        "objectInternal": "0"
+                    }
+                ]
+            },
             "positionInternal": {
-                "x": 744.0,
-                "y": 191.0
+                "x": 763.0,
+                "y": 254.0
             }
         },
         {
@@ -36,6 +56,19 @@
                 "assemblyQualifiedName": "GameGraph.Updater, GameGraph, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
             },
             "parameterIdInternal": "",
+            "propertyValuesInternal": {
+                "keys": [
+                    "deltaTime"
+                ],
+                "values": [
+                    {
+                        "type": {
+                            "assemblyQualifiedName": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                        },
+                        "objectInternal": "0"
+                    }
+                ]
+            },
             "positionInternal": {
                 "x": 504.0,
                 "y": 190.0
@@ -47,9 +80,13 @@
                 "assemblyQualifiedName": "RotatingBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
             },
             "parameterIdInternal": "d58c0abd-4e29-460a-8498-8bca8d66c664",
+            "propertyValuesInternal": {
+                "keys": [],
+                "values": []
+            },
             "positionInternal": {
-                "x": 452.0,
-                "y": 384.0
+                "x": 443.0,
+                "y": 352.0
             }
         },
         {
@@ -58,9 +95,13 @@
                 "assemblyQualifiedName": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
             },
             "parameterIdInternal": "ad42bfc6-da9b-4ab4-978a-2a38858298ec",
+            "propertyValuesInternal": {
+                "keys": [],
+                "values": []
+            },
             "positionInternal": {
-                "x": 550.0,
-                "y": 528.0
+                "x": 586.0,
+                "y": 481.0
             }
         }
     ],

@@ -1,5 +1,5 @@
 {
-    "serializedVersion": 5,
+    "serializedVersion": 16,
     "parameters": [
         {
             "idInternal": "7ec39c24-40dc-4dd2-bbcc-daf6ea41410c",
@@ -41,6 +41,19 @@
                 "assemblyQualifiedName": "GameGraph.Updater, GameGraph, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
             },
             "parameterIdInternal": "",
+            "propertyValuesInternal": {
+                "keys": [
+                    "deltaTime"
+                ],
+                "values": [
+                    {
+                        "type": {
+                            "assemblyQualifiedName": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                        },
+                        "objectInternal": "0"
+                    }
+                ]
+            },
             "positionInternal": {
                 "x": 366.0,
                 "y": 97.0
@@ -52,9 +65,29 @@
                 "assemblyQualifiedName": "Rotator, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
             },
             "parameterIdInternal": "",
+            "propertyValuesInternal": {
+                "keys": [
+                    "deltaTime",
+                    "rotationSpeed"
+                ],
+                "values": [
+                    {
+                        "type": {
+                            "assemblyQualifiedName": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                        },
+                        "objectInternal": "0"
+                    },
+                    {
+                        "type": {
+                            "assemblyQualifiedName": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                        },
+                        "objectInternal": "0"
+                    }
+                ]
+            },
             "positionInternal": {
-                "x": 752.0,
-                "y": 430.0
+                "x": 809.0,
+                "y": 483.0
             }
         },
         {
@@ -63,9 +96,13 @@
                 "assemblyQualifiedName": "RotatingBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
             },
             "parameterIdInternal": "7ec39c24-40dc-4dd2-bbcc-daf6ea41410c",
+            "propertyValuesInternal": {
+                "keys": [],
+                "values": []
+            },
             "positionInternal": {
-                "x": 452.0,
-                "y": 427.0
+                "x": 474.0,
+                "y": 546.0
             }
         },
         {
@@ -74,9 +111,13 @@
                 "assemblyQualifiedName": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
             },
             "parameterIdInternal": "ca748580-ba70-4ee5-b41c-f61cb6f25d5c",
+            "propertyValuesInternal": {
+                "keys": [],
+                "values": []
+            },
             "positionInternal": {
-                "x": 552.0,
-                "y": 569.0
+                "x": 613.0,
+                "y": 678.0
             }
         },
         {
@@ -85,9 +126,29 @@
                 "assemblyQualifiedName": "Rotator, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
             },
             "parameterIdInternal": "",
+            "propertyValuesInternal": {
+                "keys": [
+                    "deltaTime",
+                    "rotationSpeed"
+                ],
+                "values": [
+                    {
+                        "type": {
+                            "assemblyQualifiedName": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                        },
+                        "objectInternal": "0"
+                    },
+                    {
+                        "type": {
+                            "assemblyQualifiedName": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                        },
+                        "objectInternal": "0"
+                    }
+                ]
+            },
             "positionInternal": {
-                "x": 919.0,
-                "y": 96.0
+                "x": 965.0,
+                "y": 95.0
             }
         },
         {
@@ -96,9 +157,13 @@
                 "assemblyQualifiedName": "RotatingBehaviour, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
             },
             "parameterIdInternal": "c236dbc1-dafd-4c69-b4d6-83b68a8fb372",
+            "propertyValuesInternal": {
+                "keys": [],
+                "values": []
+            },
             "positionInternal": {
-                "x": 676.0,
-                "y": 191.0
+                "x": 670.0,
+                "y": 202.0
             }
         },
         {
@@ -107,9 +172,13 @@
                 "assemblyQualifiedName": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
             },
             "parameterIdInternal": "a87a35e0-ca5e-4637-8838-1faa6bfc7309",
+            "propertyValuesInternal": {
+                "keys": [],
+                "values": []
+            },
             "positionInternal": {
-                "x": 779.0,
-                "y": 333.0
+                "x": 807.0,
+                "y": 334.0
             }
         }
     ],
@@ -122,16 +191,6 @@
             "inputConnection": {
                 "nodeIdInternal": "6041d65e-cab1-4284-8fbe-cd8e93fdae09",
                 "portNameInternal": "Rotate"
-            }
-        },
-        {
-            "outputConnection": {
-                "nodeIdInternal": "14f18bec-20a2-421f-9ab3-4b4c876f4631",
-                "portNameInternal": "deltaTime"
-            },
-            "inputConnection": {
-                "nodeIdInternal": "6041d65e-cab1-4284-8fbe-cd8e93fdae09",
-                "portNameInternal": "deltaTime"
             }
         },
         {
@@ -182,6 +241,26 @@
             "inputConnection": {
                 "nodeIdInternal": "bc1245d3-34d4-4ab6-bf90-71054e1c954a",
                 "portNameInternal": "Rotate"
+            }
+        },
+        {
+            "outputConnection": {
+                "nodeIdInternal": "14f18bec-20a2-421f-9ab3-4b4c876f4631",
+                "portNameInternal": "deltaTime"
+            },
+            "inputConnection": {
+                "nodeIdInternal": "bc1245d3-34d4-4ab6-bf90-71054e1c954a",
+                "portNameInternal": "deltaTime"
+            }
+        },
+        {
+            "outputConnection": {
+                "nodeIdInternal": "14f18bec-20a2-421f-9ab3-4b4c876f4631",
+                "portNameInternal": "deltaTime"
+            },
+            "inputConnection": {
+                "nodeIdInternal": "6041d65e-cab1-4284-8fbe-cd8e93fdae09",
+                "portNameInternal": "deltaTime"
             }
         }
     ]

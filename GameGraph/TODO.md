@@ -1,4 +1,5 @@
 General TODOs:
+* Link unitys metadata id to class names -> refactoring of classes is then allowed
 * Add field values (to node views)
   - See https://docs.unity3d.com/ScriptReference/UIElements.EnumField.html
 * Selection in graph view to drag multiple at once
