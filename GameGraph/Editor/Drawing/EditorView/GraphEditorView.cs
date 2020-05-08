@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
@@ -12,7 +13,6 @@ namespace GameGraph.Editor
     public class GraphEditorView : GraphView, IGraphVisualElement
     {
         private EditorGameGraph graph;
-        private EventBus eventBus;
 
         private TypeSearchWindowProvider nodeTypeSearchWindowProvider => this.GetUserDataOrCreate(() =>
         {
@@ -149,7 +149,9 @@ namespace GameGraph.Editor
             return ports.ToList()
                 .Where(port =>
                     port.direction != startPort.direction && port.node != startPort.node &&
-                    port.portType == startPort.portType)
+                    // TODO Maybe disallow assignment of Action (execution lines) with objects?
+                    (port.portType.IsAssignableFrom(startPort.portType) || startPort.portType.IsAssignableFrom(port.portType))
+                )
                 .ToList();
         }
 

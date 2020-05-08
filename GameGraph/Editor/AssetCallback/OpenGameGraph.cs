@@ -18,6 +18,10 @@ namespace GameGraph.Editor
             var importer = target as AssetImporter;
             Assert.IsNotNull(importer, "Importer != null");
             ShowGraphEditWindow(importer.assetPath);
+
+            // For any reason this must be called to avoid unexpected behaviour
+            // "OpenGameGraphEditor.OnInspectorGUI must call ApplyRevertGUI to avoid unexpected behaviour."
+            ApplyRevertGUI();
         }
 
         [OnOpenAsset(0)]

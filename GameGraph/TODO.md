@@ -18,3 +18,8 @@ General TODOs:
 * Node instance linking inside a graph (2 node view represent the same node)
 * Collapsible nodes
 * Reduce only necessary APIs to public
+* Allow static methods to be used as blocks (e.g. use-case: get the transform of a game object)
+* Allow custom editor view for some classes (via GameGraph annotation)
+* Aliases for node search (e.g. float should be found with Vector1)
+* Notice nodes
+* To provide primitive fields to the graph, may serialize the CommonBlocks Float, Boolean, ... in the inspector of the GameGraphBehaviour and construct those on start

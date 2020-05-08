@@ -57,6 +57,7 @@ namespace GameGraph.Editor
 
             // Initialize graph
             LoadGraph();
+            InitializeWindowForGraph();
             DistributeGraphAndInitializeChildren();
 
             Repaint();
@@ -89,6 +90,11 @@ namespace GameGraph.Editor
             var assetPath = AssetDatabase.GUIDToAssetPath(assetGuid);
             var graphText = File.ReadAllText(assetPath);
             graph = JsonUtility.FromJson<EditorGameGraph>(graphText);
+        }
+
+        private void InitializeWindowForGraph()
+        {
+            //graph.autoSave
         }
 
         private void SaveGraph()

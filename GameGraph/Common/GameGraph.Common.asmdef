@@ -1,0 +1,15 @@
+{
+    "name": "GameGraph.Common",
+    "references": [
+        "GameGraph",
+        "SerializableDictionary"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

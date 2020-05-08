@@ -31,10 +31,12 @@ namespace GameGraph.Editor
 
         public PropertyView(MemberData<PropertyInfo> data, EditorNode node) : this(node)
         {
+            var setterIsPublic = data.info.SetMethod?.IsPublic ?? false;
+            var getterIsPublic = data.info.GetMethod?.IsPublic ?? false;
             Initialize(data.info.Name, data.info.PropertyType,
-                !node.isParameter,
-                data.info.SetMethod?.IsPublic ?? false,
-                data.info.GetMethod?.IsPublic ?? false);
+                !node.isParameter && setterIsPublic,
+                setterIsPublic,
+                getterIsPublic);
         }
 
         private void Initialize(string name, Type type, bool hasField, bool hasInput, bool hasOutput)
