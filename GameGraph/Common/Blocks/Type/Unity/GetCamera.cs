@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GameGraph.Common.Blocks
 {
-    [GameGraph("Common")]
+    [GameGraph("Common/Type/Unity")]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class GetCamera
     {

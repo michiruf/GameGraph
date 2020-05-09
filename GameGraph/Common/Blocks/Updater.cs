@@ -13,12 +13,12 @@ namespace GameGraph.Common.Blocks
 
         // Properties
         public float deltaTime { get; private set; }
-        public UpdaterType type = UpdaterType.Update;
+        public UpdaterType updateType = UpdaterType.Update;
 
         [ExcludeFromGraph]
         public void Update()
         {
-            if (type != UpdaterType.Update)
+            if (updateType != UpdaterType.Update)
                 return;
             deltaTime = Time.deltaTime;
             update?.Invoke();
@@ -27,7 +27,7 @@ namespace GameGraph.Common.Blocks
         [ExcludeFromGraph]
         public void LateUpdate()
         {
-            if (type != UpdaterType.LateUpdate)
+            if (updateType != UpdaterType.LateUpdate)
                 return;
             deltaTime = Time.deltaTime;
             update?.Invoke();
@@ -36,7 +36,7 @@ namespace GameGraph.Common.Blocks
         [ExcludeFromGraph]
         public void FixedUpdate()
         {
-            if (type != UpdaterType.FixedUpdate)
+            if (updateType != UpdaterType.FixedUpdate)
                 return;
             deltaTime = Time.fixedDeltaTime;
             update?.Invoke();

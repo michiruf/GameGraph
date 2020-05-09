@@ -39,15 +39,15 @@ namespace GameGraph.Editor
                 getterIsPublic);
         }
 
-        private void Initialize(string name, Type type, bool hasField, bool hasInput, bool hasOutput)
+        private void Initialize(string name, Type type, bool hasControl, bool hasInput, bool hasOutput)
         {
             // TODO Add these controls to the ports like ShaderGraph
             var prettyName = ObjectNames.NicifyVariableName(name);
-            var valueField = ControlFactory.Create(prettyName, name, type, node);
-            if (hasField && valueField != null)
+            var control = ControlFactory.Create(prettyName, name, type, node);
+            if (hasControl && control != null)
             {
                 nameOnlyLabel.RemoveFromHierarchy();
-                nameAndValueContainer.Add(valueField);
+                nameAndValueContainer.Add(control);
             }
             else
             {

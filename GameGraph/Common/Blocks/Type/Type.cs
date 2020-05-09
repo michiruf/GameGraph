@@ -1,5 +1,4 @@
 using JetBrains.Annotations;
-using UnityEngine;
 
 namespace GameGraph.Common.Blocks
 {
@@ -7,10 +6,15 @@ namespace GameGraph.Common.Blocks
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class Type
     {
-        // Output
-        public System.Type type => System.Type.GetType(name);
-
-        // Properties
-        public string name { private get; set; }
+        // TODO Type is not yet working properly with serialization...
+        //      And the concept of this is pretty bad like this
+        //      See also TypeButtonControl's magic constants
+        public System.Type type
+        {
+            get => System.Type.GetType(typeInternal);
+            set => typeInternal = value.AssemblyQualifiedName;
+        }
+        [ExcludeFromGraph]
+        public string typeInternal;
     }
 }

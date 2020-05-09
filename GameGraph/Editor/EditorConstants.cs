@@ -4,10 +4,12 @@ namespace GameGraph.Editor
     {
         // Configuration
         // E.g.: "UnityEngine.CoreModule"
-        public static readonly string[] ParameterAssemblyModules = { };
-        public static readonly string[] ParameterAssemblyModulesStartWith =
+        public static bool AssemblyModulesFilterEnabled = true;
+        public static readonly string[] AssemblyModules = {};
+        public static readonly string[] AssemblyModulesStartWith =
         {
             "UnityEngine.",
+            "GameGraph.",
         };
 
         // Magic constants

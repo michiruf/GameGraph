@@ -8,6 +8,7 @@ namespace GameGraph.Common.Blocks
     {
         // Output
         public bool isNull => @object == null;
+        public bool isNotNull => !isNull;
 
         // Properties
         public object @object { private get; set; }

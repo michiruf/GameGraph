@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
@@ -31,14 +30,19 @@ namespace GameGraph.Editor
             RegisterAddParameter();
             DrawGraph();
             RegisterChangeEvent(); // After draw!
+
+            this.GetEventBus().Register(this);
         }
 
         private void RegisterViewNavigation()
         {
-            var d = new ContentDragger();
-            d.target = this;
-            var z = new ContentZoomer();
-            z.target = this;
+            // The order of this manipulators is important
+            // The code is copied from the game graph and enhanced by the content zoomer in the first line
+            this.AddManipulator(new ContentZoomer());
+            this.AddManipulator(new ContentDragger());
+            this.AddManipulator(new SelectionDragger());
+            this.AddManipulator(new RectangleSelector());
+            this.AddManipulator(new ClickSelector());
         }
 
         private void RegisterAddNode()
@@ -52,6 +56,7 @@ namespace GameGraph.Editor
                 AddElement(nodeView);
                 nodeView.Initialize(type, realPosition, null);
                 nodeView.PersistState();
+                this.GetEventBus().Dispatch(new GraphChangedEvent());
             };
             nodeCreationRequest += context =>
             {
@@ -87,7 +92,7 @@ namespace GameGraph.Editor
                     AddElement(nodeView);
                     nodeView.Initialize(parameter.type, localPos, parameter.id);
                     nodeView.PersistState();
-                    graph.isDirty = true;
+                    this.GetEventBus().Dispatch(new GraphChangedEvent());
                 }
             });
         }
@@ -108,13 +113,28 @@ namespace GameGraph.Editor
                         graphElement.PersistState();
                     });
                 change.elementsToRemove?
-                    .ForEach(element =>
+                    .ForEach(e =>
                     {
-                        if (!(element is IGraphElement graphElement))
-                            return;
+                        // Get the first IGraphElement above
+                        VisualElement element = e;
+                        while (!(element is IGraphElement))
+                            element = element.parent;
+
+                        var graphElement = (IGraphElement) element;
                         graphElement.graph = graph;
                         graphElement.RemoveState();
+
+                        // Also remove the view from hierarchy (used for parameters)
+                        element.RemoveFromHierarchy();
                     });
+
+                // Flag the graph dirty if an element got removed, because this is not tracked by parents
+                if (change.elementsToRemove?.Count > 0)
+                    graph.isDirty = true;
+
+                // Raise an event to check for all changed events
+                this.GetEventBus().Dispatch(new GraphChangedEvent());
+
                 return change;
             };
         }
@@ -153,6 +173,26 @@ namespace GameGraph.Editor
                     (port.portType.IsAssignableFrom(startPort.portType) || startPort.portType.IsAssignableFrom(port.portType))
                 )
                 .ToList();
+        }
+
+        [UsedImplicitly]
+        public void OnEvent(ParameterChangedEvent e)
+        {
+            // Chain any event into a graph changed event
+            this.GetEventBus().Dispatch(new GraphChangedEvent());
+        }
+
+        [UsedImplicitly]
+        public void OnEvent(ControlValueChangedEvent e)
+        {
+            // Chain any event into a graph changed event
+            this.GetEventBus().Dispatch(new GraphChangedEvent());
+        }
+
+        [UsedImplicitly]
+        public void OnEvent(GraphChangedEvent e)
+        {
+            this.GetWindow<GameGraphWindow>().MayAutoSaveGraph();
         }
 
         [UsedImplicitly]

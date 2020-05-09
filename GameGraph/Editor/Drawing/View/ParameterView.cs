@@ -33,15 +33,15 @@ namespace GameGraph.Editor
             this.AddLayout(EditorConstants.ResourcesUxmlViewPath + "ParameterView");
         }
 
+        public void Initialize(Type type)
+        {
+            Initialize(new EditorParameter("ParameterName", type));
+        }
+
         public void Initialize(EditorParameter parameter)
         {
             this.parameter = parameter;
             Initialize();
-        }
-
-        public void Initialize(Type type)
-        {
-            Initialize(new EditorParameter(type.Name + "Reference", type));
         }
 
         private void Initialize()
@@ -52,24 +52,18 @@ namespace GameGraph.Editor
                 {
                     typeButton.text = type.Name;
                     typeButton.userData = type;
+                    parameter.isDirty = true;
                     PersistState();
+                    this.GetEventBus().Dispatch(new ParameterChangedEvent(parameter));
                 }, typeButton.GetScreenPosition() + typeButton.clickable.lastMousePosition);
 
             // Handle rename event
             nameEditView.RegisterValueChangedCallback(evt =>
             {
                 nameView.text = evt.newValue;
+                parameter.isDirty = true;
                 PersistState();
                 this.GetEventBus().Dispatch(new ParameterChangedEvent(parameter));
-            });
-
-            // Register delete callback (why is this so hard?!)
-            // This also removes the state when the window is unloaded, but then no persistence should occur...
-            nameView.RegisterCallback<DetachFromPanelEvent>(evt =>
-            {
-                if (planedDetachFromPanel) return;
-                RemoveState();
-                RemoveFromHierarchy();
             });
         }
 
@@ -87,8 +81,9 @@ namespace GameGraph.Editor
             // Handle the state
             graph.parameters.Remove(parameter);
             graph.parameters.Insert(realIndex, parameter);
-            graph.isDirty = true;
+            parameter.isDirty = true;
             PersistState();
+            this.GetEventBus().Dispatch(new ParameterChangedEvent(parameter));
         }
 
         public void PersistState()

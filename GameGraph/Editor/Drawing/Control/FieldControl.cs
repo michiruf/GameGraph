@@ -2,7 +2,7 @@ using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
 {
-    public class FieldControl<TValue, TField> : ControlBase
+    public class FieldControl<TValue, TField> : Control
         where TField : BaseField<TValue>, new()
     {
         private readonly string fieldName;
@@ -44,7 +44,7 @@ namespace GameGraph.Editor
         private void OnChange(ChangeEvent<TValue> evt)
         {
             value = evt.newValue;
-            SendEvent(new ControlValueChangeEvent());
+            this.GetEventBus().Dispatch(new ControlValueChangedEvent());
         }
 
         public override void PersistState()

@@ -38,6 +38,7 @@ namespace GameGraph.Editor
                 // Show edit name field immediately
                 parameterView.nameView.OpenTextEditor();
                 graph.isDirty = true;
+                this.GetEventBus().Dispatch(new GraphChangedEvent());
             };
         }
 

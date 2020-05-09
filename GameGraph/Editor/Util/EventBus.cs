@@ -9,7 +9,6 @@ namespace GameGraph.Editor
     [Obsolete("This is not a good practice in C#")]
     public class EventBus
     {
-        private static EventBus instanceInternal;
         private readonly List<EventListenerWrapper> listeners = new List<EventListenerWrapper>();
 
         public void Register(object listener)
@@ -25,40 +24,33 @@ namespace GameGraph.Editor
 
         public void Dispatch(object e)
         {
-            listeners
-                .Where(l => l.eventType == e.GetType())
-                .ToList()
-                .ForEach(l => l.PostEvent(e));
+            listeners.ForEach(l => l.PostEvent(e));
         }
 
         private class EventListenerWrapper
         {
             public object listener { get; }
-            public Type eventType { get; }
-
-            private readonly MethodBase method;
+            private readonly Dictionary<Type, MethodInfo> methods;
 
             public EventListenerWrapper(object listener)
             {
                 this.listener = listener;
 
-                var type = listener.GetType();
+                methods = listener.GetType().GetMethods(Constants.ReflectionFlags)
+                    .Where(info => info.Name == "OnEvent")
+                    .Where(info => info.GetParameters().Length == 1)
+                    .ToDictionary(info => info.GetParameters()[0].ParameterType, info => info);
 
-                // TODO Handles only one element?!
-                method = type.GetMethod("OnEvent");
-                if (method == null)
-                    throw new ArgumentException("Class " + type.Name + " does not contain method OnEvent");
-
-                var parameters = method.GetParameters();
-                if (parameters.Length != 1)
-                    throw new ArgumentException("Method OnEvent of class " + type.Name +
-                                                " has invalid number of parameters (should be one)");
-
-                eventType = parameters[0].ParameterType;
+                if (methods.Count == 0)
+                    throw new ArgumentException($"Class {listener.GetType().Name} does not contain at least one method OnEvent(EventType e)");
             }
 
             public void PostEvent(object e)
             {
+                if (!methods.TryGetValue(e.GetType(), out var method))
+                    //throw new ArgumentException($"No event receiver for {e.GetType()} found");
+                    return;
+
                 method.Invoke(listener, new[] {e});
             }
         }
