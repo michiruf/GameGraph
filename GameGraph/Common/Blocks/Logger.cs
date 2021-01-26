@@ -15,9 +15,14 @@ namespace GameGraph.Common.Blocks
 
         public void Log()
         {
+            Log(message, context, type);
+        }
+
+        public static void Log(object message, Object context, LogType type)
+        {
             switch (type)
             {
-                case LogType.Info:
+                case LogType.Log:
                     Debug.Log(message, context);
                     break;
                 case LogType.Warning:
@@ -29,13 +34,6 @@ namespace GameGraph.Common.Blocks
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-        }
-
-        public enum LogType
-        {
-            Info,
-            Warning,
-            Error
         }
     }
 }

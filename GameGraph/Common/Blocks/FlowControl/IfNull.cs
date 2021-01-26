@@ -13,7 +13,7 @@ namespace GameGraph.Common.Blocks
         public event Action @false;
 
         // Properties
-        public object @object { private get; set; }
+        public object @object { get; set; }
 
         public void Invoke()
         {

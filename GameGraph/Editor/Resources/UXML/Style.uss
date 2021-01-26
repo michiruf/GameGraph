@@ -165,13 +165,16 @@ PropertyView #nameAndValue {
 PropertyView #nameAndValue .unity-base-text-field__label {
     min-width: auto;
     flex: 1;
-    margin: 0 10px 0 0;
+    /* TODO Wrapping does not work yet */
+    /*flex-wrap: wrap;*/
+    margin: 0 30px 0 0;
 }
 
 PropertyView #nameAndValue .unity-base-text-field__input {
-    min-width: 30px;
-    flex: 0;
+    /* TODO There is a strange padding on the left side of the input, which is annoying but not essential yet to fix */
     -unity-text-align: middle-right;
+    /* TODO Wrapping does not work yet */
+    /*flex-wrap: wrap;*/
 }
 
 /* TODO Add the controls to input ports */

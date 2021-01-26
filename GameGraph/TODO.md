@@ -2,7 +2,6 @@ General TODOs:
 * Link unitys metadata id to class names -> refactoring of classes is then allowed
 * Add field values (to node views)
   - See https://docs.unity3d.com/ScriptReference/UIElements.EnumField.html
-* Selection in graph view to drag multiple at once
 * Dragging and edge should open the search dialog
   - see ShaderGraph: MaterialGraphView.OnDragPerformEvent
 * Instance connector - add a script that provides an instance from one graph to another?
@@ -23,3 +22,4 @@ General TODOs:
 * Aliases for node search (e.g. float should be found with Vector1)
 * Notice nodes
 * To provide primitive fields to the graph, may serialize the CommonBlocks Float, Boolean, ... in the inspector of the GameGraphBehaviour and construct those on start
+* Lists by nodes "CreateList" chaining into multiple "AddItem" nodes with list to modify and object to put in as input

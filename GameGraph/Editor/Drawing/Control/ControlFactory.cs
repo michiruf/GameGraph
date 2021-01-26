@@ -21,9 +21,9 @@ namespace GameGraph.Editor
                 return new FieldControl<Vector2, Vector2Field>(fieldName, name, node);
             if (type == typeof(Vector3))
                 return new FieldControl<Vector3, Vector3Field>(fieldName, name, node);
-            // if (type == typeof(SerializableType))
-            //     return new TypeButtonControl(fieldName, name, node, "Select Type");
-            if (type == typeof(Type))
+            if (type == typeof(Color))
+                return new FieldControl<Color, ColorField>(fieldName, name, node);
+            if (type == typeof(GraphSerializableType))
                 return new TypeButtonControl(fieldName, name, node, "Select Type");
             if (type.IsEnum)
                 return new EnumFieldControl(fieldName, name, node, type);

@@ -12,12 +12,12 @@ namespace GameGraph.Editor
     {
         public override void OnInspectorGUI()
         {
-            if (!GUILayout.Button(EditorConstants.OpenEditorText))
-                return;
-
-            var importer = target as AssetImporter;
-            Assert.IsNotNull(importer, "Importer != null");
-            ShowGraphEditWindow(importer.assetPath);
+            if (GUILayout.Button(EditorConstants.OpenEditorText))
+            {
+                var importer = target as AssetImporter;
+                Assert.IsNotNull(importer, "Importer != null");
+                ShowGraphEditWindow(importer.assetPath);
+            }
 
             // For any reason this must be called to avoid unexpected behaviour
             // "OpenGameGraphEditor.OnInspectorGUI must call ApplyRevertGUI to avoid unexpected behaviour."

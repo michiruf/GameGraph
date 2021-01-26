@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GameGraph.Editor
 {
-    public class TypeButtonControl : ButtonControl<Type>
+    public class TypeButtonControl : ButtonControl<GraphSerializableType>
     {
         private TypeSearchWindowProvider typeSearchWindowProvider => this.GetUserDataOrCreate(() =>
         {
@@ -19,16 +19,11 @@ namespace GameGraph.Editor
 
         public TypeButtonControl(string fieldName, string label, EditorNode node, string buttonText) : base(fieldName, label, node, buttonText)
         {
-            // TODO Magic constant should get eliminated
-
-            if (node.propertyValues.ContainsKey(fieldName + "Internal"))
-                if (node.propertyValues[fieldName + "Internal"] is string stringValue)
-                    value = Type.GetType(stringValue);
-
+            LoadValue();
             SetButtonText();
             button.clickable.clicked += () => CreateSearchWindow(type =>
             {
-                value = type;
+                value = new GraphSerializableType(type);
                 SetButtonText();
                 PersistState();
             }, button.GetScreenPosition() + button.clickable.lastMousePosition);
@@ -37,20 +32,13 @@ namespace GameGraph.Editor
         private void SetButtonText()
         {
             if (value != null)
-                button.text = value.Name;
+                button.text = value.type.Name;
         }
 
         private void CreateSearchWindow(Action<Type> callback, Vector2 position)
         {
             typeSearchWindowProvider.callback = (type, vector2) => callback.Invoke(type);
             SearchWindow.Open(new SearchWindowContext(position), typeSearchWindowProvider);
-        }
-
-        public override void PersistState()
-        {
-            // TODO Magic constant should get eliminated
-            if (value != null)
-                node.propertyValues[fieldName + "Internal"] = value.AssemblyQualifiedName;
         }
     }
 }

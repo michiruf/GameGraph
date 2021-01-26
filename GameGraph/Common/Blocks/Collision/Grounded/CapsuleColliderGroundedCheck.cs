@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GameGraph.Common.Blocks
 {
-    [GameGraph("Common/Collision")]
+    [GameGraph("Common/Collision/Grounded")]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class CapsuleColliderGroundedCheck : ILateUpdateHook
     {

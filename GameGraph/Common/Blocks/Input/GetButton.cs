@@ -1,5 +1,4 @@
 using JetBrains.Annotations;
-using UnityEngine;
 
 namespace GameGraph.Common.Blocks
 {
@@ -8,9 +7,10 @@ namespace GameGraph.Common.Blocks
     public class GetButton
     {
         // Output
-        public bool @out => Input.GetButton(button);
+        public bool @out => InputDetection.GetButton(button, inputDetectionType);
 
         // Properties
         public string button { private get; set; }
+        public InputDetectionType inputDetectionType;
     }
 }

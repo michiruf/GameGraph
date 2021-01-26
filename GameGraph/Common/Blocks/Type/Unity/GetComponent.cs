@@ -1,3 +1,4 @@
+using System;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -8,14 +9,22 @@ namespace GameGraph.Common.Blocks
     public class GetComponent
     {
         // Output
-        // ReSharper disable once Unity.NoNullPropagation
-        // Bypassing unity's lifetime check is okay here, because we improve performance and also do not need this check
-        // since this node is intended to use only one of GameObject or Component
-        public object component => sourceComponent?.GetComponent(type) ?? sourceGameObject.GetComponent(type);
+        public event Action fetched;
+        public object component { get; private set; }
 
         // Properties
         public GameObject sourceGameObject { private get; set; }
         public Component sourceComponent { private get; set; }
-        public System.Type type;
+        public GraphSerializableType type;
+
+        public void Fetch()
+        {
+            // Bypassing unity's lifetime check is okay here, because we improve performance and also do not need this check
+            // since this node is intended to use only the selected line of GameObject or Component
+            // ReSharper disable once Unity.NoNullPropagation
+            component = sourceComponent?.GetComponent(type.type) ?? sourceGameObject.GetComponent(type.type);
+
+            fetched?.Invoke();
+        }
     }
 }

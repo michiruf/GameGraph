@@ -9,7 +9,6 @@ namespace GameGraph
     public class GameGraphBehaviour : MonoBehaviour
     {
         public GraphObject graph;
-        private bool graphNull;
 
         public Dictionary<string, Object> parameterInstances => parameterInstancesInternal.dictionary;
         [SerializeField] [HideInInspector]
@@ -17,11 +16,10 @@ namespace GameGraph
 
         public GraphExecutor executor { get; private set; }
 
-        void Start()
+        void OnEnable()
         {
             if (graph == null)
             {
-                graphNull = true;
                 throw new ArgumentException($"Graph on GameGraphBehaviour on {gameObject.name} must be present!");
             }
 
@@ -34,22 +32,24 @@ namespace GameGraph
             executor.Start();
         }
 
+        void OnDisable()
+        {
+            executor = null;
+        }
+
         void Update()
         {
-            if (graphNull) return;
-            executor.Update();
+            executor?.Update();
         }
 
         void LateUpdate()
         {
-            if (graphNull) return;
-            executor.LateUpdate();
+            executor?.LateUpdate();
         }
 
         void FixedUpdate()
         {
-            if (graphNull) return;
-            executor.FixedUpdate();
+            executor?.FixedUpdate();
         }
     }
 }

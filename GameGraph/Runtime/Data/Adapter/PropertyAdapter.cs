@@ -27,10 +27,17 @@ namespace GameGraph
                 ? ((PropertyInfo) outputInfo).GetValue(output)
                 : ((FieldInfo) outputInfo).GetValue(output);
 
-            if (inputIsProperty)
-                ((PropertyInfo) inputInfo).SetValue(input, value);
-            else
-                ((FieldInfo) inputInfo).SetValue(input, value);
+            // TODO Prove this later
+            // TODO TODO TODO
+            //      Avoids ClassCastExceptions by not assigning if its not assignable
+            //      Should be crazily much overhead to check this here
+            //if (value.GetType().IsAssignableFrom(inputInfo.GetType()) || inputInfo.GetType().IsAssignableFrom(value.GetType()))
+            {
+                if (inputIsProperty)
+                    ((PropertyInfo) inputInfo).SetValue(input, value);
+                else
+                    ((FieldInfo) inputInfo).SetValue(input, value);
+            }
         }
     }
 }

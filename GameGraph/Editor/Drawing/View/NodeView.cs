@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Reflection;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -61,6 +63,7 @@ namespace GameGraph.Editor
                 CreateParameterViews(parameter);
 
             SetAlwaysExpandedAndRefresh();
+            RegisterDoubleClickOpensAsset();
 
             // NOTE Potentially a memory leak
             this.GetEventBus().Register(this);
@@ -94,6 +97,25 @@ namespace GameGraph.Editor
             // NOTE May fix this: For any reason if there is just one element the layout is misbehaving
             extensionContainer.Add(new VisualElement());
             RefreshExpandedState();
+        }
+
+        private void RegisterDoubleClickOpensAsset()
+        {
+            RegisterCallback<MouseDownEvent>(evt =>
+            {
+                if (evt.clickCount != 2)
+                    return;
+
+                var assetTuple = AssetDatabase.GetAllAssetPaths()
+                    .Where(s => s.EndsWith(".cs"))
+                    .Select(s => AssetDatabase.LoadMainAssetAtPath(s) as MonoScript)
+                    .Where(script => script != null)
+                    .Select(script => Tuple.Create(script, script.GetClass()))
+                    .FirstOrDefault(tuple => tuple.Item2 == nodeType);
+
+                if (assetTuple != null)
+                    AssetDatabase.OpenAsset(assetTuple.Item1);
+            });
         }
 
         private void CreateFields(ClassData analysisData)
