@@ -18,6 +18,7 @@ namespace GameGraph.Common.Blocks
         // Properties
         public Collider collider { private get; set; }
 
+        [ExcludeFromGraph]
         public void Start()
         {
             if (onEnter != null)
