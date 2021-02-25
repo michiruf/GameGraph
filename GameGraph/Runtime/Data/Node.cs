@@ -22,6 +22,10 @@ namespace GameGraph
 
         public object ConstructOrFindParameter(Dictionary<string, object> parameterInstances)
         {
+            // TODO The second condition should not be present, because we want this to fail early
+            //      But for any reason, if we skip this check and use a TryGetValue, it
+            //      is not triggered properly, so we cannot log information for now
+            //      To reproduce do not assign a parameter of a GameGraphBehaviour
             if (!string.IsNullOrEmpty(parameterId) && parameterInstances.ContainsKey(parameterId))
             {
                 return parameterInstances[parameterId];

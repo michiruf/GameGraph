@@ -17,6 +17,7 @@ namespace GameGraph.Editor
         //      UserBounds: bounds ParameterEditorView
         //      UserBounds: bounds MiniMapEditorView
         private bool isDirtyInternal;
+        public bool autoSave = true;
         
         public bool isDirty
         {

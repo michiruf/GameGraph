@@ -1,0 +1,329 @@
+{
+    "serializedVersion": 76,
+    "parameters": [
+        {
+            "idInternal": "f3f0b33c-00ec-4e1b-86a4-3be0ec813700",
+            "nameInternal": "Target",
+            "typeInternal": {
+                "assemblyQualifiedName": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "isGameGraphTypeInternal": false
+        },
+        {
+            "idInternal": "3704a260-0626-42db-94cf-4b47813e21c4",
+            "nameInternal": "Tagrte2",
+            "typeInternal": {
+                "assemblyQualifiedName": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "isGameGraphTypeInternal": false
+        }
+    ],
+    "nodes": [
+        {
+            "idInternal": "4a12aaa9-3334-46c9-b551-a405b73ef983",
+            "typeInternal": {
+                "assemblyQualifiedName": "Presentation.Rotate, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "",
+            "propertyValuesInternal": {
+                "keys": [
+                    "deltaTime",
+                    "rotationSpeed"
+                ],
+                "values": [
+                    {
+                        "type": {
+                            "assemblyQualifiedName": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                        },
+                        "objectInternal": "0"
+                    },
+                    {
+                        "type": {
+                            "assemblyQualifiedName": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                        },
+                        "objectInternal": "100"
+                    }
+                ]
+            },
+            "positionInternal": {
+                "x": 822.0,
+                "y": 381.0
+            }
+        },
+        {
+            "idInternal": "33ef1bcc-e82d-41ab-984c-5321a4856aa4",
+            "typeInternal": {
+                "assemblyQualifiedName": "GameGraph.Common.Blocks.Updater, GameGraph.Common, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "",
+            "propertyValuesInternal": {
+                "keys": [],
+                "values": []
+            },
+            "positionInternal": {
+                "x": 407.0,
+                "y": 327.0
+            }
+        },
+        {
+            "idInternal": "cfb4fa8e-2267-4d3f-895f-2b304b57fba1",
+            "typeInternal": {
+                "assemblyQualifiedName": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "f3f0b33c-00ec-4e1b-86a4-3be0ec813700",
+            "propertyValuesInternal": {
+                "keys": [],
+                "values": []
+            },
+            "positionInternal": {
+                "x": 631.0,
+                "y": 528.0
+            }
+        },
+        {
+            "idInternal": "4c57d778-d798-4f6d-8b8c-a02aeb066e05",
+            "typeInternal": {
+                "assemblyQualifiedName": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "3704a260-0626-42db-94cf-4b47813e21c4",
+            "propertyValuesInternal": {
+                "keys": [],
+                "values": []
+            },
+            "positionInternal": {
+                "x": 641.0,
+                "y": 702.0
+            }
+        },
+        {
+            "idInternal": "a988ad69-37c0-449a-85fd-f8ec81ada6bc",
+            "typeInternal": {
+                "assemblyQualifiedName": "Presentation.Rotate, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "",
+            "propertyValuesInternal": {
+                "keys": [
+                    "deltaTime",
+                    "rotationSpeed"
+                ],
+                "values": [
+                    {
+                        "type": {
+                            "assemblyQualifiedName": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                        },
+                        "objectInternal": "0"
+                    },
+                    {
+                        "type": {
+                            "assemblyQualifiedName": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                        },
+                        "objectInternal": "20"
+                    }
+                ]
+            },
+            "positionInternal": {
+                "x": 814.0,
+                "y": 679.0
+            }
+        },
+        {
+            "idInternal": "79dfe2f2-6f8b-433c-92cd-7cdd19288e01",
+            "typeInternal": {
+                "assemblyQualifiedName": "GameGraph.Common.Blocks.Boolean, GameGraph.Common, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "",
+            "propertyValuesInternal": {
+                "keys": [
+                    "value"
+                ],
+                "values": [
+                    {
+                        "type": {
+                            "assemblyQualifiedName": "System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                        },
+                        "objectInternal": "false"
+                    }
+                ]
+            },
+            "positionInternal": {
+                "x": 843.0,
+                "y": 143.0
+            }
+        },
+        {
+            "idInternal": "0df29dcd-8fe7-4488-a8ac-9bfb7aee6dd8",
+            "typeInternal": {
+                "assemblyQualifiedName": "GameGraph.Common.Blocks.Integer, GameGraph.Common, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "",
+            "propertyValuesInternal": {
+                "keys": [
+                    "value"
+                ],
+                "values": [
+                    {
+                        "type": {
+                            "assemblyQualifiedName": "System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                        },
+                        "objectInternal": "0"
+                    }
+                ]
+            },
+            "positionInternal": {
+                "x": 1168.0,
+                "y": 174.0
+            }
+        },
+        {
+            "idInternal": "38b00fcb-c98d-43c8-99d0-d65b629f2713",
+            "typeInternal": {
+                "assemblyQualifiedName": "GameGraph.Common.Blocks.Float, GameGraph.Common, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "",
+            "propertyValuesInternal": {
+                "keys": [
+                    "value"
+                ],
+                "values": [
+                    {
+                        "type": {
+                            "assemblyQualifiedName": "System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                        },
+                        "objectInternal": "0"
+                    }
+                ]
+            },
+            "positionInternal": {
+                "x": 1408.0,
+                "y": 168.0
+            }
+        },
+        {
+            "idInternal": "8b9bdbc1-3102-4320-96a4-1c74def16711",
+            "typeInternal": {
+                "assemblyQualifiedName": "GameGraph.Common.Blocks.CollisionHandler, GameGraph.Common, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "",
+            "propertyValuesInternal": {
+                "keys": [],
+                "values": []
+            },
+            "positionInternal": {
+                "x": 1236.0,
+                "y": 450.0
+            }
+        },
+        {
+            "idInternal": "1a8961ea-79d8-4c80-bcc6-ee018544d8b9",
+            "typeInternal": {
+                "assemblyQualifiedName": "GameGraph.Common.Blocks.Starter, GameGraph.Common, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "",
+            "propertyValuesInternal": {
+                "keys": [],
+                "values": []
+            },
+            "positionInternal": {
+                "x": 1118.0,
+                "y": 448.0
+            }
+        },
+        {
+            "idInternal": "7c8c63a1-9717-4267-8933-defa635505a6",
+            "typeInternal": {
+                "assemblyQualifiedName": "GameGraph.Common.Blocks.GetAxis, GameGraph.Common, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+            },
+            "parameterIdInternal": "",
+            "propertyValuesInternal": {
+                "keys": [
+                    "axis"
+                ],
+                "values": [
+                    {
+                        "type": {
+                            "assemblyQualifiedName": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                        },
+                        "objectInternal": "\"Horizontal\""
+                    }
+                ]
+            },
+            "positionInternal": {
+                "x": 1144.0,
+                "y": 727.0
+            }
+        }
+    ],
+    "edges": [
+        {
+            "outputConnection": {
+                "nodeIdInternal": "cfb4fa8e-2267-4d3f-895f-2b304b57fba1",
+                "portNameInternal": "!Instance"
+            },
+            "inputConnection": {
+                "nodeIdInternal": "4a12aaa9-3334-46c9-b551-a405b73ef983",
+                "portNameInternal": "gameObject"
+            }
+        },
+        {
+            "outputConnection": {
+                "nodeIdInternal": "33ef1bcc-e82d-41ab-984c-5321a4856aa4",
+                "portNameInternal": "update"
+            },
+            "inputConnection": {
+                "nodeIdInternal": "4a12aaa9-3334-46c9-b551-a405b73ef983",
+                "portNameInternal": "Invoke"
+            }
+        },
+        {
+            "outputConnection": {
+                "nodeIdInternal": "33ef1bcc-e82d-41ab-984c-5321a4856aa4",
+                "portNameInternal": "deltaTime"
+            },
+            "inputConnection": {
+                "nodeIdInternal": "4a12aaa9-3334-46c9-b551-a405b73ef983",
+                "portNameInternal": "deltaTime"
+            }
+        },
+        {
+            "outputConnection": {
+                "nodeIdInternal": "4c57d778-d798-4f6d-8b8c-a02aeb066e05",
+                "portNameInternal": "!Instance"
+            },
+            "inputConnection": {
+                "nodeIdInternal": "a988ad69-37c0-449a-85fd-f8ec81ada6bc",
+                "portNameInternal": "gameObject"
+            }
+        },
+        {
+            "outputConnection": {
+                "nodeIdInternal": "33ef1bcc-e82d-41ab-984c-5321a4856aa4",
+                "portNameInternal": "update"
+            },
+            "inputConnection": {
+                "nodeIdInternal": "a988ad69-37c0-449a-85fd-f8ec81ada6bc",
+                "portNameInternal": "Invoke"
+            }
+        },
+        {
+            "outputConnection": {
+                "nodeIdInternal": "33ef1bcc-e82d-41ab-984c-5321a4856aa4",
+                "portNameInternal": "deltaTime"
+            },
+            "inputConnection": {
+                "nodeIdInternal": "a988ad69-37c0-449a-85fd-f8ec81ada6bc",
+                "portNameInternal": "deltaTime"
+            }
+        },
+        {
+            "outputConnection": {
+                "nodeIdInternal": "1a8961ea-79d8-4c80-bcc6-ee018544d8b9",
+                "portNameInternal": "start"
+            },
+            "inputConnection": {
+                "nodeIdInternal": "8b9bdbc1-3102-4320-96a4-1c74def16711",
+                "portNameInternal": "Start"
+            }
+        }
+    ],
+    "autoSave": true
+}

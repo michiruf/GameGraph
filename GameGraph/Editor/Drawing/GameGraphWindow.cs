@@ -16,6 +16,7 @@ namespace GameGraph.Editor
         private EditorGameGraph graph;
 
         private ToolbarButton toolbarSaveButton => rootVisualElement.QCached<ToolbarButton>("save");
+        private ToolbarToggle toolbarAutoSaveButton => rootVisualElement.QCached<ToolbarToggle>("autoSave");
         private ToolbarButton toolbarReopenButton => rootVisualElement.QCached<ToolbarButton>("reopen");
 
         public void InitializeAndShow(string assetGuid)
@@ -54,10 +55,15 @@ namespace GameGraph.Editor
                 Close();
                 CreateInstance<GameGraphWindow>().InitializeAndShow(assetGuid);
             };
+            toolbarAutoSaveButton.RegisterValueChangedCallback(evt =>
+                graph.autoSave = toolbarAutoSaveButton.value);
 
             // Initialize graph
             LoadGraph();
             DistributeGraphAndInitializeChildren();
+
+            // Prepare auto save button state from loaded graph and initialise auto save
+            toolbarAutoSaveButton.value = graph.autoSave;
 
             Repaint();
         }
@@ -99,6 +105,12 @@ namespace GameGraph.Editor
 
             // Force import of the asset to trigger the importer
             AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
+        }
+
+        public void MayAutoSaveGraph()
+        {
+            if(graph.autoSave && graph.isDirty)
+                SaveGraph();
         }
 
         private void DistributeGraphAndInitializeChildren(VisualElement element = null)

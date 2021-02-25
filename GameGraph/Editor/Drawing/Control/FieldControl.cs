@@ -2,7 +2,7 @@ using UnityEngine.UIElements;
 
 namespace GameGraph.Editor
 {
-    public class FieldControl<TValue, TField> : ControlBase
+    public class FieldControl<TValue, TField> : Control
         where TField : BaseField<TValue>, new()
     {
         private readonly string fieldName;
@@ -10,18 +10,26 @@ namespace GameGraph.Editor
         private readonly EditorNode node;
         private TValue value;
 
+        protected TField field;
+
         public FieldControl(string fieldName, string label, EditorNode node)
         {
             this.fieldName = fieldName;
             this.label = label;
             this.node = node;
-            Initialize();
+            InitializeField();
+            InitializeValue();
         }
 
-        private void Initialize()
+        private void InitializeField()
         {
-            var field = new TField {label = label};
+            field = new TField {label = label};
+            field.RegisterValueChangedCallback(OnChange);
+            Add(field);
+        }
 
+        protected void InitializeValue()
+        {
             if (node.propertyValues.ContainsKey(fieldName))
             {
                 var valueObject = node.propertyValues[fieldName];
@@ -31,15 +39,12 @@ namespace GameGraph.Editor
 
             if (value != null)
                 field.SetValueWithoutNotify(value);
-
-            field.RegisterValueChangedCallback(OnChange);
-            Add(field);
         }
 
         private void OnChange(ChangeEvent<TValue> evt)
         {
             value = evt.newValue;
-            SendEvent(new ControlValueChangeEvent());
+            this.GetEventBus().Dispatch(new ControlValueChangedEvent());
         }
 
         public override void PersistState()

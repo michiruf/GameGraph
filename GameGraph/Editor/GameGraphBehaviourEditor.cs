@@ -52,7 +52,7 @@ namespace GameGraph.Editor
             {
                 var parameter = pair.Value;
                 var element = values.GetArrayElementAtIndex(i);
-                EditorGUILayout.ObjectField(element, parameter.type, new GUIContent(parameter.name.PrettifyName()));
+                EditorGUILayout.ObjectField(element, parameter.type, new GUIContent(ObjectNames.NicifyVariableName(parameter.name)));
                 i++;
             }
 

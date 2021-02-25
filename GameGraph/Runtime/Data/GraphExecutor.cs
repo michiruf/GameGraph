@@ -72,7 +72,9 @@ namespace GameGraph
         private void FetchValuesNow()
         {
             foreach (var pair in graph.nodes)
+            {
                 pair.Value.FetchPropertiesRecursive(nodeInstances[pair.Key], nodeInstances, graph.nodes);
+            }
         }
 
         public T GetInstance<T>() where T : class

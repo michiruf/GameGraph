@@ -3,37 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace GameGraph.Editor
 {
     public static class CodeAnalyzer
     {
+        private static IEnumerable<Type> GetAllExternalAssemblyTypes()
+        {
+            IEnumerable<Assembly> assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            if (EditorConstants.AssemblyModulesFilterEnabled)
+                assemblies = assemblies.Where(assembly =>
+                {
+                    var name = assembly.GetName().Name;
+                    return EditorConstants.AssemblyModules.Contains(name) ||
+                           EditorConstants.AssemblyModulesStartWith.Aggregate(false, (b, s) =>
+                               b || name.StartsWith(s));
+                });
+            return assemblies
+                .SelectMany(assembly => assembly.GetTypes());
+        }
+
         public static IEnumerable<TypeData> GetNodeTypes()
         {
-            var gameGraphTypes = Assembly.GetAssembly(typeof(GameGraphBehaviour)).GetTypes();
+            // For any reason GetAllExternalAssemblyTypes() does not return assets without assembly definition
             return AssetDatabase.GetAllAssetPaths()
                 .Where(s => s.StartsWith("Assets/") && s.EndsWith(".cs"))
                 .Select(s => AssetDatabase.LoadMainAssetAtPath(s) as MonoScript)
                 .Where(script => script != null)
                 .Select(script => script.GetClass())
-                .Where(type => !gameGraphTypes.Contains(type))
-                .Concat(gameGraphTypes)
+                .Union(GetAllExternalAssemblyTypes())
                 .Where(type => type?.GetCustomAttribute<GameGraphAttribute>() != null)
                 .Select(type => new TypeData(type));
         }
 
         public static IEnumerable<TypeData> GetNonNodeTypes()
         {
-            return AppDomain.CurrentDomain.GetAssemblies()
-                .Where(assembly =>
-                {
-                    var name = assembly.GetName().Name;
-                    return EditorConstants.ParameterAssemblyModules.Contains(name) ||
-                           EditorConstants.ParameterAssemblyModulesStartWith.Aggregate(false, (b, s) =>
-                               b || name.StartsWith(s));
-                })
-                .SelectMany(assembly => assembly.GetTypes())
+            return GetAllExternalAssemblyTypes()
                 // Since these will be persisted in Inspector, we only need UnityEngine.Object
                 .Where(type => typeof(Object).IsAssignableFrom(type))
                 // GameGraph elements are handled in method above

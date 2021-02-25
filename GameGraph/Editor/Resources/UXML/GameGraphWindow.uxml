@@ -10,6 +10,7 @@
 
     <ue:Toolbar>
         <ue:ToolbarButton name="save" text="Save"/>
+        <ue:ToolbarToggle name="autoSave" text="Automatically save"/>
         <ue:ToolbarButton name="reopen" text="Reopen"/>
     </ue:Toolbar>
     <gg:GraphEditorView>

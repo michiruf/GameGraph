@@ -1,5 +1,6 @@
 using System;
-using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -17,8 +18,6 @@ namespace GameGraph.Editor
         private Type nodeType => parameter == null ? node.type : parameter.type;
         private string nodeName => ObjectNames.NicifyVariableName(parameter == null ? node.type.Name : parameter.name);
 
-        private readonly Dragger drag = new Dragger();
-
         public void Initialize(Type type, Vector2 position, string parameterId)
         {
             Initialize(new EditorNode(type) {position = position, parameterId = parameterId});
@@ -27,26 +26,36 @@ namespace GameGraph.Editor
         public void Initialize(EditorNode node)
         {
             this.node = node;
-            
-            // Cancel initialization and remove node if node type does not exist anymore
-            if (node.type == null)
-            {
-                RemoveState();
-                RemoveFromHierarchy();
-                return;
-            }
-            
-            parameter = node.GetParameter(graph);
             Initialize();
         }
 
         private void Initialize()
         {
+            // Receive parameter if available or cancel
+            parameter = node.GetParameter(graph);
+            if (node.isParameter && parameter == null)
+            {
+                var eventBus = this.GetEventBus();
+                RemoveState();
+                RemoveFromHierarchy();
+                eventBus.Dispatch(new GraphChangedEvent());
+                return;
+            }
+
+            // Cancel initialization and remove node if node type does not exist anymore
+            if (nodeType == null)
+            {
+                var eventBus = this.GetEventBus();
+                RemoveState();
+                RemoveFromHierarchy();
+                eventBus.Dispatch(new GraphChangedEvent());
+                return;
+            }
+
             // Use the name as if it would be an id, because this only makes sense
             name = node.id;
             title = nodeName;
             SetPosition(new Rect(node.position, Vector2.zero));
-            drag.target = this;
 
             if (parameter == null || parameter.isGameGraphType)
                 CreateFields(CodeAnalyzer.GetNodeData(nodeType));
@@ -54,24 +63,22 @@ namespace GameGraph.Editor
                 CreateParameterViews(parameter);
 
             SetAlwaysExpandedAndRefresh();
+            RegisterDoubleClickOpensAsset();
 
-            // NOTE Handle the move event manually, because it does not get triggered in
-            //      GraphEditorView.graphViewChanged event listeners
-            RegisterCallback<MouseMoveEvent>(OnMove);
-
-            // Persist state whenever a value has changed
-            RegisterCallback<ControlBase.ControlValueChangeEvent>(evt => PersistState());
-
+            // NOTE Potentially a memory leak
             this.GetEventBus().Register(this);
         }
 
         public void PersistState()
         {
-            node.position = GetPosition().position;
+            // Update the position if it is not the initial one
+            var position = GetPosition().position;
+            if (!Vector2.zero.Equals(position))
+                node.position = position;
 
             node.propertyValues.Clear();
             // Delegate the collection to controls
-            this.Query<ControlBase>()
+            this.Query<Control>()
                 .ForEach(controlBase => controlBase.PersistState());
 
             if (!graph.nodes.Contains(node))
@@ -83,13 +90,6 @@ namespace GameGraph.Editor
             graph.nodes.Remove(node);
         }
 
-        private void OnMove(MouseMoveEvent evt)
-        {
-            GetFirstAncestorOfType<GraphEditorView>()
-                .graphViewChanged
-                .Invoke(new GraphViewChange {movedElements = new List<GraphElement> {this}});
-        }
-
         private void SetAlwaysExpandedAndRefresh()
         {
             expanded = true;
@@ -97,6 +97,25 @@ namespace GameGraph.Editor
             // NOTE May fix this: For any reason if there is just one element the layout is misbehaving
             extensionContainer.Add(new VisualElement());
             RefreshExpandedState();
+        }
+
+        private void RegisterDoubleClickOpensAsset()
+        {
+            RegisterCallback<MouseDownEvent>(evt =>
+            {
+                if (evt.clickCount != 2)
+                    return;
+
+                var assetTuple = AssetDatabase.GetAllAssetPaths()
+                    .Where(s => s.EndsWith(".cs"))
+                    .Select(s => AssetDatabase.LoadMainAssetAtPath(s) as MonoScript)
+                    .Where(script => script != null)
+                    .Select(script => Tuple.Create(script, script.GetClass()))
+                    .FirstOrDefault(tuple => tuple.Item2 == nodeType);
+
+                if (assetTuple != null)
+                    AssetDatabase.OpenAsset(assetTuple.Item1);
+            });
         }
 
         private void CreateFields(ClassData analysisData)
@@ -157,8 +176,17 @@ namespace GameGraph.Editor
             extensionContainer.Clear();
             inputContainer.Clear();
             outputContainer.Clear();
-            UnregisterCallback<MouseMoveEvent>(OnMove);
             Initialize();
+        }
+
+        [UsedImplicitly]
+        public void OnEvent(ControlValueChangedEvent e)
+        {
+            // Flag dirty when a value has changed
+            node.isDirty = true;
+
+            // Persist state whenever a value has changed
+            PersistState();
         }
     }
 }
