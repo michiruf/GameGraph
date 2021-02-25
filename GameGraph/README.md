@@ -7,17 +7,16 @@ Graphical dependency injection / flow control plugin for Unity3d.
 
 ### Install
 
-To embed GameGraph in your project use the git url variant. Put this in your `Packages\manifest.json`:
+To embed GameGraph in your project use the git url variant. Put in your `Packages\manifest.json`:
 ```json
 {
   "dependencies": {
-    // ...
-    "de.michiruf.gamegraph": "https://github.com/michiruf/GameGraph.git"
-    // , ...
+    "de.michiruf.gamegraph": "https://github.com/michiruf/GameGraph.git?path=/GameGraph"
   }
 }
 ```
-
+Specify a branch name via `https://github.com/michiruf/GameGraph.git?path=/GameGraph#BRANCH`.
+See [Unity git dependencies](https://docs.unity3d.com/Manual/upm-git.html) for advanced usage.
 
 ### Writing nodes
 

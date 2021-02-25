@@ -2,8 +2,8 @@
 
 Graphical dependency injection / flow control plugin for Unity3d.
 
-* [GameGraph documentation](./GameGraph/README.md)
-* [Example documentation](./Example/README.md)
+* [GameGraph readme](./GameGraph/README.md)
+* [Example readme](./Example/README.md)
 
 ## License
 
