@@ -1,0 +1,194 @@
+/* DEBUGGING; NOTE: Remove on release */
+.debug {
+    border-width: 1px;
+    border-color: #f0f;
+}
+
+.debug * {
+    border-width: 1px;
+    border-color: #f00;
+}
+
+
+/***********************************************************/
+/* General layout definitions                              */
+/***********************************************************/
+.flex {
+    flex: 1;
+}
+
+.vertical {
+    flex-direction: column;
+}
+
+.horizontal {
+    flex-direction: row;
+}
+
+/***********************************************************/
+/* General style definitions                               */
+/***********************************************************/
+.bold {
+    -unity-font-style: bold;
+}
+
+.slicer {
+    margin: 5px 0;
+    border-top-width: 1px;
+    border-color: #2a2a2a;
+}
+
+.hidden {
+    display: none;
+}
+
+/***********************************************************/
+/* Toolbar                                                 */
+/***********************************************************/
+Toolbar ToolbarToggle {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+Toolbar ToolbarToggle * {
+    color: #000;
+}
+
+Toolbar #reopen {
+    margin-left: auto;
+}
+
+/***********************************************************/
+/* Graph Editor View                                       */
+/***********************************************************/
+GraphEditorView {
+    flex: 1;
+    background-color: #202020;
+}
+
+/***********************************************************/
+/* Graph Blackboard                                        */
+/***********************************************************/
+ParameterEditorView {
+    width: 300px;
+    height: 500px;
+    background-color: #303030;
+}
+
+ParameterEditorView #contentContainer {
+    margin: 5px;
+}
+
+ParameterView Button {
+    border-color: #393939;
+    border-width: 1px;
+    border-radius: 3px;
+    font-size: 12px;
+    background-image: none;
+    padding: 0 10px 1px;
+}
+
+ParameterView Button:hover {
+    border-color: #44c0ff;
+}
+
+/***********************************************************/
+/* Graph Item Layout                                       */
+/***********************************************************/
+ParameterView {
+    flex-direction: row;
+}
+
+ParameterView #title-label {
+    padding: 3px 5px 4px;
+}
+
+ParameterView #textField {
+    margin: 2px 5px 1px 0;
+}
+
+/***********************************************************/
+/* Graph MiniMap                                           */
+/***********************************************************/
+MiniMapEditorView {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+/***********************************************************/
+/* Node                                                    */
+/***********************************************************/
+NodeView.parameter #title {
+    background-color: rgba(99, 98, 0, 0.9);
+}
+
+NodeView #extension {
+    background-color: rgba(39, 39, 39, 0.9);
+}
+
+/***********************************************************/
+/* Node Properties                                         */
+/***********************************************************/
+PropertyView {
+    flex: 1;
+    flex-direction: row;
+}
+
+PropertyView #ingoingPortContainer,
+PropertyView #outgoingPortContainer {
+    margin: 1px 0;
+    padding: 4px 0;
+    justify-content: center;
+}
+
+PropertyView #ingoingPortContainer.exists,
+PropertyView #outgoingPortContainer.exists {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+PropertyView #contentContainer {
+    padding: 6px 15px 4px 10px;
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+}
+
+/***********************************************************/
+/* Node Controls                                           */
+/***********************************************************/
+PropertyView #nameAndValue {
+    flex: 1;
+}
+
+PropertyView #nameAndValue .unity-base-text-field__label {
+    min-width: auto;
+    flex: 1;
+    /* TODO Wrapping does not work yet */
+    /*flex-wrap: wrap;*/
+    margin: 0 30px 0 0;
+}
+
+PropertyView #nameAndValue .unity-base-text-field__input {
+    /* TODO There is a strange padding on the left side of the input, which is annoying but not essential yet to fix */
+    -unity-text-align: middle-right;
+    /* TODO Wrapping does not work yet */
+    /*flex-wrap: wrap;*/
+}
+
+/* TODO Add the controls to input ports */
+/*
+NodeView * {
+    overflow: visible;
+}
+
+PropertyView .control {
+    position: absolute;
+    right: -100;
+    top: 0;
+}
+PropertyView .control * {
+    background-color: #f00;
+}
+*/

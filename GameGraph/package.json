@@ -1,0 +1,20 @@
+{
+  "name": "de.michiruf.gamegraph",
+  "version": "0.0.1",
+  "displayName": "Game Graph",
+  "description": "Organize your code via graph",
+  "unity": "2019.1",
+  "unityRelease": "11f1",
+  "keywords": [
+    "graph",
+    "visual-scripting"
+  ],
+  "author": {
+    "name": "Michael Ruf",
+    "email": "gamegraph@michiruf.de"
+  },
+  "dependencies": {
+    "com.unity.ide.rider": "1.1.4",
+    "com.unity.ide.vscode": "1.1.4"
+  }
+}

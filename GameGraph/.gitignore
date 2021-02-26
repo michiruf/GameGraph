@@ -1,0 +1,42 @@
+# General
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Unity3D generated meta files
+*.pidb.meta
+*.pdb.meta
+
+# Unity3D generated file on crash reports
+sysinfo.txt
+
+# VS/VS Code/MD/Consulo solution and project files
+ExportedObj/
+.vs/
+.vscode/
+.consulo/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Rider
+.idea/
+[Bb]in/
+_UpgradeReport_Files/
+
+# Builds
+.gradle/
+*.apk
+*.unitypackage
+crashlytics-build.properties
