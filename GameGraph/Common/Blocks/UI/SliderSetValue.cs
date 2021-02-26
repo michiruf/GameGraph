@@ -1,6 +1,6 @@
 using System;
 using JetBrains.Annotations;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 namespace GameGraph.Common.Blocks
 {
