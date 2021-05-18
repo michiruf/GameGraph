@@ -44,7 +44,7 @@ namespace GameGraph.Editor
                 // Since these will be persisted in Inspector, we only need UnityEngine.Object
                 .Where(type => typeof(Object).IsAssignableFrom(type))
                 // GameGraph elements are handled in method above
-                .Where(type => type.GetCustomAttribute<GameGraphAttribute>() == null)
+                .Where(type => type?.GetCustomAttribute<GameGraphAttribute>() == null)
                 .Select(type => new TypeData(type));
         }
 

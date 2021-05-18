@@ -1,17 +1,17 @@
 using System;
 using System.IO;
-using UnityEditor.Experimental.AssetImporters;
+
 using UnityEngine;
 
 namespace GameGraph.Editor
 {
-    [ScriptedImporter(1, EditorConstants.FileExtension)]
-    public class GameGraphImporter : ScriptedImporter
+    [UnityEditor.AssetImporters.ScriptedImporter(1, EditorConstants.FileExtension)]
+    public class GameGraphImporter : UnityEditor.AssetImporters.ScriptedImporter
     {
         public const string MainAsset = "MainAsset";
         public const string ParameterAsset = "ParameterAsset";
 
-        public override void OnImportAsset(AssetImportContext ctx)
+        public override void OnImportAsset(UnityEditor.AssetImporters.AssetImportContext ctx)
         {
             var rawTextGraph = File.ReadAllText(ctx.assetPath);
             var rawGraph = JsonUtility.FromJson<EditorGameGraph>(rawTextGraph);

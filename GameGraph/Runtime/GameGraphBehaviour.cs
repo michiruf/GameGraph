@@ -29,7 +29,7 @@ namespace GameGraph
                 parameterInstances.ToDictionary(pair => pair.Key, pair => (object) pair.Value));
             executor.ConstructGraph();
             executor.OrderNodesByExecutionOrder();
-            executor.Start();
+            executor.Start(gameObject);
         }
 
         void OnDisable()
@@ -50,6 +50,11 @@ namespace GameGraph
         void FixedUpdate()
         {
             executor?.FixedUpdate();
+        }
+
+        private void OnDestroy()
+        {
+            executor?.OnDestroy();
         }
     }
 }

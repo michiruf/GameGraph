@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace GameGraph
 {
@@ -39,11 +40,15 @@ namespace GameGraph
                 .OrderBy(pair => (pair.Value as IExecutionOrder)?.executionOrder ?? int.MaxValue);
         }
 
-        public void Start()
+        public void Start(GameObject gameObject)
         {
             FetchValuesNow();
             foreach (var pair in orderedNodeInstances)
+            {
                 (pair.Value as IStartHook)?.Start();
+                if (pair.Value is IGameObjectReceiver gameObjectReceiver)
+                    gameObjectReceiver.gameObject = gameObject;
+            }
         }
 
         public void Update()
@@ -65,6 +70,13 @@ namespace GameGraph
             FetchValuesNow();
             foreach (var pair in orderedNodeInstances)
                 (pair.Value as IFixedUpdateHook)?.FixedUpdate();
+        }
+
+        public void OnDestroy()
+        {
+            FetchValuesNow();
+            foreach (var pair in orderedNodeInstances)
+                (pair.Value as IDestroyHook)?.Destroy();
         }
 
         // TODO When there are no Methods in the scripts, no values will get transmitted

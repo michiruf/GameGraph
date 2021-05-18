@@ -4,7 +4,8 @@ namespace GameGraph.Editor
     {
         // Configuration
         // E.g.: "UnityEngine.CoreModule"
-        public static bool AssemblyModulesFilterEnabled = true;
+        // TODO Filtering avoids other packages (like MLAPI in this case) to be found in the parameter view
+        public static bool AssemblyModulesFilterEnabled = false;
         public static readonly string[] AssemblyModules = {};
         public static readonly string[] AssemblyModulesStartWith =
         {
