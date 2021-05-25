@@ -37,7 +37,7 @@ namespace GameGraph
         public void OrderNodesByExecutionOrder()
         {
             orderedNodeInstances = nodeInstances
-                .OrderBy(pair => (pair.Value as IExecutionOrder)?.executionOrder ?? int.MaxValue);
+                .OrderBy(pair => (pair.Value as IExecutionOrder)?.executionOrder ?? 0);
         }
 
         public void Start(GameObject gameObject)

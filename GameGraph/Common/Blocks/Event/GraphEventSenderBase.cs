@@ -6,11 +6,12 @@ namespace GameGraph.Common.Blocks
     // TODO Documentation!
     public abstract class GraphEventSenderBase<TEvent> where TEvent : class, IGraphEventReceiver
     {
-        // Annotated just in case this analysis will be enabled in the future
         [ExcludeFromGraph]
-        protected void FireEvent(GameObject target, Action<TEvent> targetValueAssignment)
+        protected void FireEvent(GameObject target, Action<TEvent> targetValueAssignment, bool includeTargetChildren = false)
         {
-            var behaviours = target.GetComponents<GameGraphBehaviour>();
+            var behaviours = includeTargetChildren
+                ? target.GetComponentsInChildren<GameGraphBehaviour>()
+                : target.GetComponents<GameGraphBehaviour>();
             foreach (var behaviour in behaviours)
             {
                 // Without the ? in the next line, a NPE occured because with multiple graphs the next one may not be initialized

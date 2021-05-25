@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 namespace GameGraph.Common.Blocks
 {
-    [GameGraph]
+    [GameGraph("Common/UI")]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class SliderSetValue
     {

@@ -5,7 +5,7 @@ using Object = UnityEngine.Object;
 
 namespace GameGraph.Common.Blocks
 {
-    [GameGraph("Common")]
+    [GameGraph("Common/GameObject")]
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public class Spawn
     {
