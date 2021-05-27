@@ -12,8 +12,6 @@ namespace GameGraph.Editor
 
         public override void OnImportAsset(AssetImportContext ctx)
         {
-            Debug.LogWarning(ctx.assetPath);
-
             var rawTextGraph = File.ReadAllText(ctx.assetPath);
             var rawGraph = JsonUtility.FromJson<EditorGameGraph>(rawTextGraph);
             if (rawGraph == null)
