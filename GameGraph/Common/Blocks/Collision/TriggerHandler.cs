@@ -33,18 +33,21 @@ namespace GameGraph.Common.Blocks
                 collider.AddOnTriggerEnterListener(c =>
                 {
                     hit = c;
+                    hitGameObject = c.gameObject;
                     onEnter?.Invoke();
                 });
             if (onStay != null)
                 collider.AddOnTriggerStayListener(c =>
                 {
                     hit = c;
+                    hitGameObject = c.gameObject;
                     onStay?.Invoke();
                 });
             if (onExit != null)
                 collider.AddOnTriggerExitListener(c =>
                 {
                     hit = c;
+                    hitGameObject = c.gameObject;
                     onExit?.Invoke();
                 });
         }
