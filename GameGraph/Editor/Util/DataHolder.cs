@@ -6,8 +6,8 @@ namespace GameGraph.Editor
 {
     public class DataHolder
     {
-        private readonly Dictionary<string, object> namedData = new Dictionary<string, object>();
-        private readonly List<object> unnamedData = new List<object>();
+        private readonly Dictionary<string, object> namedData = new();
+        private readonly List<object> unnamedData = new();
 
         ~DataHolder()
         {
