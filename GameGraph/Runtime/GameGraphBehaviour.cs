@@ -9,9 +9,18 @@ namespace GameGraph
     public class GameGraphBehaviour : MonoBehaviour
     {
         public GraphObject graph;
+        
+        // This ensures the user can control when to use FetchValuesNow.
+        // Might be necessary, because sometimes there is a FixedUpdate bottleneck in performance
+        // when even not using any FixedUpdate inside the graph.
+        // To avoid this, we could also check if a graph uses any node with FixedUpdate or any other update type
+        // And only then fetch the values once
+        public bool delegateUpdate = true;
+        public bool delegateFixedUpdate = true;
+        public bool delegateLateUpdate = true;
 
         public Dictionary<string, Object> parameterInstances => parameterInstancesInternal.dictionary;
-        [SerializeField] [HideInInspector]
+        [SerializeField] [HideInInspector] // 
         private StringUnityObjectDictionary parameterInstancesInternal = new StringUnityObjectDictionary();
 
         public GraphExecutor executor { get; private set; }
@@ -39,17 +48,20 @@ namespace GameGraph
 
         void Update()
         {
-            executor?.Update();
+            if (delegateUpdate)
+                executor?.Update();
         }
 
         void LateUpdate()
         {
-            executor?.LateUpdate();
+            if (delegateLateUpdate)
+                executor?.LateUpdate();
         }
 
         void FixedUpdate()
         {
-            executor?.FixedUpdate();
+            if (delegateFixedUpdate)
+                executor?.FixedUpdate();
         }
 
         private void OnDestroy()
