@@ -1,17 +1,23 @@
 using System;
-using System.Reflection;
-using DeJson;
-using JetBrains.Annotations;
+using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using UnityEngine;
-using Object = System.Object;
 
 namespace GameGraph
 {
     [Serializable]
     public class SerializableObject : ISerializationCallbackReceiver
     {
-        private static readonly Deserializer Deserializer = new Deserializer();
-
+        private static JsonSerializerSettings settings = new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            Converters = new List<JsonConverter> {
+                new StringEnumConverter()
+            }
+        };
+        
         [SerializeField] private SerializableType type;
         [SerializeField] private string objectInternal;
 
@@ -27,7 +33,7 @@ namespace GameGraph
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return @object == ((SerializableObject) obj).@object;
+            return @object == ((SerializableObject)obj).@object;
         }
 
         public override int GetHashCode()
@@ -44,7 +50,7 @@ namespace GameGraph
                 return;
 
             type = @object.GetType();
-            objectInternal = Serializer.Serialize(@object);
+            objectInternal = JsonConvert.SerializeObject(@object, settings);
         }
 
         public void OnAfterDeserialize()
@@ -52,17 +58,7 @@ namespace GameGraph
             if (string.IsNullOrEmpty(objectInternal))
                 return;
 
-            // Access via reflection to build the generic type
-            var method = GetType()
-                .GetMethod("DeserializeWrapper", BindingFlags.Instance | BindingFlags.NonPublic)?
-                .MakeGenericMethod(type.type);
-            @object = method?.Invoke(this, new object[] {objectInternal});
-        }
-
-        [UsedImplicitly]
-        internal T DeserializeWrapper<T>(string json)
-        {
-            return Deserializer.Deserialize<T>(json);
+            @object = JsonConvert.DeserializeObject(objectInternal, type, settings);
         }
     }
 }
